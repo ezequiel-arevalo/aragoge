@@ -31,12 +31,12 @@ Sigue estos pasos para configurar el proyecto en tu entorno local:
 
 1. **Clona el repositorio:**
     ```bash
-    git clone https://github.com/ezequiel-arevalo/aragoge-frontend.git
+    git clone https://github.com/ezequiel-arevalo/aragoge.git
     ```
 
 2. **Accede a la carpeta del proyecto:**
     ```bash
-    cd aragoge-frontend
+    cd aragoge
     ```
 
 3. **Instala las dependencias:**
