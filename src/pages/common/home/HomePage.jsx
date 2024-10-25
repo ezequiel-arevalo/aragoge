@@ -1,5 +1,5 @@
+import { HeroSection } from '@/components/ui/HeroSection';
 import { 
-  HeroSection, 
   CategoriesSection, 
   FeaturedTrainersSection, 
   HowItWorksSection, 

@@ -20,11 +20,11 @@ const PlanningCard = ({ planning, onDeleteClick }) => {
       <div className="p-5">
         <h3 className="font-semibold text-lg text-gray-800 mb-2">{planning.title}</h3>
         <p className="text-gray-500 text-sm">
-          <strong>Profesional:</strong> {planning.professional || 'No especificado'}
+          <strong>Profesional:</strong> {planning.professional_name}
         </p>
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">{planning.description}</p>
         <p className="text-gray-500 text-sm mb-2">
-          <strong>Categoría:</strong> {planning.category || 'No especificada'}
+          <strong>Categoría:</strong> {planning.category_name}
         </p>
         <div className="flex justify-between items-center mb-2">
           <span className="text-[#da1641] font-bold">Precio: ${planning.price}</span>

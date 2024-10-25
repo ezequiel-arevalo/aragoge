@@ -1,38 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { createPlanning, fetchCategories } from '@/redux/plannings/planningsSlice';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
+import { Input } from '@/components/form/Input';
+import { Textarea } from '@/components/form/Textarea';
 
 export const CreatePlanningPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { categories, loading, error } = useSelector((state) => state.plannings);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    synopsis: '',
-    price: '',
-    category_id: '',
-  });
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: name === 'price' || name === 'category_id' ? Number(value) : value
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     try {
-      await dispatch(createPlanning(formData)).unwrap();
+      await dispatch(createPlanning(data)).unwrap();
       navigate('/professional');
     } catch (err) {
       console.error('Failed to create the planning:', err);
@@ -45,7 +33,7 @@ export const CreatePlanningPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <button
             onClick={() => navigate('/professional')}
-            className="flex items-center text-white mb-4 hover:underline no-global-styles no-styles-global bg-transparent"
+            className="flex items-center text-white mb-4 hover:underline"
           >
             <ArrowLeft size={20} className="mr-2" />
             Volver al Panel
@@ -63,63 +51,50 @@ export const CreatePlanningPage = () => {
         >
           <div className="p-8">
             {error && <p className="text-red-500 mb-4">{error}</p>}
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700">Título</label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  required
-                  value={formData.title}
-                  onChange={handleChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#da1641] focus:border-[#da1641]"
-                />
-              </div>
-              <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700">Descripción</label>
-                <textarea
-                  id="description"
-                  name="description"
-                  rows="4"
-                  required
-                  value={formData.description}
-                  onChange={handleChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#da1641] focus:border-[#da1641]"
-                ></textarea>
-              </div>
-              <div>
-                <label htmlFor="synopsis" className="block text-sm font-medium text-gray-700">Sinopsis</label>
-                <input
-                  type="text"
-                  id="synopsis"
-                  name="synopsis"
-                  required
-                  value={formData.synopsis}
-                  onChange={handleChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#da1641] focus:border-[#da1641]"
-                />
-              </div>
-              <div>
-                <label htmlFor="price" className="block text-sm font-medium text-gray-700">Precio</label>
-                <input
-                  type="number"
-                  id="price"
-                  name="price"
-                  required
-                  value={formData.price}
-                  onChange={handleChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#da1641] focus:border-[#da1641]"
-                />
-              </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <Input
+                register={register}
+                name="title"
+                label="Título"
+                errors={errors}
+                inputProps={{
+                  placeholder: 'Ingresa el título de la planificación'
+                }}
+              />
+              <Textarea
+                register={register}
+                name="description"
+                label="Descripción"
+                errors={errors}
+                textareaProps={{
+                  placeholder: 'Ingresa la descripción de la planificación',
+                  rows: 4
+                }}
+              />
+              <Input
+                register={register}
+                name="synopsis"
+                label="Sinopsis"
+                errors={errors}
+                inputProps={{
+                  placeholder: 'Ingresa la sinopsis'
+                }}
+              />
+              <Input
+                register={register}
+                name="price"
+                label="Precio"
+                type="number"
+                errors={errors}
+                inputProps={{
+                  placeholder: 'Ingresa el precio'
+                }}
+              />
               <div>
                 <label htmlFor="category_id" className="block text-sm font-medium text-gray-700">Categoría</label>
                 <select
                   id="category_id"
-                  name="category_id"
-                  required
-                  value={formData.category_id}
-                  onChange={handleChange}
+                  {...register('category_id', { required: 'La categoría es obligatoria' })}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#da1641] focus:border-[#da1641]"
                 >
                   <option value="">Selecciona una categoría</option>
@@ -129,6 +104,7 @@ export const CreatePlanningPage = () => {
                     </option>
                   ))}
                 </select>
+                {errors.category_id && <p className="text-red-500">{errors.category_id.message}</p>}
               </div>
               <div className="flex justify-end">
                 <button

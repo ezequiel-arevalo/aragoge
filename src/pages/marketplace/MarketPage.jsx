@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { fetchMarketplacePlannings, fetchCategories } from '@/redux/plannings/planningsSlice';
 import { FilterBar } from './components/Filters/FilterBar';
 import { PlanningList } from './components/PlanningList/PlanningList';
-import { HeroSection } from "./components/HeroSection";
+import { HeroSection } from '@/components/ui/herosection';
 
 export const MarketPage = () => {
   const [filters, setFilters] = useState({

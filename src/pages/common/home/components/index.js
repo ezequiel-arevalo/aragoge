@@ -1,4 +1,3 @@
-export * from './HeroSection';
 export * from './CategoriesSection';
 export * from './FeaturedTrainersSection';
 export * from './HowItWorksSection';

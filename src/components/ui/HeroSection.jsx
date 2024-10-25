@@ -6,7 +6,6 @@ export const HeroSection = ({
   description = "Conecta con entrenadores de élite y transforma tu carrera deportiva", 
   showInput = true, 
   onSearchSubmit,
-  buttonText = "Buscar" 
 }) => {
   return (
     <section className="relative py-20 overflow-hidden bg-gradient-to-br from-[#da1641] to-[#ff6b6b] opacity-90">
