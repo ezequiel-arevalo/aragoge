@@ -1,8 +1,10 @@
-import { Box, Text, Stack, Avatar, Badge, useToast } from '@chakra-ui/react';
+import { Box, Text, Stack, Avatar, Badge, Button, useToast } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import { useUserData } from '@/hooks/useUserData';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUserAction, deleteUserAction } from '@/redux/user/userSlice';
 import { ProfileTabs } from './components/ProfileTabs';
+import Loader from '@/components/Loader';
 import { useState, useEffect } from 'react';
 
 export const ProfilePage = () => {
@@ -83,7 +85,7 @@ export const ProfilePage = () => {
   }
 
   if (!userData) {
-    return <Text>Cargando datos...</Text>;
+    return <Loader />;
   }
 
   return (
@@ -98,6 +100,13 @@ export const ProfilePage = () => {
           <Badge colorScheme="green" rounded="full" px={4} py={1}>
             {userData.rol_name || 'No role assigned'}
           </Badge>
+
+          {/* Botón para acceder al perfil público del usuario */}
+          <Link to={`/profile/public/${userData.id}`}>
+            <Button colorScheme="teal" mt={4}>
+              Ver Perfil Público
+            </Button>
+          </Link>
         </Stack>
 
         <ProfileTabs

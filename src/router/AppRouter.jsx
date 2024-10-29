@@ -7,6 +7,7 @@ import { PlanningDetailPage } from '@/pages/marketplace/components/PlanningDetai
 import { CreatePlanningPage } from '@/pages/professionals/create/CreatePlanningPage';
 import { EditPlanningPage } from '@/pages/professionals/edit/EditPlanningPage';
 import { DeletePlanningPage } from '@/pages/professionals/delete/DeletePlanningPage';
+import { ProfilePublicPage } from '@/pages/users/profile-public/ProfilePublicPage';
 
 export const AppRouter = () => {
   const { user, accessToken } = useSelector(state => state.user);
@@ -31,16 +32,13 @@ export const AppRouter = () => {
           return <Route key={index} path={path} element={<PageComponent />} />;
         })}
 
-        {/* Ruta dinámica para planificación */}
+        {/* Ruta dinámica para perfil público */}
+        <Route path="/profile/public/:id" element={<ProfilePublicPage />} />
+
+        {/* Rutas dinámicas adicionales */}
         <Route path="/planning/:id" element={<PlanningDetailPage />} />
-
-        {/* Ruta dinámica para planificación */}
         <Route path="/professional/create" element={<CreatePlanningPage />} />
-
-        {/* Ruta dinámica para planificación */}
         <Route path="/professional/edit/:id" element={<EditPlanningPage />} />
-        
-        {/* Ruta dinámica para planificación */}
         <Route path="/professional/delete/:id" element={<DeletePlanningPage />} />
 
         {/* Redirección por defecto */}

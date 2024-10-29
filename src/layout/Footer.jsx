@@ -9,14 +9,14 @@ export const Footer = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div>
               <h3 className="text-lg font-semibold mb-4">Aragoge</h3>
-              <p className="text-gray-400 text-sm">Conectando atletas y profesionales del fitness</p>
+              <p className="text-[#131211] text-sm">Conectando atletas y profesionales del fitness</p>
             </div>
             <div>
               <h4 className="text-lg font-semibold mb-4">Servicios</h4>
               <ul className="space-y-2">
                 {categories.slice(0, 4).map((category) => (
                   <li key={category}>
-                    <Link to={`/servicios/${category.toLowerCase()}`} className="text-gray-400 hover:text-[#131211] transition duration-300 text-sm">
+                    <Link to={`/servicios/${category.toLowerCase()}`} className="text-[#131211] hover:text-[#DA1641] transition duration-300 text-sm">
                       {category}
                     </Link>
                   </li>
@@ -26,17 +26,17 @@ export const Footer = () => {
             <div>
               <h4 className="text-lg font-semibold mb-4">Compañía</h4>
               <ul className="space-y-2">
-                <li><Link to="/sobre-nosotros" className="text-gray-400 hover:text-[#131211] transition duration-300 text-sm">Sobre Nosotros</Link></li>
-                <li><Link to="/carreras" className="text-gray-400 hover:text-[#131211] transition duration-300 text-sm">Carreras</Link></li>
-                <li><Link to="/blog" className="text-gray-400 hover:text-[#131211] transition duration-300 text-sm">Blog</Link></li>
+                <li><Link to="/sobre-nosotros" className="text-[#131211] hover:text-[#DA1641] transition duration-300 text-sm">Sobre Nosotros</Link></li>
+                <li><Link to="/carreras" className="text-[#131211] hover:text-[#DA1641] transition duration-300 text-sm">Carreras</Link></li>
+                <li><Link to="/blog" className="text-[#131211] hover:text-[#DA1641] transition duration-300 text-sm">Blog</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="text-lg font-semibold mb-4">Legal</h4>
               <ul className="space-y-2">
-                <li><Link to="/privacidad" className="text-gray-400 hover:text-[#131211] transition duration-300 text-sm">Política de Privacidad</Link></li>
-                <li><Link to="/terminos" className="text-gray-400 hover:text-[#131211] transition duration-300 text-sm">Términos de Servicio</Link></li>
-                <li><Link to="/contacto" className="text-gray-400 hover:text-[#131211] transition duration-300 text-sm">Contacto</Link></li>
+                <li><Link to="/privacidad" className="text-[#131211] hover:text-[#DA1641] transition duration-300 text-sm">Política de Privacidad</Link></li>
+                <li><Link to="/terminos" className="text-[#131211] hover:text-[#DA1641] transition duration-300 text-sm">Términos de Servicio</Link></li>
+                <li><Link to="/contacto" className="text-[#131211] hover:text-[#DA1641] transition duration-300 text-sm">Contacto</Link></li>
               </ul>
             </div>
           </div>

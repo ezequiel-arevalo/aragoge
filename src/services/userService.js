@@ -7,7 +7,7 @@ import { call } from "./callFetch";
  */
 export const registerUser = (userData) => {
   const userWithRole = { ...userData, rol_id: 2 };
-  return call('register', 'POST', userWithRole);
+  return call("register", "POST", userWithRole);
 };
 
 /**
@@ -16,7 +16,7 @@ export const registerUser = (userData) => {
  * @returns {Promise<Object>} - Datos del usuario autenticado.
  */
 export const loginUser = (userData) => {
-  return call('login', 'POST', userData);
+  return call("login", "POST", userData);
 };
 
 /**
@@ -25,7 +25,7 @@ export const loginUser = (userData) => {
  * @returns {Promise<Object|null>} - Respuesta del servidor al cerrar sesión.
  */
 export const logoutUser = (token) => {
-  return call('logout', 'POST', null, token);
+  return call("logout", "POST", null, token);
 };
 
 /**
@@ -35,7 +35,7 @@ export const logoutUser = (token) => {
  * @returns {Promise<Object>} - Detalles del usuario.
  */
 export const getUserDetails = (userId, token) => {
-  return call(`users/${userId}`, 'GET', null, token);
+  return call(`users/${userId}`, "GET", null, token);
 };
 
 /**
@@ -45,7 +45,7 @@ export const getUserDetails = (userId, token) => {
  * @returns {Promise<Object>} - Datos actualizados del usuario.
  */
 export const updateUser = (userData, token) => {
-  return call('users/update', 'PATCH', userData, token);
+  return call("users/update", "PATCH", userData, token);
 };
 
 /**
@@ -54,7 +54,7 @@ export const updateUser = (userData, token) => {
  * @returns {Promise<Object|null>} - Respuesta del servidor tras eliminar el usuario.
  */
 export const deleteUser = (token) => {
-  return call('users/delete', 'DELETE', null, token);
+  return call("users/delete", "DELETE", null, token);
 };
 
 /**
@@ -63,7 +63,7 @@ export const deleteUser = (token) => {
  * @returns {Promise<Object>} - Lista de usuarios.
  */
 export const getAllUsers = (token) => {
-  return call('users', 'GET', null, token);
+  return call("users", "GET", null, token);
 };
 
 /**
@@ -72,5 +72,29 @@ export const getAllUsers = (token) => {
  * @returns {Promise<Object>} - Lista de suscripciones del usuario.
  */
 export const getSubscriptionsByUserId = (userId) => {
-  return call(`users/${userId}/subscriptions`, 'GET');
+  return call(`users/${userId}/subscriptions`, "GET");
+};
+
+/**
+ * Crea un nuevo perfil de profesional.
+ * @param {Object} profileData - Datos del perfil de profesional.
+ * @param {string} token - Token de autenticación.
+ * @returns {Promise<Object>} - Respuesta del servidor.
+ */
+export const createProfessionalProfile = (profileData, token) => {
+  return call("professionals/profile", "POST", profileData, token, {
+    Accept: "application/json",
+  });
+};
+
+/**
+ * Actualiza el perfil de profesional existente.
+ * @param {Object} profileData - Datos del perfil de profesional a actualizar.
+ * @param {string} token - Token de autenticación.
+ * @returns {Promise<Object>} - Respuesta del servidor.
+ */
+export const updateProfessionalProfile = (profileData, token) => {
+  return call("professionals/profile", "PATCH", profileData, token, {
+    Accept: "application/json",
+  });
 };

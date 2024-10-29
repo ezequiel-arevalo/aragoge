@@ -21,7 +21,8 @@ export const Header = () => {
   const filteredLinks = routes.filter(route => {
     if (route.isAuth && !accessToken) return false;
     if (route.role && user?.rol_id !== route.role) return false;
-    if (accessToken && (route.name === 'Login' || route.name === 'Register')) return false;
+    if (route.name === 'Login' || route.name === 'Register') return false;
+    if (route.name === 'ProfilePublic') return false;
     return route.name;
   });
 
