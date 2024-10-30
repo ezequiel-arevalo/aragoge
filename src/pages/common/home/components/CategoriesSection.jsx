@@ -13,7 +13,7 @@ export const CategoriesSection = () => {
   return (
     <section className="py-16">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 className="text-3xl font-bold mb-8 text-center">
+      <h2 className="text-h2 font-title font-bold mb-8 text-center">
         Explora Nuestros Servicios
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
@@ -26,7 +26,7 @@ export const CategoriesSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <h3 className="text-lg font-semibold mb-2 text-center">
+            <h3 className="text-h3 font-title font-semibold mb-2 text-center">
               {category}
             </h3>
             <p className="text-sm text-gray-600 text-center">

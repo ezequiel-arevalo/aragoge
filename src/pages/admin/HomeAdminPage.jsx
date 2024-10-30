@@ -1,5 +1,5 @@
 export const HomeAdminPage = () => {
   return (
-    <div>Admin Page</div>
+    <h2 className="text-h2 font-title">Admin Page</h2>
   )
 }

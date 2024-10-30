@@ -90,7 +90,7 @@ export const ProfilePage = () => {
 
   return (
     <section className="mx-auto text-center p-4">
-      <h2 className="text-h2 font-semibold font-title py-4">Profile Page</h2>
+      <h2 className="text-h2 font-title font-semibold font-title py-4">Profile Page</h2>
       <Box maxW="800px" mx="auto" bg="white" p={3} rounded="lg" shadow="md">
         <Stack align="center" mb={6} spacing={4}>
           <Avatar size="2xl" name={`${formData.first_name} ${formData.last_name}`} />

@@ -38,7 +38,7 @@ export const CreatePlanningPage = () => {
             <ArrowLeft size={20} className="mr-2" />
             Volver al Panel
           </button>
-          <h1 className="text-4xl font-bold">Crear Nueva Planificación</h1>
+          <h3 className="text-h3 font-title font-bold">Crear Nueva Planificación</h3>
         </div>
       </header>
 

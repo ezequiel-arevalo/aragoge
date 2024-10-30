@@ -31,7 +31,7 @@ export const PlanningHero = ({ planning }) => {
               <div className="text-sm font-semibold mb-2 bg-white/20 inline-block px-2 py-1 rounded text-white">
                 Planificación #{planning.id}
               </div>
-              <h1 className="text-4xl sm:text-5xl font-bold mb-4">{planning.title}</h1>
+              <h2 className="text-h2 font-title sm:text-5xl font-bold mb-4">{planning.title}</h2>
               <p className="text-xl mb-6 text-white/80">{planning.synopsis}</p>
               <div className="grid grid-cols-2 gap-4 mb-8">
                 <div className="flex items-center">

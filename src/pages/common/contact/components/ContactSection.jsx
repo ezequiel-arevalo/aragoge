@@ -30,9 +30,9 @@ export const ContactSection = () => {
           transition={{ duration: 0.6 }}
           className="bg-white rounded-xl shadow-lg p-8 sm:p-12"
         >
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-6">
+          <h3 className="text-h3 font-title font-bold text-center text-gray-900 mb-6">
             Envíanos un mensaje
-          </h2>
+          </h3>
           <p className="text-center text-gray-600 mb-8">
             Llena el formulario y nos pondremos en contacto contigo lo más pronto posible.
           </p>

@@ -62,7 +62,7 @@ export const EditPlanningPage = () => {
         className="max-w-md mx-auto bg-white rounded-lg shadow-xl overflow-hidden"
       >
         <div className="px-6 py-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Editar Planificación</h2>
+          <h2 className="text-h2 font-title font-bold text-gray-900 mb-6">Editar Planificación</h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="title" className="block text-sm font-medium text-gray-700">Título</label>

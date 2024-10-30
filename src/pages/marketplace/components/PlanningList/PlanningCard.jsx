@@ -10,7 +10,7 @@ export const PlanningCard = ({ id, title, description, price, category, professi
       />
       <div className="p-5">
         {/* Título de la planificación */}
-        <h3 className="font-semibold text-lg text-gray-800 mb-2">{title}</h3>
+        <h3 className="text-h3 font-title font-semibold text-gray-800 mb-2">{title}</h3>
 
         {/* Profesional */}
         <p className="text-gray-500 text-sm">

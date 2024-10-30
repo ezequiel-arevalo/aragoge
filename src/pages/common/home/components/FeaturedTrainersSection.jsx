@@ -14,7 +14,7 @@ export const FeaturedTrainersSection = () => {
   return (
     <section className="py-16 bg-white">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 className="text-3xl font-bold mb-8 text-center">
+      <h2 className="text-h2 font-title font-bold mb-8 text-center">
         Entrenadores Destacados
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -32,7 +32,7 @@ export const FeaturedTrainersSection = () => {
               className="w-full h-48 object-cover"
             />
             <div className="p-6">
-              <h3 className="font-bold text-xl mb-2">
+              <h3 className="text-h3 font-title font-bold text-xl mb-2">
                 Nombre del Entrenador
               </h3>
               <p className="text-gray-600 text-sm mb-4">

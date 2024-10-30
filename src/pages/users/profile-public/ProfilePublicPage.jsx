@@ -37,12 +37,12 @@ export const ProfilePublicPage = () => {
   const isProfessional = user.professional_id !== null;
 
   return (
-    <div>
+    <>
       <HeaderSection user={user} />
       <div className="container mx-auto px-4 py-8">
         <TabsSection activeTab={activeTab} setActiveTab={setActiveTab} isProfessional={isProfessional} />
         <ContentSection activeTab={activeTab} user={user} isProfessional={isProfessional} />
       </div>
-    </div>
+    </>
   );
 };

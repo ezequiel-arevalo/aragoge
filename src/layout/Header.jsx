@@ -1,19 +1,16 @@
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import routes from '@/router/routes';
+import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { LucideMenu, LucideX, LucideUser } from 'lucide-react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logoutUserAction } from '@/redux/user/userSlice';
-import { useToast } from "@chakra-ui/react";
+import routes from '@/router/routes';
 
 export const Header = () => {
   const { user, accessToken } = useSelector(state => state.user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const toast = useToast();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
@@ -29,24 +26,12 @@ export const Header = () => {
   const handleLogout = async () => {
     try {
       await dispatch(logoutUserAction()).unwrap();
-      toast({
-        title: "Cerraste sesión con éxito.",
-        description: "Cerraste sesión correctamente.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-        position: 'bottom-right',
-      });
+      alert("Cerraste sesión con éxito.");
+      console.info("Cerraste sesión correctamente.");
       navigate("/");
     } catch (error) {
-      toast({
-        title: "Error al cerrar sesión.",
-        description: "Error desconocido",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: 'bottom-right',
-      });
+      alert("Error al cerrar sesión: Error desconocido");
+      console.info("Error al cerrar sesión:", error);
     }
   };
 

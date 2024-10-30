@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 export const CallToActionSection = () => {
   return (
     <section className="py-20 bg-gradient-to-r from-[#da1641] to-[#ff6b6b] text-white">
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 className="text-3xl font-bold mb-4">
+      <h2 className="text-h2 font-title font-bold mb-4">
         ¿Listo para Elevar tu Carrera Fitness?
       </h2>
       <p className="text-xl mb-8">

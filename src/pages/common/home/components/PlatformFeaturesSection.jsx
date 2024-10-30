@@ -5,7 +5,7 @@ export const PlatformFeaturesSection = () => {
   return (
     <section className="py-16 bg-white">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 className="text-3xl font-bold mb-12 text-center">
+      <h2 className="text-h2 font-title font-bold mb-12 text-center">
         Características de Aragoge
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -25,7 +25,7 @@ export const PlatformFeaturesSection = () => {
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
             <div className="text-[#da1641] mb-4 flex justify-center">{feature.icon}</div>
-            <h3 className="text-xl font-semibold mb-2 text-center">
+            <h3 className="text-h3 font-title font-semibold mb-2 text-center">
               {feature.title}
             </h3>
             <p className="text-gray-600 text-center">

@@ -20,7 +20,7 @@ export const FilterBar = ({ onFiltersApply }) => {
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-lg">
-      <h2 className="text-2xl font-bold mb-4">Filtros</h2>
+      <h2 className="text-h2 font-title font-bold mb-4">Filtros</h2>
 
       {/* Category Filter */}
       <div className="mb-4">

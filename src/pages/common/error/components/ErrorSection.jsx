@@ -12,7 +12,7 @@ export const ErrorSection = () => {
         className="text-center"
       >
         <AlertCircle className="w-24 h-24 text-[#da1641] mx-auto mb-6" />
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">404 - Página no encontrada</h1>
+        <h2 className="text-h2 font-title font-bold text-gray-900 mb-4">404 - Página no encontrada</h2>
         <p className="text-xl text-gray-600 mb-8">Lo sentimos, la página que estás buscando no existe.</p>
         <Link
           to="/"

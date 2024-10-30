@@ -4,7 +4,7 @@ export const SuccessStoriesSection = () => {
   return (
     <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold mb-12 text-center">
+            <h2 className="text-h2 font-title font-bold mb-12 text-center">
                 Historias de Éxito
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -22,7 +22,7 @@ export const SuccessStoriesSection = () => {
                     className="w-full h-48 object-cover"
                     />
                     <div className="p-6">
-                        <h3 className="font-bold text-xl mb-2">
+                        <h3 className="text-h3 font-title font-bold text-xl mb-2">
                             De Principiante a Campeón
                         </h3>
                         <p className="text-gray-600 text-sm mb-4">

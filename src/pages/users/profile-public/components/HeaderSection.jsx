@@ -21,7 +21,7 @@ const HeaderSection = ({ user }) => (
             <User size={48} className="text-gray-400" />
           )}
         </div>
-        <h1 className="text-4xl font-bold mb-2">{`${user.first_name} ${user.last_name}`}</h1>
+        <h1 className="text-h2 font-title font-bold mb-2">{`${user.first_name} ${user.last_name}`}</h1>
         <p className="text-lg mb-1">{user.rol_name}</p>
         <p className="text-sm text-gray-300">ID: {user.id}</p>
       </motion.div>

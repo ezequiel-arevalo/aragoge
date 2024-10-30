@@ -41,14 +41,14 @@ export const HomeProPage = () => {
 
   return (
     <>
-      <header className="bg-gradient-to-r from-[#da1641] to-[#ff6b6b] text-white py-16">
+      <div className="bg-gradient-to-r from-[#da1641] to-[#ff6b6b] text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold mb-4">Panel de Profesional</h1>
+          <h2 className="text-h2 font-title font-bold mb-4">Panel de Profesional</h2>
           <p className="text-xl">Gestiona tus planificaciones y potencia tu carrera fitness</p>
         </div>
-      </header>
+      </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex justify-between items-center mb-8">
           <Link
             to="/professional/create"
@@ -78,7 +78,7 @@ export const HomeProPage = () => {
             </motion.div>
           </AnimatePresence>
         )}
-      </main>
+      </section>
 
       <DeleteConfirmationModal
         isOpen={deleteModalOpen}

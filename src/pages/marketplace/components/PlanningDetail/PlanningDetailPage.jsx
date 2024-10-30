@@ -38,7 +38,7 @@ export const PlanningDetailPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <main className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
         <Link to="/marketplace" className="text-[#da1641] hover:text-[#b81235] underline flex items-center mb-6">
           <ArrowLeft className="h-5 w-5 mr-2" />
           Volver al Marketplace
@@ -46,7 +46,7 @@ export const PlanningDetailPage = () => {
 
         <PlanningHero planning={planning} />
         <PlanningDescription description={planning.description} />
-      </main>
+      </div>
     </div>
   )
 }

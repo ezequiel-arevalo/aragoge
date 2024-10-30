@@ -4,7 +4,7 @@ export const TestimonialsSection = () => {
   return (
     <section className="py-16 bg-gray-100">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold mb-12 text-center">
+            <h2 className="text-h2 font-title font-bold mb-12 text-center">
             Lo Que Dicen Nuestros Usuarios
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -28,7 +28,7 @@ export const TestimonialsSection = () => {
                     className="w-12 h-12 rounded-full mr-4"
                     />
                     <div>
-                    <h3 className="font-semibold">Nombre del Usuario</h3>
+                    <h3 className="text-h3 font-title font-semibold">Nombre del Usuario</h3>
                     <p className="text-gray-600 text-sm">Atleta Amateur</p>
                     </div>
                 </div>

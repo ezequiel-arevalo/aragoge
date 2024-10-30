@@ -11,7 +11,7 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
         exit={{ opacity: 0, scale: 0.9 }}
         className="bg-white rounded-lg p-6 max-w-sm w-full"
       >
-        <h2 className="text-xl font-bold mb-4">Confirmar eliminación</h2>
+        <h2 className="text-h2 font-title font-bold mb-4">Confirmar eliminación</h2>
         <p className="mb-6">¿Estás seguro de que quieres eliminar esta planificación?</p>
         <div className="flex justify-end space-x-3">
           <button

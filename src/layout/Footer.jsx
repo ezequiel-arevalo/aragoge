@@ -8,11 +8,11 @@ export const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-lg font-semibold mb-4">Aragoge</h3>
+              <h3 className="text-h3 font-title font-semibold mb-4">Aragoge</h3>
               <p className="text-[#131211] text-sm">Conectando atletas y profesionales del fitness</p>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Servicios</h4>
+              <h4 className="text-h4 font-title font-semibold mb-4">Servicios</h4>
               <ul className="space-y-2">
                 {categories.slice(0, 4).map((category) => (
                   <li key={category}>
@@ -24,7 +24,7 @@ export const Footer = () => {
               </ul>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Compañía</h4>
+              <h4 className="text-h4 font-title font-semibold mb-4">Compañía</h4>
               <ul className="space-y-2">
                 <li><Link to="/sobre-nosotros" className="text-[#131211] hover:text-[#DA1641] transition duration-300 text-sm">Sobre Nosotros</Link></li>
                 <li><Link to="/carreras" className="text-[#131211] hover:text-[#DA1641] transition duration-300 text-sm">Carreras</Link></li>
@@ -32,7 +32,7 @@ export const Footer = () => {
               </ul>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Legal</h4>
+              <h4 className="text-h4 font-title font-semibold mb-4">Legal</h4>
               <ul className="space-y-2">
                 <li><Link to="/privacidad" className="text-[#131211] hover:text-[#DA1641] transition duration-300 text-sm">Política de Privacidad</Link></li>
                 <li><Link to="/terminos" className="text-[#131211] hover:text-[#DA1641] transition duration-300 text-sm">Términos de Servicio</Link></li>

@@ -16,7 +16,7 @@ export const HeroSection = ({
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+          <h1 className="text-h1 font-title md:text-6xl font-bold mb-6">
             {title}
           </h1>
           <p className="text-xl mb-8">

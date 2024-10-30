@@ -18,7 +18,7 @@ const PlanningCard = ({ planning, onDeleteClick }) => {
         className="w-full h-48 object-cover"
       />
       <div className="p-5">
-        <h3 className="font-semibold text-lg text-gray-800 mb-2">{planning.title}</h3>
+        <h3 className="text-h3 font-title font-semibold text-gray-800 mb-2">{planning.title}</h3>
         <p className="text-gray-500 text-sm">
           <strong>Profesional:</strong> {planning.professional_name}
         </p>

@@ -46,11 +46,11 @@ export const DeletePlanningPage = () => {
         <div className="px-6 py-8">
           <div className="flex items-center justify-center mb-6">
             <AlertTriangle className="w-12 h-12 text-red-500 mr-4" />
-            <h2 className="text-2xl font-bold text-gray-900">Eliminar Planificación</h2>
+            <h2 className="text-h2 font-title font-bold text-gray-900">Eliminar Planificación</h2>
           </div>
           {planningDetail && (
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">{planningDetail.title}</h3>
+              <h3 className="text-h3 font-title font-semibold text-gray-800 mb-2">{planningDetail.title}</h3>
               <p className="text-gray-600">{planningDetail.synopsis}</p>
             </div>
           )}
