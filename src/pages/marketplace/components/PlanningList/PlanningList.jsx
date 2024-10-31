@@ -4,6 +4,7 @@ import { fetchMarketplacePlannings } from '@/redux/plannings/planningsSlice';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PlanningCard } from './PlanningCard';
 import Loader from '@/components/Loader';
+import ConnectionError from '@/components/ui/ConnectionError'
 
 export const PlanningList = ({ selectedCategory, searchTerm, priceRange }) => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export const PlanningList = ({ selectedCategory, searchTerm, priceRange }) => {
 
   if (error) {
     return (
-      <p className="text-center text-red-500">Error: {error}</p>
+      <ConnectionError />
     );
   }
 

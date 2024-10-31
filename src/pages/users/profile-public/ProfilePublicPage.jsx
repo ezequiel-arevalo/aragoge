@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getUserDetails } from '@/services/userService';
-
+import ConnectionError from '@/components/ui/ConnectionError'
 import HeaderSection from './components/HeaderSection';
 import TabsSection from './components/TabsSection';
 import ContentSection from './components/ContentSection';
@@ -25,12 +25,13 @@ export const ProfilePublicPage = () => {
     fetchUser();
   }, [id]);
 
-  if (error)
+  if (error) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-red-500">Error: {error}</p>
+      <div className='max-w-[500px] mx-auto mt-5'>
+        <ConnectionError />
       </div>
     );
+  }
 
   if (!user) return <Loader />;
 

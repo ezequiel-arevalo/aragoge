@@ -1,16 +1,19 @@
 import { NavLink } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import routes from '@/router/routes';
 import { useState } from 'react';
 import { LucideMenu, LucideX, LucideUser } from 'lucide-react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logoutUserAction } from '@/redux/user/userSlice';
-import routes from '@/router/routes';
+import { useToast } from "@chakra-ui/react";
 
 export const Header = () => {
   const { user, accessToken } = useSelector(state => state.user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const toast = useToast();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
@@ -19,6 +22,7 @@ export const Header = () => {
     if (route.isAuth && !accessToken) return false;
     if (route.role && user?.rol_id !== route.role) return false;
     if (route.name === 'Login' || route.name === 'Register') return false;
+    if (route.name === 'Profile') return false;
     if (route.name === 'ProfilePublic') return false;
     return route.name;
   });
@@ -26,12 +30,24 @@ export const Header = () => {
   const handleLogout = async () => {
     try {
       await dispatch(logoutUserAction()).unwrap();
-      alert("Cerraste sesión con éxito.");
-      console.info("Cerraste sesión correctamente.");
+      toast({
+        title: "Cerraste sesión con éxito.",
+        description: "Cerraste sesión correctamente.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom-right',
+      });
       navigate("/");
     } catch (error) {
-      alert("Error al cerrar sesión: Error desconocido");
-      console.info("Error al cerrar sesión:", error);
+      toast({
+        title: "Error al cerrar sesión.",
+        description: "Error desconocido",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom-right',
+      });
     }
   };
 

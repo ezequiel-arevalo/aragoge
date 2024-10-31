@@ -8,6 +8,7 @@ import {
   createProfessionalProfile,
   updateProfessionalProfile,
 } from "@/services/userService";
+import { getRoles, getRoleById } from "@/services/adminService";
 
 // Registro de usuario
 export const registerNewUser = createAsyncThunk(
@@ -110,11 +111,45 @@ export const deleteUserAction = createAsyncThunk(
   }
 );
 
+// Función auxiliar para filtrar roles
+const filterAdminRole = (roles) =>
+  roles.filter((role) => role.name.toLowerCase() !== "admin");
+
+// Async thunk para obtener roles
+export const fetchRolesAction = createAsyncThunk(
+  "user/fetchRoles",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getRoles();
+      return filterAdminRole(response.data);
+    } catch (err) {
+      return rejectWithValue(err.message || "Error al obtener roles");
+    }
+  }
+);
+
+// Async thunk para obtener un rol específico por ID
+export const fetchRoleByIdAction = createAsyncThunk(
+  "user/fetchRoleById",
+  async (roleId, { rejectWithValue, getState }) => {
+    try {
+      const response = await getRoleById(roleId);
+      const role = response.data;
+      // Si el rol es admin, devolvemos null para evitar su propagación
+      return role.name.toLowerCase() === "admin" ? null : role;
+    } catch (err) {
+      return rejectWithValue(err.message || "Error al obtener el rol");
+    }
+  }
+);
+
 const initialState = {
   loading: false,
   error: null,
   user: JSON.parse(localStorage.getItem("user")) || null,
   accessToken: localStorage.getItem("accessToken") || null,
+  roles: [],
+  currentRole: null,
 };
 
 const userSlice = createSlice({
@@ -239,6 +274,34 @@ const userSlice = createSlice({
         state.user = { ...state.user, professionalProfile: action.payload };
       })
       .addCase(updateProfessionalProfileAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Fetch all roles
+      .addCase(fetchRolesAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchRolesAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.roles = action.payload;
+      })
+      .addCase(fetchRolesAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Fetch role by ID
+      .addCase(fetchRoleByIdAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchRoleByIdAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentRole = action.payload;
+      })
+      .addCase(fetchRoleByIdAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
