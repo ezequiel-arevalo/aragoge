@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
-import PlanningCard from './PlanningCard';
+import PlanningCard from '@/components/ui/PlanningCard';
 import Loader from '@/components/Loader';
 
 export const HomeProPage = () => {
@@ -63,21 +63,20 @@ export const HomeProPage = () => {
           <div className="flex justify-center">
             <Loader />
           </div>
-        ) : error ? (
-          <p className="text-center text-red-500">{error}</p>
-        ) : (
-          <AnimatePresence>
-            <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {localPlannings.map((planning) => (
-                <PlanningCard
+          ) : (
+            <AnimatePresence>
+              <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {localPlannings.map((planning) => (
+                  <PlanningCard
                   key={planning.id}
                   planning={planning}
-                  onDeleteClick={handleDeleteClick}
+                  isEditable={true}
+                  onDeleteClick={() => handleDeleteClick(planning)}
                 />
-              ))}
-            </motion.div>
-          </AnimatePresence>
-        )}
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          )}
       </section>
 
       <DeleteConfirmationModal

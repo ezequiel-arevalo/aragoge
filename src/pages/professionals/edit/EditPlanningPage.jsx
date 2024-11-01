@@ -1,47 +1,46 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
-import { fetchPlanning, updatePlanning } from '@/redux/plannings/planningsSlice';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { fetchPlanning, updatePlanning, fetchCategories } from '@/redux/plannings/planningsSlice';
 import { motion } from 'framer-motion';
+import { ArrowLeft } from 'lucide-react';
+import { Input } from '@/components/form/Input';
+import { Textarea } from '@/components/form/Textarea';
 
 export const EditPlanningPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { planningDetail, loading, error } = useSelector((state) => state.plannings);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    synopsis: '',
-    price: 0,
-    category_id: '',
-  });
+  const { planningDetail, categories, loading, error } = useSelector((state) => state.plannings);
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
   useEffect(() => {
+    console.info('Fetching planning and categories');
     dispatch(fetchPlanning(id));
+    dispatch(fetchCategories());
   }, [dispatch, id]);
 
   useEffect(() => {
     if (planningDetail) {
-      setFormData(planningDetail);
+      console.info('Resetting form with planning details:', planningDetail);
+      reset(planningDetail);
     }
-  }, [planningDetail]);
+  }, [planningDetail, reset]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: name === 'price' || name === 'category_id' ? Number(value) : value
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
+    console.info('Submitting updated planning data:', data);
     try {
-      await dispatch(updatePlanning({ id, planningData: formData })).unwrap();
-      navigate('/');
+      const resultAction = await dispatch(updatePlanning({ id, planningData: data }));
+      console.info('Update planning result:', resultAction);
+      if (updatePlanning.fulfilled.match(resultAction)) {
+        console.info('Planning updated successfully');
+        navigate('/professional');
+      } else {
+        console.error('Failed to update planning:', resultAction.error);
+      }
     } catch (err) {
-      console.error('Failed to update the planning:', err);
+      console.error('Error updating planning:', err);
     }
   };
 
@@ -54,94 +53,97 @@ export const EditPlanningPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-600 to-purple-500 py-12 px-4 sm:px-6 lg:px-8">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="max-w-md mx-auto bg-white rounded-lg shadow-xl overflow-hidden"
-      >
-        <div className="px-6 py-8">
-          <h2 className="text-h2 font-title font-bold text-gray-900 mb-6">Editar Planificación</h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700">Título</label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div>
-            <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700">Descripción</label>
-              <textarea
-                id="description"
-                name="description"
-                rows="3"
-                value={formData.description}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              ></textarea>
-            </div>
-            <div>
-              <label htmlFor="synopsis" className="block text-sm font-medium text-gray-700">Sinopsis</label>
-              <input
-                type="text"
-                id="synopsis"
-                name="synopsis"
-                value={formData.synopsis}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div>
-            <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700">Precio</label>
-              <input
-                type="number"
-                id="price"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div>
-            <div>
-              <label htmlFor="category_id" className="block text-sm font-medium text-gray-700">Categoría ID</label>
-              <input
-                type="number"
-                id="category_id"
-                name="category_id"
-                value={formData.category_id}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div>
-            <div className="flex  justify-end space-x-3">
-              <button
-                type="button"
-                onClick={() => navigate('/')}
-                className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Guardar Cambios
-              </button>
-            </div>
-          </form>
+    <div className="min-h-screen bg-gray-100">
+      <header className="bg-gradient-to-r from-[#da1641] to-[#ff6b6b] text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <button
+            onClick={() => navigate('/professional')}
+            className="flex items-center text-white mb-4 hover:underline"
+          >
+            <ArrowLeft size={20} className="mr-2" />
+            Volver al Panel
+          </button>
+          <h3 className="text-h3 font-title font-bold">Editar Planificación</h3>
         </div>
-      </motion.div>
+      </header>
+
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-lg shadow-xl overflow-hidden"
+        >
+          <div className="p-8">
+            {error && <p className="text-red-500 mb-4">{error}</p>}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <Input
+                register={register}
+                name="title"
+                label="Título"
+                errors={errors}
+                inputProps={{
+                  placeholder: 'Ingresa el título de la planificación'
+                }}
+              />
+              <Textarea
+                register={register}
+                name="description"
+                label="Descripción"
+                errors={errors}
+                textareaProps={{
+                  placeholder: 'Ingresa la descripción de la planificación',
+                  rows: 4
+                }}
+              />
+              <Input
+                register={register}
+                name="synopsis"
+                label="Sinopsis"
+                errors={errors}
+                inputProps={{
+                  placeholder: 'Ingresa la sinopsis'
+                }}
+              />
+              <Input
+                register={register}
+                name="price"
+                label="Precio"
+                type="number"
+                errors={errors}
+                inputProps={{
+                  placeholder: 'Ingresa el precio'
+                }}
+              />
+              <div>
+                <label htmlFor="category_id" className="block text-sm font-medium text-gray-700">Categoría</label>
+                <select
+                  id="category_id"
+                  {...register('category_id', { required: 'La categoría es obligatoria' })}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#da1641] focus:border-[#da1641]"
+                >
+                  <option value="">Selecciona una categoría</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+                {errors.category_id && <p className="text-red-500">{errors.category_id.message}</p>}
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-[#da1641] text-white px-6 py-2 rounded-full hover:bg-[#c30d35] transition duration-300 disabled:opacity-50"
+                >
+                  {loading ? 'Actualizando...' : 'Actualizar Planificación'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </motion.div>
+      </main>
     </div>
   );
 };

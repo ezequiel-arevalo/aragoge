@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMarketplacePlannings } from '@/redux/plannings/planningsSlice';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PlanningCard } from './PlanningCard';
+import PlanningCard from '@/components/ui/PlanningCard';
 import Loader from '@/components/Loader';
-import ConnectionError from '@/components/ui/ConnectionError'
+import ConnectionError from '@/components/ui/ConnectionError';
 
 export const PlanningList = ({ selectedCategory, searchTerm, priceRange }) => {
   const dispatch = useDispatch();
@@ -19,9 +19,7 @@ export const PlanningList = ({ selectedCategory, searchTerm, priceRange }) => {
   }
 
   if (error) {
-    return (
-      <ConnectionError />
-    );
+    return <ConnectionError />;
   }
 
   let filteredPlannings = selectedCategory
@@ -48,27 +46,13 @@ export const PlanningList = ({ selectedCategory, searchTerm, priceRange }) => {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <AnimatePresence>
         {filteredPlannings.length === 0 ? (
-          <motion.p
-            className="text-center text-gray-500"
-            transition={{ duration: 0.5 }}
-          >
+          <motion.p className="text-center text-gray-500" transition={{ duration: 0.5 }}>
             No hay planificaciones que coincidan con los filtros.
           </motion.p>
         ) : (
           filteredPlannings.map((planning) => (
-            <motion.div
-              key={planning.id}
-              layout
-              transition={{ duration: 0.5 }}
-            >
-              <PlanningCard
-                id={planning.id}
-                title={planning.title}
-                description={planning.synopsis}
-                price={planning.price}
-                category={planning.category_name}
-                professional={planning.professional_name}
-              />
+            <motion.div key={planning.id} layout transition={{ duration: 0.5 }}>
+              <PlanningCard planning={planning} />
             </motion.div>
           ))
         )}

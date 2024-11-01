@@ -151,6 +151,7 @@ const initialState = {
   roles: [],
   currentRole: null,
 };
+console.log(initialState.accessToken);
 
 const userSlice = createSlice({
   name: "user",

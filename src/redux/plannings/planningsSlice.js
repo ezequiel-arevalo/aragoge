@@ -1,116 +1,135 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { 
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
   getPlanningsByUserId,
   fetchMarketplacePlannings as fetchMarketplacePlanningsService,
-  fetchPlanningById, 
+  fetchPlanningById,
   createPlanning as createPlanningService,
   updatePlanning as updatePlanningService,
-  deletePlanning as deletePlanningService
-} from '@/services/planningsService';
-import { fetchCategories as fetchCategoriesService } from '@/services/adminService';
+  deletePlanning as deletePlanningService,
+} from "@/services/planningsService";
+import { fetchCategories as fetchCategoriesService } from "@/services/adminService";
 
 export const fetchMarketplacePlannings = createAsyncThunk(
-  'plannings/fetchMarketplacePlannings',
-  async (searchTerm = '') => {
+  "plannings/fetchMarketplacePlannings",
+  async (searchTerm = "") => {
     try {
       const data = await fetchMarketplacePlanningsService(searchTerm);
       return data;
     } catch (error) {
-      throw new Error(error.message || 'Error al cargar las planificaciones del marketplace');
+      throw new Error(
+        error.message || "Error al cargar las planificaciones del marketplace"
+      );
     }
   }
 );
 
 export const fetchProfessionalPlannings = createAsyncThunk(
-  'plannings/fetchProfessionalPlannings',
+  "plannings/fetchProfessionalPlannings",
   async (_, { getState, rejectWithValue }) => {
     try {
       const { user, accessToken } = getState().user;
       if (!user || !accessToken) {
-        throw new Error('Usuario no autenticado');
+        throw new Error("Usuario no autenticado");
       }
       const response = await getPlanningsByUserId(user.id, accessToken);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.message || 'Error al cargar las planificaciones');
+      return rejectWithValue(
+        error.message || "Error al cargar las planificaciones"
+      );
     }
   }
 );
 
 export const fetchPlanning = createAsyncThunk(
-  'plannings/fetchPlanning',
+  "plannings/fetchPlanning",
   async (id) => {
     try {
       const data = await fetchPlanningById(id);
       return data;
     } catch (error) {
-      throw new Error(error.message || 'Error al cargar la planificación');
+      throw new Error(error.message || "Error al cargar la planificación");
     }
   }
 );
 
 export const fetchCategories = createAsyncThunk(
-  'categories/fetchCategories',
+  "categories/fetchCategories",
   async () => {
     try {
       const data = await fetchCategoriesService();
       return data;
     } catch (error) {
-      throw new Error(error.message || 'Error al cargar las categorías');
+      throw new Error(error.message || "Error al cargar las categorías");
     }
   }
 );
 
 export const createPlanning = createAsyncThunk(
-  'plannings/createPlanning',
+  "plannings/createPlanning",
   async (planningData, { getState, rejectWithValue }) => {
     try {
       const token = getState().user.accessToken;
       if (!token) {
-        throw new Error('No se encontró el token de autenticación');
+        throw new Error("No se encontró el token de autenticación");
       }
       const response = await createPlanningService(planningData, token);
       return response;
     } catch (error) {
-      return rejectWithValue(error.message || 'Error al crear la planificación');
+      return rejectWithValue(
+        error.message || "Error al crear la planificación"
+      );
     }
   }
 );
 
 export const updatePlanning = createAsyncThunk(
-  'plannings/updatePlanning',
+  "plannings/updatePlanning",
   async ({ id, planningData }, { getState, rejectWithValue }) => {
+    console.info("updatePlanning action called with:", { id, planningData });
     try {
       const token = getState().user.accessToken;
       if (!token) {
-        throw new Error('No se encontró el token de autenticación');
+        console.error("No se encontró el token de autenticación");
+        throw new Error("No se encontró el token de autenticación");
       }
+      console.info("Calling updatePlanningService with:", {
+        id,
+        planningData,
+        token,
+      });
       const response = await updatePlanningService(id, planningData, token);
-      return response;
+      console.info("updatePlanningService response:", response);
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.message || 'Error al actualizar la planificación');
+      console.error("Error in updatePlanning:", error);
+      return rejectWithValue(
+        error.message || "Error al actualizar la planificación"
+      );
     }
   }
 );
 
 export const deletePlanning = createAsyncThunk(
-  'plannings/deletePlanning',
+  "plannings/deletePlanning",
   async (id, { getState, rejectWithValue }) => {
     try {
       const token = getState().user.accessToken;
       if (!token) {
-        throw new Error('No se encontró el token de autenticación');
+        throw new Error("No se encontró el token de autenticación");
       }
       await deletePlanningService(id, token);
       return id;
     } catch (error) {
-      return rejectWithValue(error.message || 'Error al eliminar la planificación');
+      return rejectWithValue(
+        error.message || "Error al eliminar la planificación"
+      );
     }
   }
 );
 
 const planningsSlice = createSlice({
-  name: 'plannings',
+  name: "plannings",
   initialState: {
     items: [],
     planningDetail: null,
@@ -194,10 +213,13 @@ const planningsSlice = createSlice({
       })
       .addCase(updatePlanning.fulfilled, (state, action) => {
         state.loading = false;
-        const index = state.items.findIndex(item => item.id === action.payload.data.id);
+        const index = state.items.findIndex(
+          (item) => item.id === action.payload.id
+        );
         if (index !== -1) {
-          state.items[index] = action.payload.data;
+          state.items[index] = action.payload;
         }
+        state.planningDetail = action.payload;
       })
       .addCase(updatePlanning.rejected, (state, action) => {
         state.loading = false;
@@ -210,7 +232,7 @@ const planningsSlice = createSlice({
       })
       .addCase(deletePlanning.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = state.items.filter(item => item.id !== action.payload);
+        state.items = state.items.filter((item) => item.id !== action.payload);
       })
       .addCase(deletePlanning.rejected, (state, action) => {
         state.loading = false;
