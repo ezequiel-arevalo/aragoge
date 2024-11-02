@@ -4,7 +4,7 @@ import { InputPassword } from '@/components/form/InputPassword';
 import useAuth from '@/hooks/useAuth';
 import { Link } from 'react-router-dom';
 
-export const RegisterForm = () => {
+export const RegisterForm = ({title, subtitle}) => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const { register: registerUser } = useAuth();
 
@@ -18,7 +18,10 @@ export const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="p-6 rounded-md shadow-md w-full max-w-sm">
+  <div className="w-full max-w-md">
+    <h2 className="text-3xl font-bold text-primary mb-2">{title}</h2>
+    <p className="text-text-primary mb-6">{subtitle}</p>
+    <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-8 rounded-l">
       {/* Input de Nombre */}
       <Input
         name="first_name"
@@ -49,7 +52,7 @@ export const RegisterForm = () => {
       {/* Input de Contraseña */}
       <InputPassword
         name="password"
-        label="Password"
+        label="Contraseña"
         register={register}
         errors={errors}
       />
@@ -68,5 +71,6 @@ export const RegisterForm = () => {
         ¿Tienes cuenta? Accede desde aquí
       </Link>
     </form>
+  </div>
   );
 };
