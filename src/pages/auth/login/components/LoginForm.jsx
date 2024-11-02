@@ -18,7 +18,7 @@ export const LoginForm = ({ title, subtitle }) => {
       <p className="text-text-primary mb-6">{subtitle}</p>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-8 rounded-lg overflow-hidden"
+        className="bg-white p-8 rounded-lg"
       >
         <Input
           name="email"

@@ -1,12 +1,18 @@
-// LoginPage.js
 import { LoginForm } from "./components/LoginForm";
+import { ImageSection } from "./components/ImageSection";
 import { motion } from 'framer-motion';
-import { Box, Flex, Image } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 const MotionBox = motion(Box);
 
 export const LoginPage = () => {
   return (
-    <Flex minHeight="100vh" width="full" align="center" justifyContent="center" className="bg-gradient-to-br from-bg-primary to-bg-secondary">
+    <Flex 
+      minHeight="100vh" 
+      width="full" 
+      align="center" 
+      justifyContent="center" 
+      className="bg-gradient-to-br from-bg-primary to-bg-secondary"
+    >
       <Box 
         borderWidth={1}
         width="full"
@@ -18,20 +24,7 @@ export const LoginPage = () => {
       >
         <Flex direction={{ base: 'column', md: 'row' }}>
           {/* Left Section with Image */}
-          <MotionBox
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            flex={1}
-          >
-            <Image
-              src="./src/pages/auth/login/components/aragoge.svg"
-              alt="Login illustration"
-              objectFit="cover"
-              height="full"
-              width="full"
-            />
-          </MotionBox>
+          <ImageSection />
 
           {/* Right Section with Login Form */}
           <MotionBox
@@ -40,6 +33,7 @@ export const LoginPage = () => {
             transition={{ duration: 0.5 }}
             flex={1}
             p={8}
+            height={700}
             textAlign="center"
           >
             <LoginForm 
