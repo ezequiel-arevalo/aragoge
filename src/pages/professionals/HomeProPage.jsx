@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProfessionalPlannings, deletePlanning } from '@/redux/plannings/planningsSlice';
+import { fetchProfessionalPlannings } from '@/redux/plannings/planningsSlice';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import DeleteConfirmationModal from './DeleteConfirmationModal';
+import { Link, useNavigate } from 'react-router-dom';
 import PlanningCard from '@/components/ui/PlanningCard';
 import Loader from '@/components/Loader';
 
 export const HomeProPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { items: plannings, loading, error } = useSelector((state) => state.plannings);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [planningToDelete, setPlanningToDelete] = useState(null);
   const [localPlannings, setLocalPlannings] = useState([]);
 
   useEffect(() => {
@@ -24,19 +22,7 @@ export const HomeProPage = () => {
   }, [plannings]);
 
   const handleDeleteClick = (planning) => {
-    setPlanningToDelete(planning);
-    setDeleteModalOpen(true);
-  };
-
-  const handleDeleteConfirm = () => {
-    if (planningToDelete) {
-      dispatch(deletePlanning(planningToDelete.id));
-      setLocalPlannings(prevPlannings =>
-        prevPlannings.filter(p => p.id !== planningToDelete.id)
-      );
-      setDeleteModalOpen(false);
-      setPlanningToDelete(null);
-    }
+    navigate(`/professional/delete/${planning.id}`);
   };
 
   return (
@@ -63,27 +49,23 @@ export const HomeProPage = () => {
           <div className="flex justify-center">
             <Loader />
           </div>
-          ) : (
-            <AnimatePresence>
-              <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {localPlannings.map((planning) => (
-                  <PlanningCard
+        ) : (
+          <AnimatePresence>
+            <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {localPlannings.map((planning) => (
+                <PlanningCard
                   key={planning.id}
                   planning={planning}
                   isEditable={true}
                   onDeleteClick={() => handleDeleteClick(planning)}
                 />
-                ))}
-              </motion.div>
-            </AnimatePresence>
-          )}
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        )}
       </section>
-
-      <DeleteConfirmationModal
-        isOpen={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        onConfirm={handleDeleteConfirm}
-      />
     </>
   );
 };
+
+export default HomeProPage;
