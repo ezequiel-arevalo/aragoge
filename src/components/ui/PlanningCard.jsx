@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 const PlanningCard = ({ planning, onDeleteClick, isEditable = false }) => {
+  console.log(planning)
   const [isFavorite, setIsFavorite] = useState(false);
 
   const toggleFavorite = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     setIsFavorite(!isFavorite);
     // Aquí iría la lógica para añadir/quitar de favoritos
     console.log('Toggle favorite for:', planning.id);
@@ -22,7 +24,7 @@ const PlanningCard = ({ planning, onDeleteClick, isEditable = false }) => {
       transition={{ duration: 0.3 }}
       className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full"
     >
-      <Link to={`/planning/${planning.id}`} className="flex flex-col h-full">
+      <div className="flex flex-col h-full">
         {/* Imagen y botón de favoritos */}
         <div className="relative">
           <img
@@ -32,7 +34,7 @@ const PlanningCard = ({ planning, onDeleteClick, isEditable = false }) => {
           />
           <button
             onClick={toggleFavorite}
-            className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 z-10"
+            className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 z-10 hover:bg-white"
           >
             <Heart className={`w-5 h-5 ${isFavorite ? 'text-[#da1641] fill-[#da1641]' : 'text-gray-400'}`} />
           </button>
@@ -50,14 +52,17 @@ const PlanningCard = ({ planning, onDeleteClick, isEditable = false }) => {
             </div>
             
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
+              <Link
+                to={`/public/profile/${planning.professional_id}`}
+                className="flex items-center hover:underline"
+              >
                 <img
                   src={planning.professional_avatar || "https://placehold.co/40"}
                   alt={planning.professional_name}
                   className="w-8 h-8 rounded-full mr-2 object-cover"
                 />
                 <span className="text-gray-700 text-sm font-medium">{planning.professional_name}</span>
-              </div>
+              </Link>
               <div className="flex items-center">
                 <Star className="w-4 h-4 text-yellow-400 mr-1" />
                 <span className="text-gray-600 text-sm">{planning.rating || '4.5'}</span>
@@ -65,13 +70,13 @@ const PlanningCard = ({ planning, onDeleteClick, isEditable = false }) => {
             </div>
           </div>
         </div>
-      </Link>
+      </div>
 
       {/* Footer con botones de acción */}
       <div className="px-5 py-4 bg-gray-50 flex justify-between items-center">
         <Link
           to={`/planning/${planning.id}`}
-          className="flex-grow bg-[#da1641] hover:bg-[#C30D35] text-white hover:text-white py-2 px-4 rounded-lg text-center transition-colors duration-300 font-medium text-sm"
+          className="flex-grow bg-[#da1641] hover:bg-[#C30D35] hover:text-white text-white py-2 px-4 rounded-lg text-center transition-colors duration-300 font-medium text-sm"
         >
           Ver más
         </Link>
@@ -80,15 +85,17 @@ const PlanningCard = ({ planning, onDeleteClick, isEditable = false }) => {
             <Link
               to={`/professional/edit/${planning.id}`}
               className="text-gray-600 hover:text-[#da1641] transition duration-300 p-2 hover:bg-gray-100 rounded-full"
+              onClick={(e) => e.stopPropagation()}
             >
               <Edit size={18} />
             </Link>
             <button
               onClick={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 onDeleteClick(planning);
               }}
-              className="text-gray-600 hover:text-red-600 no-global-styles transition duration-300 p-2 hover:bg-gray-100 rounded-full"
+              className="text-gray-600 hover:text-red-600 transition duration-300 p-2 hover:bg-gray-100 rounded-full no-global-styles"
             >
               <Trash size={18} />
             </button>

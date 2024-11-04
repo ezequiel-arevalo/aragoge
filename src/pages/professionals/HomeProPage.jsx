@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProfessionalPlannings } from '@/redux/plannings/planningsSlice';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import PlanningCard from '@/components/ui/PlanningCard';
@@ -50,18 +49,16 @@ export const HomeProPage = () => {
             <Loader />
           </div>
         ) : (
-          <AnimatePresence>
-            <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {localPlannings.map((planning) => (
-                <PlanningCard
-                  key={planning.id}
-                  planning={planning}
-                  isEditable={true}
-                  onDeleteClick={() => handleDeleteClick(planning)}
-                />
-              ))}
-            </motion.div>
-          </AnimatePresence>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {localPlannings.map((planning) => (
+              <PlanningCard
+                key={planning.id}
+                planning={planning}
+                isEditable={true}
+                onDeleteClick={() => handleDeleteClick(planning)}
+              />
+            ))}
+          </div>
         )}
       </section>
     </>

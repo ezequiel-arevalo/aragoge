@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { createPlanning, fetchCategories } from '@/redux/plannings/planningsSlice';
-import { motion } from 'framer-motion';
+import { useToast } from '@chakra-ui/react';
 import { ArrowLeft } from 'lucide-react';
 import { Input } from '@/components/form/Input';
 import { Textarea } from '@/components/form/Textarea';
@@ -13,7 +13,7 @@ export const CreatePlanningPage = () => {
   const navigate = useNavigate();
   const { categories, loading, error } = useSelector((state) => state.plannings);
   const { register, handleSubmit, formState: { errors } } = useForm();
-
+  const toast = useToast();
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
@@ -21,9 +21,25 @@ export const CreatePlanningPage = () => {
   const onSubmit = async (data) => {
     try {
       await dispatch(createPlanning(data)).unwrap();
+      toast({
+        title: "Planificación creada",
+        description: "La planificación se creó correctamente.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom-right',
+      });
       navigate('/professional');
     } catch (err) {
       console.error('Failed to create the planning:', err);
+      toast({
+        title: "Error al crear la planificación",
+        description: err.message || "No se pudo crear la planificación.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom-right',
+      });
     }
   };
 
@@ -43,12 +59,7 @@ export const CreatePlanningPage = () => {
       </header>
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="bg-white rounded-lg shadow-xl overflow-hidden"
-        >
+        <div className="bg-white rounded-lg shadow-xl overflow-hidden">
           <div className="p-8">
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -117,8 +128,10 @@ export const CreatePlanningPage = () => {
               </div>
             </form>
           </div>
-        </motion.div>
+        </div>
       </main>
     </div>
   );
 };
+
+export default CreatePlanningPage;
