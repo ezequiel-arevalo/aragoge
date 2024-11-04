@@ -6,6 +6,8 @@ import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { useToast } from '@chakra-ui/react';
 import Loader from '@/components/Loader';
+import { Input } from '@/components/form/Input';
+import { Textarea } from '@/components/form/Textarea';
 
 export const DeletePlanningPage = () => {
   const { id } = useParams();
@@ -71,7 +73,67 @@ export const DeletePlanningPage = () => {
           <div className="p-8 text-center">
             <h4 className="text-xl font-semibold text-gray-800 mb-4">¿Estás seguro que deseas eliminar esta planificación?</h4>
             <p className="text-gray-600 mb-6">Esta acción no se puede deshacer.</p>
-            <div className="flex justify-center space-x-4">
+
+            {/* Formulario de planificación en modo de solo lectura */}
+            <div className="space-y-6">
+              <Input
+                name="title"
+                label="Título"
+                errors={{}}
+                register={() => {}}
+                inputProps={{
+                  placeholder: 'Título de la planificación',
+                  defaultValue: planningDetail?.title,
+                  disabled: true,
+                }}
+              />
+              <Textarea
+                name="description"
+                label="Descripción"
+                errors={{}}
+                register={() => {}}
+                textareaProps={{
+                  placeholder: 'Descripción de la planificación',
+                  defaultValue: planningDetail?.description,
+                  rows: 4,
+                  disabled: true,
+                }}
+              />
+              <Input
+                name="synopsis"
+                label="Sinopsis"
+                errors={{}}
+                register={() => {}}
+                inputProps={{
+                  placeholder: 'Sinopsis',
+                  defaultValue: planningDetail?.synopsis,
+                  disabled: true,
+                }}
+              />
+              <Input
+                name="price"
+                label="Precio"
+                type="number"
+                errors={{}}
+                register={() => {}}
+                inputProps={{
+                  placeholder: 'Precio',
+                  defaultValue: planningDetail?.price,
+                  disabled: true,
+                }}
+              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Categoría</label>
+                <input
+                  type="text"
+                  value={planningDetail?.category_name || 'Sin categoría'}
+                  disabled
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#da1641] focus:border-[#da1641]"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-center space-x-4 mt-8">
               <button
                 onClick={() => navigate('/professional')}
                 className="bg-gray-300 text-gray-800 px-6 py-2 rounded-full hover:bg-gray-400 transition duration-300"
