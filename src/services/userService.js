@@ -45,7 +45,7 @@ export const getUserDetails = (userId, token) => {
  * @returns {Promise<Object>} - Datos actualizados del usuario.
  */
 export const updateUser = (userData, token) => {
-  return call("users/update", "PATCH", userData, token);
+  return call("users/update", "POST", userData, token);
 };
 
 /**

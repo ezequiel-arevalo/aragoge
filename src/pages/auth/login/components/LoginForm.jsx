@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export const LoginForm = ({ title, subtitle }) => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const { login } = useAuth();
-  
+
   const onSubmit = (data) => {
     login(data, reset);
   };
@@ -43,11 +43,11 @@ export const LoginForm = ({ title, subtitle }) => {
         >
           Iniciar Sesión
         </button>
-        
+
         <div className="mt-4 text-center">
           <Link
             to="/register"
-            className="text-sm text-primary hover:text-secondary transition-colors duration-300"
+            className="cursor-pointer mt-4 text-sm block hover:underline mx-auto text-center"
           >
             ¿No tienes cuenta? Regístrate aquí
           </Link>

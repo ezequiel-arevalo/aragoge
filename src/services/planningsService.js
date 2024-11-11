@@ -20,7 +20,7 @@ export const createPlanning = (planningData, token) => {
 };
 
 export const updatePlanning = (id, planningData, token) => {
-  return call(`plannings/${id}`, "PUT", planningData, token);
+  return call(`plannings/${id}`, "POST", planningData, token);
 };
 
 export const deletePlanning = (id, token) => {

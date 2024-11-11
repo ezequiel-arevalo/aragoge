@@ -1,17 +1,7 @@
-import { Mail, Calendar, Shield, Save } from 'lucide-react'
+import { Mail, Calendar, Shield, Save } from 'lucide-react';
+import formatDate from '@/utilities/formatDate';
 
 const GeneralTab = ({ formData, handleInputChange, handleSave, userData, roles }) => {
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  }
-
-  const filteredRoles = roles.filter(role => role.name.toLowerCase() !== 'admin');
-
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -57,27 +47,18 @@ const GeneralTab = ({ formData, handleInputChange, handleSave, userData, roles }
             <Shield className="w-4 h-4 inline mr-2" />
             Rol
           </label>
-          {userData.rol_name.toLowerCase() === 'admin' ? (
-            <input
-              type="text"
-              value={userData.rol_name}
-              disabled
-              className="w-full px-4 py-2 rounded-lg border border-bg-primary bg-bg-primary text-text-disable"
-            />
-          ) : (
-            <select
-              name="rol_id"
-              value={formData.rol_id}
-              onChange={handleInputChange}
-              className="w-full px-4 py-2 rounded-lg border border-bg-primary focus:outline-none focus:border-primary"
-            >
-              {filteredRoles.map((role) => (
-                <option key={role.id} value={role.id}>
-                  {role.name}
-                </option>
-              ))}
-            </select>
-          )}
+          <select
+            name="rol_id"
+            value={formData.rol_id}
+            onChange={handleInputChange}
+            className="w-full px-4 py-2 rounded-lg border border-bg-primary focus:outline-none focus:border-primary"
+          >
+            {roles.map((role) => (
+              <option key={role.id} value={role.id}>
+                {role.name}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
       <div>
@@ -97,7 +78,7 @@ const GeneralTab = ({ formData, handleInputChange, handleSave, userData, roles }
         Guardar cambios
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default GeneralTab
+export default GeneralTab;

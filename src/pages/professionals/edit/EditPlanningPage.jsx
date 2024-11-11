@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useParams, useNavigate } from 'react-router-dom';
 import { fetchPlanning, updatePlanning, fetchCategories } from '@/redux/plannings/planningsSlice';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
@@ -12,36 +12,34 @@ export const EditPlanningPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { planningDetail, categories, loading, error } = useSelector((state) => state.plannings);
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
   useEffect(() => {
-    console.info('Fetching planning and categories');
     dispatch(fetchPlanning(id));
     dispatch(fetchCategories());
   }, [dispatch, id]);
 
   useEffect(() => {
     if (planningDetail) {
-      console.info('Resetting form with planning details:', planningDetail);
-      reset(planningDetail);
+      setValue('title', planningDetail.title);
+      setValue('description', planningDetail.description);
+      setValue('synopsis', planningDetail.synopsis);
+      setValue('price', planningDetail.price);
+      setValue('category_id', planningDetail.category_id);
     }
-  }, [planningDetail, reset]);
+  }, [planningDetail, setValue]);
 
-  const onSubmit = async (data) => {
-    console.info('Submitting updated planning data:', data);
-    try {
-      const resultAction = await dispatch(updatePlanning({ id, planningData: data }));
-      console.info('Update planning result:', resultAction);
-      if (updatePlanning.fulfilled.match(resultAction)) {
-        console.info('Planning updated successfully');
+  const onSubmit = (data) => {
+    dispatch(updatePlanning({ id, planningData: data }))
+      .unwrap()
+      .then(() => {
         navigate('/professional');
-      } else {
-        console.error('Failed to update planning:', resultAction.error);
-      }
-    } catch (err) {
-      console.error('Error updating planning:', err);
-    }
+      })
+      .catch((error) => {
+        console.error("Failed to update planning:", error);
+      });
   };
 
   if (loading) {
@@ -83,7 +81,7 @@ export const EditPlanningPage = () => {
                 label="Título"
                 errors={errors}
                 inputProps={{
-                  placeholder: 'Ingresa el título de la planificación'
+                  placeholder: 'Ingresa el título de la planificación',
                 }}
               />
               <Textarea
@@ -93,7 +91,7 @@ export const EditPlanningPage = () => {
                 errors={errors}
                 textareaProps={{
                   placeholder: 'Ingresa la descripción de la planificación',
-                  rows: 4
+                  rows: 4,
                 }}
               />
               <Input
@@ -102,7 +100,7 @@ export const EditPlanningPage = () => {
                 label="Sinopsis"
                 errors={errors}
                 inputProps={{
-                  placeholder: 'Ingresa la sinopsis'
+                  placeholder: 'Ingresa la sinopsis',
                 }}
               />
               <Input
@@ -112,11 +110,13 @@ export const EditPlanningPage = () => {
                 type="number"
                 errors={errors}
                 inputProps={{
-                  placeholder: 'Ingresa el precio'
+                  placeholder: 'Ingresa el precio',
                 }}
               />
               <div>
-                <label htmlFor="category_id" className="block text-sm font-medium text-gray-700">Categoría</label>
+                <label htmlFor="category_id" className="block text-sm font-medium text-gray-700">
+                  Categoría
+                </label>
                 <select
                   id="category_id"
                   {...register('category_id', { required: 'La categoría es obligatoria' })}

@@ -111,22 +111,19 @@ export const deleteUserAction = createAsyncThunk(
   }
 );
 
-// Función auxiliar para filtrar roles
-const filterAdminRole = (roles) =>
-  roles.filter((role) => role.name.toLowerCase() !== "admin");
-
 // Async thunk para obtener roles
 export const fetchRolesAction = createAsyncThunk(
   "user/fetchRoles",
   async (_, { rejectWithValue }) => {
     try {
       const response = await getRoles();
-      return filterAdminRole(response.data);
+      return response.data;
     } catch (err) {
       return rejectWithValue(err.message || "Error al obtener roles");
     }
   }
 );
+
 
 // Async thunk para obtener un rol específico por ID
 export const fetchRoleByIdAction = createAsyncThunk(
@@ -151,7 +148,6 @@ const initialState = {
   roles: [],
   currentRole: null,
 };
-console.log(initialState.accessToken);
 
 const userSlice = createSlice({
   name: "user",
