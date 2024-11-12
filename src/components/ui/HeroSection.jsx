@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import { SearchBar } from "@/pages/marketplace/components/SearchBar";
+import { SearchBar } from "@/pages/marketplace/components/filters/SearchBar";
 
-export const HeroSection = ({ 
-  title = "Potencia tu Rendimiento", 
-  description = "Conecta con entrenadores de élite y transforma tu carrera deportiva", 
-  showInput = true, 
+export const HeroSection = ({
+  title = "Potencia tu Rendimiento",
+  description = "Conecta con entrenadores de élite y transforma tu carrera deportiva",
+  showInput = true,
   onSearchSubmit,
 }) => {
   return (

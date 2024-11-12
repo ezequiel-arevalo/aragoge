@@ -28,8 +28,9 @@ export const HomeProPage = () => {
     <>
       <div className="bg-gradient-to-r from-[#da1641] to-[#ff6b6b] text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-h2 font-title font-bold mb-4">Panel de Profesional</h2>
-          <p className="text-xl">Gestiona tus planificaciones y potencia tu carrera fitness</p>
+          <h1 className="text-h1 font-title font-bold mb-4">Panel de Profesional</h1>
+          <h2 className="text-h2 font-title mb-2">Gestiona tus planificaciones y potencia tu carrera fitness</h2>
+          <p className="text-xl">Controla y organiza todas tus actividades desde un solo lugar.</p>
         </div>
       </div>
 

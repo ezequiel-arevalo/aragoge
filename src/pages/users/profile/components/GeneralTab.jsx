@@ -39,7 +39,8 @@ const GeneralTab = ({ formData, handleInputChange, handleSave, userData, roles }
             name="email"
             value={formData.email}
             onChange={handleInputChange}
-            className="w-full px-4 py-2 rounded-lg border border-bg-primary focus:outline-none focus:border-primary"
+            disabled
+            className="w-full px-4 py-2 rounded-lg border border-bg-primary bg-bg-primary text-text-disable"
           />
         </div>
         <div>

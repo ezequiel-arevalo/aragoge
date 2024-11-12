@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom"
-import { motion } from "framer-motion"
-import { AlertCircle, Home } from "lucide-react"
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { AlertCircle, Home } from "lucide-react";
 
 export const ErrorSection = () => {
   return (
@@ -12,6 +12,7 @@ export const ErrorSection = () => {
         className="text-center"
       >
         <AlertCircle className="w-24 h-24 text-[#da1641] mx-auto mb-6" />
+        <h1 className="text-h1 font-title font-bold text-gray-900 mb-2">Error de Página</h1>
         <h2 className="text-h2 font-title font-bold text-gray-900 mb-4">404 - Página no encontrada</h2>
         <p className="text-xl text-gray-600 mb-8">Lo sentimos, la página que estás buscando no existe.</p>
         <Link
@@ -23,5 +24,5 @@ export const ErrorSection = () => {
         </Link>
       </motion.div>
     </div>
-  )
-}
+  );
+};
