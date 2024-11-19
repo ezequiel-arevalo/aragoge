@@ -26,9 +26,10 @@ export const call = async (
 
     const data = response.status !== 204 ? await response.json() : null;
     if (!response.ok) {
-      const errorMessage = data?.errors
-        ? Object.values(data.errors).flat().join(", ")
-        : data?.message || "Error en la petición";
+      const errorMessage = data?.errors || "Error en la petición";
+      // const errorMessage = data?.errors
+      //   ? Object.values(data.errors).flat().join(", ")
+      //   : data?.message || "Error en la petición";
       throw new Error(errorMessage);
     }
 

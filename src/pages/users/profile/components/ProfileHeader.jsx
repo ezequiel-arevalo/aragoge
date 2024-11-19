@@ -11,7 +11,7 @@ const ProfileHeader = ({ userData }) => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setImagePreview(reader.result); // Muestra la imagen seleccionada
+        setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -24,7 +24,7 @@ const ProfileHeader = ({ userData }) => {
           className="relative"
           onMouseEnter={() => setImageHover(true)}
           onMouseLeave={() => setImageHover(false)}
-          onClick={() => document.getElementById('imageUpload').click()} // Abre el input al hacer clic
+          onClick={() => document.getElementById('imageUpload').click()}
         >
           <img
             src={imagePreview}

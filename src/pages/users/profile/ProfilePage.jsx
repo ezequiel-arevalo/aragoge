@@ -24,6 +24,7 @@ export const ProfilePage = () => {
     last_name: '',
     email: '',
     description: '',
+    synopsis: '',
     rol_id: ''
   })
 
@@ -38,6 +39,7 @@ export const ProfilePage = () => {
         last_name: userData.last_name || '',
         email: userData.email || '',
         description: userData.description || '',
+        synopsis: userData.synopsis || '',
         rol_id: userData.rol_id || ''
       })
     }

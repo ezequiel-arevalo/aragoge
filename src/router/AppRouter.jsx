@@ -7,6 +7,7 @@ import { PlanningDetailPage } from '@/pages/marketplace/components/PlanningDetai
 import { CreatePlanningPage } from '@/pages/professionals/create/CreatePlanningPage';
 import { EditPlanningPage } from '@/pages/professionals/edit/EditPlanningPage';
 import { DeletePlanningPage } from '@/pages/professionals/delete/DeletePlanningPage';
+import { SubscriptionsPage } from '@/pages/professionals/subscriptions/SubscriptionsPage';
 import { ProfilePublicPage } from '@/pages/users/profile-public/ProfilePublicPage';
 
 export const AppRouter = () => {
@@ -40,6 +41,7 @@ export const AppRouter = () => {
         <Route path="/professional/create" element={<CreatePlanningPage />} />
         <Route path="/professional/edit/:id" element={<EditPlanningPage />} />
         <Route path="/professional/delete/:id" element={<DeletePlanningPage />} />
+        <Route path="/professional/subscriptions/:id" element={<SubscriptionsPage />} />
 
         {/* Redirección por defecto */}
         <Route path="/" element={<Navigate to="/home" />} />

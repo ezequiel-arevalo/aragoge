@@ -1,31 +1,19 @@
-import { motion } from 'framer-motion';
-import { Trash, Edit, Heart, Star } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Trash, Edit, Heart, Star, Eye } from 'lucide-react';
 
-const PlanningCard = ({ planning, onDeleteClick, isEditable = false }) => {
-  console.log(planning)
+const PlanningCard = ({ planning, isEditable = false }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const toggleFavorite = (e) => {
     e.preventDefault();
     e.stopPropagation();
     setIsFavorite(!isFavorite);
-    // Aquí iría la lógica para añadir/quitar de favoritos
-    console.log('Toggle favorite for:', planning.id);
   };
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
-      className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full"
-    >
+    <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full">
       <div className="flex flex-col h-full">
-        {/* Imagen y botón de favoritos */}
         <div className="relative">
           <img
             src={planning.image_url || "https://placehold.co/400"}
@@ -40,27 +28,21 @@ const PlanningCard = ({ planning, onDeleteClick, isEditable = false }) => {
           </button>
         </div>
 
-        {/* Contenido principal */}
         <div className="p-5 flex-grow flex flex-col">
           <h3 className="text-xl font-bold mb-2 text-gray-800 line-clamp-2">{planning.title}</h3>
           <p className="text-gray-600 text-sm line-clamp-3 mb-4">{planning.synopsis || planning.description}</p>
-          
+
           <div className="mt-auto">
             <div className="flex justify-between items-center mb-3">
               <span className="text-[#da1641] font-bold text-lg">${planning.price}</span>
               <span className="text-gray-500 text-xs px-3 py-1 bg-gray-100 rounded-full">{planning.category_name}</span>
             </div>
-            
+
             <div className="flex items-center justify-between">
               <Link
-                to={`/public/profile/${planning.professional_id}`}
+                to={`/public/profile/${planning.professional_id}`} // Cambiar a /profile/public/${userId}
                 className="flex items-center hover:underline"
               >
-                <img
-                  src={planning.professional_avatar || "https://placehold.co/40"}
-                  alt={planning.professional_name}
-                  className="w-8 h-8 rounded-full mr-2 object-cover"
-                />
                 <span className="text-gray-700 text-sm font-medium">{planning.professional_name}</span>
               </Link>
               <div className="flex items-center">
@@ -72,37 +54,38 @@ const PlanningCard = ({ planning, onDeleteClick, isEditable = false }) => {
         </div>
       </div>
 
-      {/* Footer con botones de acción */}
-      <div className="px-5 py-4 bg-gray-50 flex justify-between items-center">
+      <div className="bg-gray-50 flex flex-col">
         <Link
           to={`/planning/${planning.id}`}
-          className="flex-grow bg-[#da1641] hover:bg-[#C30D35] hover:text-white text-white py-2 px-4 rounded-lg text-center transition-colors duration-300 font-medium text-sm"
+          className="w-full bg-[#da1641] hover:bg-[#C30D35] text-white hover:text-white py-2 px-4 text-center transition-colors duration-300 font-medium text-sm"
         >
           Ver más
         </Link>
+        
         {isEditable && (
-          <div className="flex space-x-3 ml-4">
+          <div className="grid grid-cols-3 divide-x divide-gray-200 border-t border-gray-200">
             <Link
               to={`/professional/edit/${planning.id}`}
-              className="text-gray-600 hover:text-[#da1641] transition duration-300 p-2 hover:bg-gray-100 rounded-full"
-              onClick={(e) => e.stopPropagation()}
+              className="flex items-center justify-center py-2 text-gray-600 hover:text-[#da1641] hover:bg-gray-100 transition duration-300"
             >
               <Edit size={18} />
             </Link>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onDeleteClick(planning);
-              }}
-              className="text-gray-600 hover:text-red-600 transition duration-300 p-2 hover:bg-gray-100 rounded-full no-global-styles"
+            <Link
+              to={`/professional/delete/${planning.id}`}
+              className="flex items-center justify-center py-2 text-gray-600 hover:text-[#da1641] hover:bg-gray-100 transition duration-300"
             >
               <Trash size={18} />
-            </button>
+            </Link>
+            <Link
+              to={`/professional/subscriptions/${planning.id}`}
+              className="flex items-center justify-center py-2 text-gray-600 hover:text-[#da1641] hover:bg-gray-100 transition duration-300"
+            >
+              <Eye size={18} />
+            </Link>
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 };
 

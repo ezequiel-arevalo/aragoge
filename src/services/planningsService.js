@@ -26,3 +26,7 @@ export const updatePlanning = (id, planningData, token) => {
 export const deletePlanning = (id, token) => {
   return call(`plannings/${id}`, "DELETE", null, token);
 };
+
+export const fetchSubscriptionsByPlanningId = (planningId, token) => {
+  return call(`plannings/${planningId}/subscriptions`, "GET", null, token);
+};

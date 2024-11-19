@@ -6,6 +6,7 @@ import {
   createPlanning as createPlanningService,
   updatePlanning as updatePlanningService,
   deletePlanning as deletePlanningService,
+  fetchSubscriptionsByPlanningId,
 } from "@/services/planningsService";
 import { fetchCategories as fetchCategoriesService } from "@/services/adminService";
 
@@ -53,6 +54,24 @@ export const fetchPlanning = createAsyncThunk(
   }
 );
 
+export const fetchPlanningSubscriptions = createAsyncThunk(
+  "plannings/fetchPlanningSubscriptions",
+  async (planningId, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().user.accessToken;
+      if (!token) {
+        throw new Error("No se encontró el token de autenticación");
+      }
+      const response = await fetchSubscriptionsByPlanningId(planningId, token);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.message || "Error al cargar las suscripciones"
+      );
+    }
+  }
+);
+
 export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
   async () => {
@@ -86,23 +105,14 @@ export const createPlanning = createAsyncThunk(
 export const updatePlanning = createAsyncThunk(
   "plannings/updatePlanning",
   async ({ id, planningData }, { getState, rejectWithValue }) => {
-    console.info("updatePlanning action called with:", { id, planningData });
     try {
       const token = getState().user.accessToken;
       if (!token) {
-        console.error("No se encontró el token de autenticación");
         throw new Error("No se encontró el token de autenticación");
       }
-      console.info("Calling updatePlanningService with:", {
-        id,
-        planningData,
-        token,
-      });
       const response = await updatePlanningService(id, planningData, token);
-      console.info("updatePlanningService response:", response);
       return response.data;
     } catch (error) {
-      console.error("Error in updatePlanning:", error);
       return rejectWithValue(
         error.message || "Error al actualizar la planificación"
       );
@@ -135,8 +145,11 @@ const planningsSlice = createSlice({
     planningDetail: null,
     suggestedPlannings: [],
     categories: [],
+    subscriptions: [],
     loading: false,
     error: null,
+    subscriptionsLoading: false,
+    subscriptionsError: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -237,6 +250,21 @@ const planningsSlice = createSlice({
       .addCase(deletePlanning.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // Subscriptions
+      .addCase(fetchPlanningSubscriptions.pending, (state) => {
+        state.subscriptionsLoading = true;
+        state.subscriptionsError = null;
+      })
+      .addCase(fetchPlanningSubscriptions.fulfilled, (state, action) => {
+        state.subscriptionsLoading = false;
+        state.subscriptions = Array.isArray(action.payload)
+          ? action.payload
+          : [];
+      })
+      .addCase(fetchPlanningSubscriptions.rejected, (state, action) => {
+        state.subscriptionsLoading = false;
+        state.subscriptionsError = action.payload;
       });
   },
 });
