@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchPlanning, updatePlanning, fetchCategories } from '@/redux/plannings/planningsSlice';
+import { fetchPlanning, updatePlanning, fetchInitialData } from '@/redux/plannings/planningsSlice';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { Input } from '@/components/form/Input';
@@ -18,7 +18,7 @@ export const EditPlanningPage = () => {
 
   useEffect(() => {
     dispatch(fetchPlanning(id));
-    dispatch(fetchCategories());
+    dispatch(fetchInitialData());
   }, [dispatch, id]);
 
   useEffect(() => {

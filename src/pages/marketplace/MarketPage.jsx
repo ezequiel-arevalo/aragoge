@@ -1,34 +1,28 @@
-import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { fetchMarketplacePlannings, fetchCategories } from '@/redux/plannings/planningsSlice';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchInitialData, setFilters } from '@/redux/plannings/planningsSlice';
 import { FilterBar } from './components/Filters/FilterBar';
 import { PlanningList } from './components/PlanningList/PlanningList';
 import { HeroSection } from '@/components/ui/herosection';
 
 export const MarketPage = () => {
-  const [filters, setFilters] = useState({
-    searchTerm: '',
-    selectedCategory: null,
-    priceRange: { minPrice: '', maxPrice: '' }
-  });
   const dispatch = useDispatch();
+  const { loading, error, dataInitialized } = useSelector(state => state.plannings);
 
   useEffect(() => {
-    dispatch(fetchMarketplacePlannings());
-    dispatch(fetchCategories());
-  }, [dispatch]);
+    if (!dataInitialized) {
+      dispatch(fetchInitialData());
+    }
+  }, [dispatch, dataInitialized]);
 
-  const handleFiltersApply = ({ searchTerm, selectedCategory, priceRange }) => {
-    setFilters({ searchTerm, selectedCategory, priceRange });
+  const handleFiltersApply = (newFilters) => {
+    dispatch(setFilters(newFilters));
   };
 
   const handleSearchSubmit = (searchTerm) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      searchTerm
-    }));
+    dispatch(setFilters({ searchTerm }));
   };
-
+  
   return (
     <>
       <HeroSection 
@@ -44,11 +38,7 @@ export const MarketPage = () => {
               <FilterBar onFiltersApply={handleFiltersApply} />
             </div>
             <div className="w-full md:w-3/4">
-              <PlanningList
-                selectedCategory={filters.selectedCategory}
-                searchTerm={filters.searchTerm}
-                priceRange={filters.priceRange}
-              />
+              <PlanningList loading={loading} error={error} />
             </div>
           </div>
         </div>

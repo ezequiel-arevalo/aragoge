@@ -10,17 +10,76 @@ import {
 } from "@/services/planningsService";
 import { fetchCategories as fetchCategoriesService } from "@/services/adminService";
 
-export const fetchMarketplacePlannings = createAsyncThunk(
-  "plannings/fetchMarketplacePlannings",
-  async (searchTerm = "") => {
+const initialState = {
+  items: [],
+  planningDetail: null,
+  categories: [],
+  subscriptions: [],
+  filters: {
+    searchTerm: "",
+    selectedCategory: null,
+    priceRange: { minPrice: "", maxPrice: "" },
+  },
+  loading: false,
+  error: null,
+  subscriptionsLoading: false,
+  subscriptionsError: null,
+  isInitialized: false,
+  isInitializing: false,
+};
+
+export const selectFilteredPlannings = (state) => {
+  let filtered = [...state.plannings.items];
+  const { searchTerm, selectedCategory, priceRange } = state.plannings.filters;
+
+  if (selectedCategory) {
+    filtered = filtered.filter(
+      (planning) => planning.category_id === parseInt(selectedCategory)
+    );
+  }
+
+  if (searchTerm) {
+    filtered = filtered.filter((planning) =>
+      planning.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+
+  if (priceRange.minPrice || priceRange.maxPrice) {
+    filtered = filtered.filter((planning) => {
+      const price = planning.price;
+      return (
+        (!priceRange.minPrice || price >= priceRange.minPrice) &&
+        (!priceRange.maxPrice || price <= priceRange.maxPrice)
+      );
+    });
+  }
+
+  return filtered;
+};
+
+export const fetchInitialData = createAsyncThunk(
+  "plannings/fetchInitialData",
+  async (_, { getState, rejectWithValue }) => {
     try {
-      const data = await fetchMarketplacePlanningsService(searchTerm);
-      return data;
+      const [planningsResponse, categoriesResponse] = await Promise.all([
+        fetchMarketplacePlanningsService(),
+        fetchCategoriesService(),
+      ]);
+      return {
+        plannings: planningsResponse.data,
+        categories: categoriesResponse.data,
+      };
     } catch (error) {
-      throw new Error(
-        error.message || "Error al cargar las planificaciones del marketplace"
+      return rejectWithValue(
+        error.message || "Error al cargar los datos iniciales"
       );
     }
+  },
+  {
+    condition: (_, { getState }) => {
+      const { plannings } = getState();
+      return !plannings.isInitialized && !plannings.isInitializing;
+    },
   }
 );
 
@@ -44,42 +103,14 @@ export const fetchProfessionalPlannings = createAsyncThunk(
 
 export const fetchPlanning = createAsyncThunk(
   "plannings/fetchPlanning",
-  async (id) => {
+  async (id, { rejectWithValue }) => {
     try {
-      const data = await fetchPlanningById(id);
-      return data;
-    } catch (error) {
-      throw new Error(error.message || "Error al cargar la planificación");
-    }
-  }
-);
-
-export const fetchPlanningSubscriptions = createAsyncThunk(
-  "plannings/fetchPlanningSubscriptions",
-  async (planningId, { getState, rejectWithValue }) => {
-    try {
-      const token = getState().user.accessToken;
-      if (!token) {
-        throw new Error("No se encontró el token de autenticación");
-      }
-      const response = await fetchSubscriptionsByPlanningId(planningId, token);
+      const response = await fetchPlanningById(id);
       return response.data;
     } catch (error) {
       return rejectWithValue(
-        error.message || "Error al cargar las suscripciones"
+        error.message || "Error al cargar la planificación"
       );
-    }
-  }
-);
-
-export const fetchCategories = createAsyncThunk(
-  "categories/fetchCategories",
-  async () => {
-    try {
-      const data = await fetchCategoriesService();
-      return data;
-    } catch (error) {
-      throw new Error(error.message || "Error al cargar las categorías");
     }
   }
 );
@@ -93,7 +124,7 @@ export const createPlanning = createAsyncThunk(
         throw new Error("No se encontró el token de autenticación");
       }
       const response = await createPlanningService(planningData, token);
-      return response;
+      return response.data;
     } catch (error) {
       return rejectWithValue(
         error.message || "Error al crear la planificación"
@@ -138,36 +169,82 @@ export const deletePlanning = createAsyncThunk(
   }
 );
 
+export const fetchPlanningSubscriptions = createAsyncThunk(
+  "plannings/fetchPlanningSubscriptions",
+  async (planningId, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().user.accessToken;
+      if (!token) {
+        throw new Error("No se encontró el token de autenticación");
+      }
+      const response = await fetchSubscriptionsByPlanningId(planningId, token);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.message || "Error al cargar las suscripciones"
+      );
+    }
+  }
+);
+
 const planningsSlice = createSlice({
   name: "plannings",
-  initialState: {
-    items: [],
-    planningDetail: null,
-    suggestedPlannings: [],
-    categories: [],
-    subscriptions: [],
-    loading: false,
-    error: null,
-    subscriptionsLoading: false,
-    subscriptionsError: null,
+  initialState,
+  reducers: {
+    setFilters: (state, action) => {
+      state.filters = { ...state.filters, ...action.payload };
+    },
+    getFilteredPlannings: (state) => {
+      let filtered = [...state.items];
+
+      const { searchTerm, selectedCategory, priceRange } = state.filters;
+
+      if (selectedCategory) {
+        filtered = filtered.filter(
+          (planning) => planning.category_id === parseInt(selectedCategory)
+        );
+      }
+
+      if (searchTerm) {
+        filtered = filtered.filter((planning) =>
+          planning.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+
+      if (priceRange.minPrice || priceRange.maxPrice) {
+        filtered = filtered.filter((planning) => {
+          const price = planning.price;
+          return (
+            (!priceRange.minPrice || price >= priceRange.minPrice) &&
+            (!priceRange.maxPrice || price <= priceRange.maxPrice)
+          );
+        });
+      }
+
+      return filtered;
+    },
   },
-  reducers: {},
   extraReducers: (builder) => {
     builder
-      // Marketplace plannings
-      .addCase(fetchMarketplacePlannings.pending, (state) => {
+      // Fetch Initial Data
+      .addCase(fetchInitialData.pending, (state) => {
+        state.isInitializing = true;
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchMarketplacePlannings.fulfilled, (state, action) => {
+      .addCase(fetchInitialData.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload.data;
+        state.items = action.payload.plannings;
+        state.categories = action.payload.categories;
+        state.isInitialized = true;
+        state.isInitializing = false;
       })
-      .addCase(fetchMarketplacePlannings.rejected, (state, action) => {
+      .addCase(fetchInitialData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.isInitializing = false;
       })
-      // Professional plannings
+      // Professional Plannings
       .addCase(fetchProfessionalPlannings.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -180,46 +257,33 @@ const planningsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // Single planning
+      // Single Planning
       .addCase(fetchPlanning.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchPlanning.fulfilled, (state, action) => {
         state.loading = false;
-        state.planningDetail = action.payload.data;
+        state.planningDetail = action.payload;
       })
       .addCase(fetchPlanning.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload;
       })
-      // Categories
-      .addCase(fetchCategories.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchCategories.fulfilled, (state, action) => {
-        state.loading = false;
-        state.categories = action.payload.data;
-      })
-      .addCase(fetchCategories.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      })
-      // Create planning
+      // Create Planning
       .addCase(createPlanning.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(createPlanning.fulfilled, (state, action) => {
         state.loading = false;
-        state.items.push(action.payload.data);
+        state.items.push(action.payload);
       })
       .addCase(createPlanning.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      // Update planning
+      // Update Planning
       .addCase(updatePlanning.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -232,13 +296,15 @@ const planningsSlice = createSlice({
         if (index !== -1) {
           state.items[index] = action.payload;
         }
-        state.planningDetail = action.payload;
+        if (state.planningDetail?.id === action.payload.id) {
+          state.planningDetail = action.payload;
+        }
       })
       .addCase(updatePlanning.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      // Delete planning
+      // Delete Planning
       .addCase(deletePlanning.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -246,6 +312,9 @@ const planningsSlice = createSlice({
       .addCase(deletePlanning.fulfilled, (state, action) => {
         state.loading = false;
         state.items = state.items.filter((item) => item.id !== action.payload);
+        if (state.planningDetail?.id === action.payload) {
+          state.planningDetail = null;
+        }
       })
       .addCase(deletePlanning.rejected, (state, action) => {
         state.loading = false;
@@ -258,9 +327,7 @@ const planningsSlice = createSlice({
       })
       .addCase(fetchPlanningSubscriptions.fulfilled, (state, action) => {
         state.subscriptionsLoading = false;
-        state.subscriptions = Array.isArray(action.payload)
-          ? action.payload
-          : [];
+        state.subscriptions = action.payload;
       })
       .addCase(fetchPlanningSubscriptions.rejected, (state, action) => {
         state.subscriptionsLoading = false;
@@ -269,4 +336,5 @@ const planningsSlice = createSlice({
   },
 });
 
+export const { setFilters, getFilteredPlannings } = planningsSlice.actions;
 export default planningsSlice.reducer;

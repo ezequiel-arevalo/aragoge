@@ -1,45 +1,44 @@
+import axios from "axios";
+
 const URL = import.meta.env.VITE_API_KEY;
 
+// Configuración de axios
+const apiClient = axios.create({
+  baseURL: URL, // Cambia esto por tu base URL
+  timeout: 10000, // Tiempo máximo de espera
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+/**
+ * Realiza una llamada a la API.
+ * @param {string} endpoint - Endpoint de la API.
+ * @param {string} method - Método HTTP (GET, POST, PATCH, DELETE).
+ * @param {Object} [data] - Datos a enviar en la petición (body).
+ * @param {string} [token] - Token de autenticación.
+ * @param {Object} [customHeaders] - Headers adicionales opcionales.
+ * @returns {Promise<Object>} - Respuesta de la API.
+ */
 export const call = async (
   endpoint,
-  method = "GET",
-  body = null,
-  token = null
+  method,
+  data = null,
+  token = null,
+  customHeaders = {}
 ) => {
-  if (!URL) {
-    throw new Error(
-      "La URL de la API no está definida. Verifica el archivo .env."
-    );
-  }
-
-  const headers = {
-    "Content-Type": "application/json",
-    ...(token && { Authorization: `Bearer ${token}` }),
-  };
-
   try {
-    const response = await fetch(`${URL}api/${endpoint}`, {
+    const response = await apiClient({
+      url: endpoint,
       method,
-      headers,
-      ...(body && { body: JSON.stringify(body) }),
+      data,
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+        ...customHeaders,
+      },
     });
-
-    const data = response.status !== 204 ? await response.json() : null;
-    if (!response.ok) {
-      const errorMessage = data?.errors || "Error en la petición";
-      // const errorMessage = data?.errors
-      //   ? Object.values(data.errors).flat().join(", ")
-      //   : data?.message || "Error en la petición";
-      throw new Error(errorMessage);
-    }
-
-    return data;
+    return response.data;
   } catch (error) {
-    if (error.message === "Failed to fetch") {
-      throw new Error(
-        "No se pudo conectar con el servidor. Verifica la conexión de red."
-      );
-    }
-    throw new Error(error.message || "Error en la petición");
+    throw error.response?.data || error.message;
   }
 };

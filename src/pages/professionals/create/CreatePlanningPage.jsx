@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { createPlanning, fetchCategories } from '@/redux/plannings/planningsSlice';
+import { createPlanning, fetchInitialData } from '@/redux/plannings/planningsSlice';
 import { useToast } from '@chakra-ui/react';
 import { ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -17,8 +17,11 @@ export const CreatePlanningPage = () => {
   const toast = useToast();
 
   useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
+    // Only fetch if categories are empty
+    if (categories.length === 0) {
+      dispatch(fetchInitialData());
+    }
+  }, [dispatch, categories.length]);
 
   const onSubmit = async (data) => {
     try {
