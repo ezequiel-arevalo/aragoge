@@ -8,7 +8,7 @@ import {
   deletePlanning as deletePlanningService,
   fetchSubscriptionsByPlanningId,
 } from "@/services/planningsService";
-import { fetchCategories as fetchCategoriesService } from "@/services/adminService";
+import { fetchCategories as fetchCategoriesService } from "@/services/categoryService";
 
 const initialState = {
   items: [],

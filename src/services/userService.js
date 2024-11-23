@@ -1,100 +1,55 @@
 import { call } from "./callFetch";
 
 /**
- * Registra un nuevo usuario con el rol de "atleta".
- * @param {Object} userData - Datos del usuario a registrar.
- * @returns {Promise<Object>} - Datos del usuario registrado.
+ * Registra un nuevo usuario.
+ * @param {Object} userData - Los datos del usuario a registrar.
+ * @returns {Promise} - Una promesa que se resuelve con la respuesta del servidor.
  */
-export const registerUser = (userData) => {
-  const userWithRole = { ...userData, rol_id: 2 };
-  return call("register", "POST", userWithRole);
-};
+export const registerUser = (userData) => call("register", "POST", userData);
 
 /**
- * Inicia sesión del usuario.
- * @param {Object} userData - Credenciales del usuario (email, password).
- * @returns {Promise<Object>} - Datos del usuario autenticado.
+ * Inicia sesión con un usuario existente.
+ * @param {Object} userData - Los datos del usuario para iniciar sesión.
+ * @returns {Promise} - Una promesa que se resuelve con la respuesta del servidor.
  */
-export const loginUser = (userData) => {
-  return call("login", "POST", userData);
-};
+export const loginUser = (userData) => call("login", "POST", userData);
 
 /**
- * Cierra la sesión del usuario autenticado.
- * @param {string} token - Token de autenticación del usuario.
- * @returns {Promise<Object|null>} - Respuesta del servidor al cerrar sesión.
+ * Cierra la sesión del usuario.
+ * @param {string} token - El token de autenticación del usuario.
+ * @returns {Promise} - Una promesa que se resuelve con la respuesta del servidor.
  */
-export const logoutUser = (token) => {
-  return call("logout", "POST", null, token);
-};
+export const logoutUser = (token) => call("logout", "POST", null, token);
 
 /**
  * Obtiene los detalles de un usuario específico.
- * @param {number} userId - ID del usuario.
- * @param {string} token - Token de autenticación.
- * @returns {Promise<Object>} - Detalles del usuario.
+ * @param {string} userId - El ID del usuario.
+ * @param {string} token - El token de autenticación del usuario.
+ * @returns {Promise} - Una promesa que se resuelve con los detalles del usuario.
  */
-export const getUserDetails = (userId, token) => {
-  return call(`users/${userId}`, "GET", null, token);
-};
+export const getUserDetails = (userId, token) =>
+  call(`users/${userId}`, "GET", null, token);
 
 /**
  * Actualiza la información de un usuario.
- * @param {Object} userData - Datos a actualizar (first_name, last_name, email, role_id).
- * @param {string} token - Token de autenticación.
- * @returns {Promise<Object>} - Datos actualizados del usuario.
+ * @param {Object} userData - Los nuevos datos del usuario.
+ * @param {string} token - El token de autenticación del usuario.
+ * @returns {Promise} - Una promesa que se resuelve con la respuesta del servidor.
  */
-export const updateUser = (userData, token) => {
-  return call("users/update", "POST", userData, token);
-};
+export const updateUser = (userData, token) =>
+  call("users/update", "POST", userData, token);
 
 /**
- * Elimina un usuario autenticado.
- * @param {string} token - Token de autenticación del usuario.
- * @returns {Promise<Object|null>} - Respuesta del servidor tras eliminar el usuario.
+ * Elimina un usuario.
+ * @param {string} token - El token de autenticación del usuario.
+ * @returns {Promise} - Una promesa que se resuelve con la respuesta del servidor.
  */
-export const deleteUser = (token) => {
-  return call("users/delete", "DELETE", null, token);
-};
+export const deleteUser = (token) =>
+  call("users/delete", "DELETE", null, token);
 
 /**
- * Obtiene todos los usuarios registrados.
- * @param {string} token - Token de autenticación.
- * @returns {Promise<Object>} - Lista de usuarios.
+ * Obtiene la lista de todos los usuarios.
+ * @param {string} token - El token de autenticación del usuario.
+ * @returns {Promise} - Una promesa que se resuelve con la lista de usuarios.
  */
-export const getAllUsers = (token) => {
-  return call("users", "GET", null, token);
-};
-
-/**
- * Obtiene las suscripciones de un usuario específico.
- * @param {number} userId - ID del usuario.
- * @returns {Promise<Object>} - Lista de suscripciones del usuario.
- */
-export const getSubscriptionsByUserId = (userId) => {
-  return call(`users/${userId}/subscriptions`, "GET");
-};
-
-/**
- * Crea un nuevo perfil de profesional.
- * @param {Object} profileData - Datos del perfil de profesional.
- * @param {string} token - Token de autenticación.
- * @returns {Promise<Object>} - Respuesta del servidor.
- */
-export const createProfessionalProfile = (profileData, token) => {
-  return call("professionals/profile", "POST", profileData, token, {
-    Accept: "application/json",
-  });
-};
-
-/**
- * Actualiza el perfil de profesional existente.
- * @param {Object} profileData - Datos del perfil de profesional a actualizar.
- * @param {string} token - Token de autenticación.
- * @returns {Promise<Object>} - Respuesta del servidor.
- */
-export const updateProfessionalProfile = (profileData, token) => {
-  return call("professionals/profile", "PATCH", profileData, token, {
-    Accept: "application/json",
-  });
-};
+export const getAllUsers = (token) => call("users", "GET", null, token);

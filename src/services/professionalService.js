@@ -1,38 +1,27 @@
 import { call } from "./callFetch";
 
 /**
- * Obtiene todas las especialidades de profesionales.
- * @returns {Promise<Object>} - Lista de especialidades.
+ * Crea un nuevo perfil profesional.
+ *
+ * @param {Object} profileData - Los datos del perfil profesional a crear.
+ * @param {string} profileData.name - El nombre del profesional.
+ * @param {string} profileData.specialization - La especialización del profesional.
+ * @param {string} profileData.experience - La experiencia del profesional.
+ * @param {string} token - El token de autenticación del usuario.
+ * @returns {Promise} - Una promesa que se resuelve con la respuesta del servidor.
  */
-export const getSpecialities = () => {
-  return call('specialities', 'GET');
-};
+export const createProfessionalProfile = (profileData, token) =>
+  call("professionals/profile", "POST", profileData, token);
 
 /**
- * Obtiene una especialidad específica por su ID.
- * @param {number} specialityId - ID de la especialidad.
- * @returns {Promise<Object>} - Detalles de la especialidad.
+ * Actualiza un perfil profesional existente.
+ *
+ * @param {Object} profileData - Los nuevos datos del perfil profesional.
+ * @param {string} profileData.name - El nuevo nombre del profesional.
+ * @param {string} profileData.specialization - La nueva especialización del profesional.
+ * @param {string} profileData.experience - La nueva experiencia del profesional.
+ * @param {string} token - El token de autenticación del usuario.
+ * @returns {Promise} - Una promesa que se resuelve con la respuesta del servidor.
  */
-export const getSpecialityById = (specialityId) => {
-  return call(`specialities/${specialityId}`, 'GET');
-};
-
-/**
- * Crea un perfil profesional para un usuario.
- * @param {Object} profileData - Datos del perfil profesional.
- * @param {string} token - Token de autenticación.
- * @returns {Promise<Object>} - Datos del perfil profesional creado.
- */
-export const createProfessionalProfile = (profileData, token) => {
-  return call('professionals/profile', 'POST', profileData, token);
-};
-
-/**
- * Actualiza el perfil profesional de un usuario.
- * @param {Object} profileData - Datos actualizados del perfil profesional.
- * @param {string} token - Token de autenticación.
- * @returns {Promise<Object>} - Datos del perfil profesional actualizado.
- */
-export const updateProfessionalProfile = (profileData, token) => {
-  return call('professionals/profile', 'PATCH', profileData, token);
-};
+export const updateProfessionalProfile = (profileData, token) =>
+  call("professionals/profile", "PATCH", profileData, token);

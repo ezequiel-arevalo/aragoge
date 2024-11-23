@@ -5,17 +5,24 @@ import {
   logoutUser,
   updateUser,
   deleteUser,
+} from "@/services/userService";
+import {
   createProfessionalProfile,
   updateProfessionalProfile,
-} from "@/services/userService";
-import { getRoles, getRoleById } from "@/services/adminService";
+} from "@/services/professionalService";
+import { getRoles, getRoleById } from "@/services/roleService";
 
-// Registro de usuario
+// Registro de usuario con rol predeterminado
 export const registerNewUser = createAsyncThunk(
   "user/registerNewUser",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await registerUser(userData);
+      // Agregar el rol predeterminado de "atleta" (rol_id: 2)
+      const userDataWithRole = { ...userData, rol_id: 2 };
+
+      // Llamar al servicio con los datos actualizados
+      const response = await registerUser(userDataWithRole);
+
       return response;
     } catch (err) {
       return rejectWithValue(err.message || "Error en el registro");
