@@ -1,0 +1,26 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { 
+  getAllSubscriptions,
+  createSubscription 
+} from './redux/subscription/subscriptionActions';
+import { 
+  selectAllSubscriptions,
+  selectSubscriptionLoading,
+  selectSubscriptionStatus 
+} from './redux/subscription/subscriptionSelectors';
+
+// In your component
+const dispatch = useDispatch();
+const subscriptions = useSelector(selectAllSubscriptions);
+const isLoading = useSelector(selectSubscriptionLoading);
+const status = useSelector(selectSubscriptionStatus);
+
+// Fetch all subscriptions
+useEffect(() => {
+  dispatch(getAllSubscriptions(userToken));
+}, [dispatch, userToken]);
+
+// Subscribe to a plan
+const handleSubscribe = (planningId) => {
+  dispatch(createSubscription({ planningId, token: userToken }));
+};

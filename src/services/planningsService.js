@@ -48,7 +48,7 @@ export const createPlanning = (planningData, token) =>
  * @returns {Promise} A promise that resolves with the response from the API.
  */
 export const updatePlanning = (planningId, planningData, token) =>
-  call(`plannings/${planningId}`, "PATCH", planningData, token);
+  call(`plannings/${planningId}`, "POST", planningData, token);
 
 /**
  * Deletes a specific planning by its ID.

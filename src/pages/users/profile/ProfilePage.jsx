@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateUserAction, deleteUserAction, fetchRolesAction } from '@/redux/user/userSlice'
+import { updateUserAction, deleteUserAction } from '@/redux/user/userActions'
+import { fetchRolesAction } from '@/redux/role/roleActions'
+import { selectRoles } from '@/redux/role/roleSelectors'
 import { useUserData } from '@/hooks/useUserData'
 import Loader from '@/components/Loader'
 import ProfileHeader from './components/ProfileHeader'
@@ -11,12 +13,12 @@ import SecurityTab from './components/SecurityTab'
 import InformationTab from './components/InformationTab'
 import PublicProfileTab from './components/PublicProfileTab'
 import { useToast } from "@chakra-ui/react";
-import ConnectionError from '@/components/ui/ConnectionError'
 
 export const ProfilePage = () => {
   const dispatch = useDispatch()
   const toast = useToast();
-  const { user, accessToken, roles } = useSelector((state) => state.user)
+  const { user, accessToken } = useSelector((state) => state.user)
+  const roles = useSelector(selectRoles)
   const { userData, error } = useUserData(user, accessToken)
   const [activeTab, setActiveTab] = useState('general')
   const [formData, setFormData] = useState({
@@ -40,7 +42,7 @@ export const ProfilePage = () => {
         email: userData.email || '',
         description: userData.description || '',
         synopsis: userData.synopsis || '',
-        rol_id: userData.rol_id || ''
+        rol_id: userData.rol_id || '' // Este valor debe ser manejado desde los datos del usuario
       })
     }
   }, [userData])
@@ -75,37 +77,27 @@ export const ProfilePage = () => {
   }
 
   const handleDelete = async () => {
-    if (window.confirm("¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.")) {
-      try {
-        await dispatch(deleteUserAction()).unwrap()
-        toast({
-          title: "Cuenta eliminada",
-          description: "Tu cuenta ha sido eliminada correctamente.",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-          position: 'bottom-right',
-        })
-        // Redirigir al usuario a la página de inicio o de login
-      } catch (error) {
-        toast({
-          title: "Error al eliminar la cuenta",
-          description: "No se pudo eliminar la cuenta. Por favor, intenta de nuevo.",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-          position: 'bottom-right',
-        })
-      }
+    try {
+      await dispatch(deleteUserAction()).unwrap()
+      toast({
+        title: "Cuenta eliminada",
+        description: "Tu cuenta ha sido eliminada correctamente.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom-right',
+      })
+      // Redirigir al usuario a la página de inicio o de login
+    } catch (error) {
+      toast({
+        title: "Error al eliminar la cuenta",
+        description: "No se pudo eliminar la cuenta. Por favor, intenta de nuevo.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom-right',
+      })
     }
-  }
-
-  if (error) {
-    return (
-      <div className='max-w-[500px] mx-auto mt-5'>
-        <ConnectionError />
-      </div>
-    );
   }
 
   if (!userData) {
@@ -136,7 +128,7 @@ export const ProfilePage = () => {
                   handleInputChange={handleInputChange}
                   handleSave={handleSave}
                   userData={userData}
-                  roles={roles}
+                  roles={roles} // Ahora los roles vienen del roleSlice
                 />
               )}
               {activeTab === 'security' && (

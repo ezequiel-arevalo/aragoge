@@ -1,0 +1,16 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSpecialities, fetchSpecialityById } from './redux/speciality/specialityActions';
+import { 
+  selectAllSpecialities, 
+  selectSpecialityLoading 
+} from './redux/speciality/specialitySelectors';
+
+// In your component
+const dispatch = useDispatch();
+const specialities = useSelector(selectAllSpecialities);
+const isLoading = useSelector(selectSpecialityLoading);
+
+// Fetch all specialities
+useEffect(() => {
+  dispatch(fetchSpecialities());
+}, [dispatch]);

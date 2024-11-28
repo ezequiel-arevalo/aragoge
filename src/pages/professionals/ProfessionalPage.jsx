@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProfessionals } from "@/redux/user/userSlice";
+import { fetchProfessionalsAction } from "@/redux/professional/professionalActions";
 import { HeroSection } from "@/components/ui/HeroSection";
 import Loader from "@/components/Loader";
 import ConnectionError from "@/components/ui/ConnectionError";
@@ -9,10 +9,10 @@ import { Calendar } from "lucide-react";
 
 export const ProfessionalPage = () => {
     const dispatch = useDispatch();
-    const { profesionals, loading, error } = useSelector((state) => state.user);
+    const { professionals, loading, error } = useSelector((state) => state.user);
 
     useEffect(() => {
-        dispatch(fetchProfessionals());
+        dispatch(fetchProfessionalsAction());
     }, [dispatch]);
 
     if (loading) {
@@ -38,8 +38,8 @@ export const ProfessionalPage = () => {
                 <h2 className="text-2xl font-bold text-center mb-6">Profesionales destacados</h2>
                 <div className="max-w-[1400px] mx-auto">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 overflow-y-auto">
-                        {Array.isArray(profesionals) && profesionals.length > 0 ? (
-                            profesionals.map((professional) => (
+                        {Array.isArray(professionals) && professionals.length > 0 ? (
+                            professionals.map((professional) => (
                                 <div
                                     key={professional.id}
                                     className="flex flex-col sm:flex-row overflow-hidden border border-gray-300 rounded-lg"

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { LucideMenu, LucideX, LucideUser } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logoutUserAction } from '@/redux/user/userSlice';
+import { logoutUserAction } from '@/redux/user/userActions';
 import { useToast } from "@chakra-ui/react";
 
 export const Header = () => {

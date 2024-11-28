@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useToast } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { loginUserAction, registerNewUser } from '@/redux/user/userSlice';
+import { loginUserAction, registerNewUser } from '@/redux/user/userActions';
 
 const useAuth = () => {
   const dispatch = useDispatch();

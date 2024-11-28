@@ -1,184 +1,32 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  registerUser,
-  loginUser,
-  logoutUser,
-  updateUser,
-  deleteUser,
-  getAllProfesionals,
-} from "@/services/userService";
-import {
-  createProfessionalProfile,
-  updateProfessionalProfile,
-} from "@/services/professionalService";
-import { getRoles, getRoleById } from "@/services/roleService";
+import { createSlice } from "@reduxjs/toolkit";
+import { 
+  registerNewUser, 
+  loginUserAction, 
+  logoutUserAction, 
+  updateUserAction, 
+  deleteUserAction 
+} from "./userActions";
 
-// Registro de usuario con rol predeterminado
-export const registerNewUser = createAsyncThunk(
-  "user/registerNewUser",
-  async (userData, { rejectWithValue }) => {
-    try {
-      // Agregar el rol predeterminado de "atleta" (rol_id: 2)
-      const userDataWithRole = { ...userData, rol_id: 2 };
-
-      // Llamar al servicio con los datos actualizados
-      const response = await registerUser(userDataWithRole);
-
-      return response;
-    } catch (err) {
-      return rejectWithValue(err.message || "Error en el registro");
-    }
-  }
-);
-
-// Inicio de sesión
-export const loginUserAction = createAsyncThunk(
-  "user/loginUser",
-  async (userData, { rejectWithValue }) => {
-    try {
-      const response = await loginUser(userData);
-      return response;
-    } catch (err) {
-      return rejectWithValue(err.message || "Error en el inicio de sesión");
-    }
-  }
-);
-
-// Cierre de sesión
-export const logoutUserAction = createAsyncThunk(
-  "user/logoutUser",
-  async (_, { getState, rejectWithValue }) => {
-    const token = getState().user.accessToken;
-    try {
-      const response = await logoutUser(token);
-      return response;
-    } catch (err) {
-      return rejectWithValue(err.message || "Error en el cierre de sesión");
-    }
-  }
-);
-
-// Actualización de usuario
-export const updateUserAction = createAsyncThunk(
-  "user/updateUser",
-  async (userData, { getState, rejectWithValue }) => {
-    const token = getState().user.accessToken;
-    try {
-      const response = await updateUser(userData, token);
-      return response;
-    } catch (err) {
-      return rejectWithValue(err.message || "Error al actualizar usuario");
-    }
-  }
-);
-
-// Creación de perfil de profesional
-export const createProfessionalProfileAction = createAsyncThunk(
-  "user/createProfessionalProfile",
-  async (profileData, { getState, rejectWithValue }) => {
-    const token = getState().user.accessToken;
-    try {
-      const response = await createProfessionalProfile(profileData, token);
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(
-        err.response?.data?.message || "Error al crear perfil de profesional"
-      );
-    }
-  }
-);
-
-// Actualización de perfil de profesional
-export const updateProfessionalProfileAction = createAsyncThunk(
-  "user/updateProfessionalProfile",
-  async (profileData, { getState, rejectWithValue }) => {
-    const token = getState().user.accessToken;
-    try {
-      const response = await updateProfessionalProfile(profileData, token);
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(
-        err.response?.data?.message ||
-          "Error al actualizar perfil de profesional"
-      );
-    }
-  }
-);
-
-// Eliminación de usuario
-export const deleteUserAction = createAsyncThunk(
-  "user/deleteUser",
-  async (_, { getState, rejectWithValue }) => {
-    const token = getState().user.accessToken;
-    try {
-      const response = await deleteUser(token);
-      return response;
-    } catch (err) {
-      return rejectWithValue(err.message || "Error al eliminar usuario");
-    }
-  }
-);
-
-// Async thunk para obtener roles
-export const fetchRolesAction = createAsyncThunk(
-  "user/fetchRoles",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await getRoles();
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.message || "Error al obtener roles");
-    }
-  }
-);
-
-
-// Async thunk para obtener un rol específico por ID
-export const fetchRoleByIdAction = createAsyncThunk(
-  "user/fetchRoleById",
-  async (roleId, { rejectWithValue, getState }) => {
-    try {
-      const response = await getRoleById(roleId);
-      const role = response.data;
-      // Si el rol es admin, devolvemos null para evitar su propagación
-      return role.name.toLowerCase() === "admin" ? null : role;
-    } catch (err) {
-      return rejectWithValue(err.message || "Error al obtener el rol");
-    }
-  }
-);
-
-export const fetchProfessionals = createAsyncThunk(
-  "user/fetchProfessionals",
-  async (_, { getState, rejectWithValue }) => {
-    const token = getState().user.accessToken;
-    try {
-      const response = await getAllProfesionals(token, "professional");
-      console.log("Respuesta completa del servicio:", response); // Verifica estructura
-      return response.data; // Solo devuelve el array de profesionales
-    } catch (err) {
-      console.error("Error al obtener profesionales:", err);
-      return rejectWithValue(err.message || "Error al obtener profesionales");
-    }
-  }
-);
-
-
-// Estado inicial
 const initialState = {
   loading: false,
   error: null,
   user: JSON.parse(localStorage.getItem("user")) || null,
   accessToken: localStorage.getItem("accessToken") || null,
-  roles: [],
-  currentRole: null,
-  profesionals: [],
 };
 
+/**
+ * Slice para manejar el estado del usuario.
+ * Contiene reducers y casos adicionales para gestionar las acciones relacionadas con usuarios.
+ */
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    /**
+     * Limpia los datos del usuario del estado y del almacenamiento local.
+     * @function
+     * @param {Object} state - El estado actual del slice.
+     */
     clearUserData: (state) => {
       state.user = null;
       state.accessToken = null;
@@ -188,7 +36,7 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Registro
+      // Registro de usuario
       .addCase(registerNewUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -212,7 +60,6 @@ const userSlice = createSlice({
         state.error = null;
         state.user = action.payload.user;
         state.accessToken = action.payload.access_token;
-
         localStorage.setItem("accessToken", action.payload.access_token);
         localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
@@ -244,15 +91,16 @@ const userSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(updateUserAction.fulfilled, (state) => {
+      .addCase(updateUserAction.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
+        state.user = action.payload;
       })
       .addCase(updateUserAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-
+      
       // Eliminación de usuario
       .addCase(deleteUserAction.pending, (state) => {
         state.loading = true;
@@ -269,81 +117,19 @@ const userSlice = createSlice({
       .addCase(deleteUserAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      })
-
-      // Creación de perfil de profesional
-      .addCase(createProfessionalProfileAction.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(createProfessionalProfileAction.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = null;
-        state.user = { ...state.user, professionalProfile: action.payload };
-      })
-      .addCase(createProfessionalProfileAction.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      // Actualización de perfil de profesional
-      .addCase(updateProfessionalProfileAction.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(updateProfessionalProfileAction.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = null;
-        state.user = { ...state.user, professionalProfile: action.payload };
-      })
-      .addCase(updateProfessionalProfileAction.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      // Fetch all roles
-      .addCase(fetchRolesAction.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchRolesAction.fulfilled, (state, action) => {
-        state.loading = false;
-        state.roles = action.payload;
-      })
-      .addCase(fetchRolesAction.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      // Fetch role by ID
-      .addCase(fetchRoleByIdAction.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchRoleByIdAction.fulfilled, (state, action) => {
-        state.loading = false;
-        state.currentRole = action.payload;
-      })
-      .addCase(fetchRoleByIdAction.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-    // Profesionales
-    .addCase(fetchProfessionals.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    })
-    .addCase(fetchProfessionals.fulfilled, (state, action) => {
-      state.loading = false;
-      state.profesionals = action.payload; // Guardamos los profesionales en el estado
-    })
-    .addCase(fetchProfessionals.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    });
+      });
   },
 });
 
+/** 
+ * Exporta las acciones del slice de usuario.
+ * @type {Object}
+ * @property {Function} clearUserData - Acción para limpiar los datos del usuario.
+ */
 export const { clearUserData } = userSlice.actions;
+
+/**
+ * Reducer del slice de usuario.
+ * @type {Function}
+ */
 export default userSlice.reducer;
