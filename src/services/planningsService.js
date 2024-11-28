@@ -9,7 +9,6 @@ import { call } from "./callFetch";
  * @returns {Promise<Object>} Una promesa que se resuelve con los datos de las planificaciones del usuario.
  */
 export const getPlanningsByUserId = (userId, token) => call(`users/${userId}/plannings`, "GET", null, token);
-
 /**
  * Fetches marketplace plannings based on the provided filters.
  *

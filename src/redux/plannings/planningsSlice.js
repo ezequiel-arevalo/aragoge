@@ -244,6 +244,7 @@ const planningsSlice = createSlice({
         state.error = action.payload;
         state.isInitializing = false;
       })
+
       // Professional Plannings
       .addCase(fetchProfessionalPlannings.pending, (state) => {
         state.loading = true;
@@ -257,6 +258,7 @@ const planningsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
       // Single Planning
       .addCase(fetchPlanning.pending, (state) => {
         state.loading = true;
@@ -270,6 +272,7 @@ const planningsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
       // Create Planning
       .addCase(createPlanning.pending, (state) => {
         state.loading = true;
@@ -283,6 +286,7 @@ const planningsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
       // Update Planning
       .addCase(updatePlanning.pending, (state) => {
         state.loading = true;
@@ -304,6 +308,7 @@ const planningsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
       // Delete Planning
       .addCase(deletePlanning.pending, (state) => {
         state.loading = true;
@@ -320,6 +325,7 @@ const planningsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
       // Subscriptions
       .addCase(fetchPlanningSubscriptions.pending, (state) => {
         state.subscriptionsLoading = true;

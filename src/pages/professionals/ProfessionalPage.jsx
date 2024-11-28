@@ -9,7 +9,7 @@ import { Calendar } from "lucide-react";
 
 export const ProfessionalPage = () => {
     const dispatch = useDispatch();
-    const { professionals, loading, error } = useSelector((state) => state.user);
+    const { professionals, loading, error } = useSelector((state) => state.professional);
 
     useEffect(() => {
         dispatch(fetchProfessionalsAction());
