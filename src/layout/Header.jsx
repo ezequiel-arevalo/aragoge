@@ -24,6 +24,7 @@ export const Header = () => {
     if (route.name === 'Login' || route.name === 'Register') return false;
     if (route.name === 'Profile') return false;
     if (route.name === 'ProfilePublic') return false;
+    if (route.name === 'Professionales') return false;
     return route.name;
   });
 
@@ -36,18 +37,25 @@ export const Header = () => {
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: 'bottom-right',
+        position: "bottom-right",
       });
       navigate("/");
     } catch (error) {
+      // Eliminar datos del almacenamiento local
+      localStorage.removeItem("user");
+      localStorage.removeItem("accessToken");
+
       toast({
         title: "Error al cerrar sesión.",
         description: "Error desconocido",
         status: "error",
         duration: 5000,
         isClosable: true,
-        position: 'bottom-right',
+        position: "bottom-right",
       });
+
+      // Recargar la página
+      window.location.reload();
     }
   };
 

@@ -8,4 +8,5 @@ export * from "./auth/login/LoginPage";
 export * from "./auth/register/RegisterPage";
 export * from "./admin/HomeAdminPage";
 export * from "./professionals/HomeProPage";
+export * from "./professionals/ProfessionalPage";
 export * from "./professionals/create/CreatePlanningPage";

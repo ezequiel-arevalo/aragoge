@@ -28,20 +28,20 @@ export const FeaturedTrainersSection = () => {
             >
               <img
                 src="https://placehold.co/600x400"
-                alt="Entrenador Destacado"
+                alt="Profesional Destacado"
                 className="w-full h-48 object-cover"
               />
               <div className="p-6">
                 <h3 className="text-h3 font-title font-bold text-xl mb-2">
-                  Nombre del Entrenador
+                  Nombre del Profesional
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">
                   Especialidad: {categories[index % categories.length]}
                 </p>
                 <div className="flex justify-between items-center">
                   <Link
-                    to="/perfil"
-                    className="w-full text-center bg-[#da1641] text-white px-4 py-2 rounded-full hover:bg-[#c30d35] transition duration-300"
+                    to={`/profile/public/1`} //harcodeado
+                    className="w-full text-center bg-[#da1641] text-white hover:text-white px-4 py-2 rounded-full hover:bg-[#c30d35] transition duration-300"
                   >
                     Ver Perfil
                   </Link>
@@ -52,10 +52,10 @@ export const FeaturedTrainersSection = () => {
         </div>
         <div className="text-center mt-12">
           <Link
-            to="/entrenadores"
+            to="/professionals"
             className="inline-flex items-center text-[#da1641] font-semibold hover:underline"
           >
-            Ver todos los entrenadores
+            Ver todos los profesionales
             <span className="ml-2">→</span>
           </Link>
         </div>

@@ -5,6 +5,7 @@ import {
   logoutUser,
   updateUser,
   deleteUser,
+  getAllProfesionals,
 } from "@/services/userService";
 import {
   createProfessionalProfile,
@@ -147,6 +148,23 @@ export const fetchRoleByIdAction = createAsyncThunk(
   }
 );
 
+export const fetchProfessionals = createAsyncThunk(
+  "user/fetchProfessionals",
+  async (_, { getState, rejectWithValue }) => {
+    const token = getState().user.accessToken;
+    try {
+      const response = await getAllProfesionals(token, "professional");
+      console.log("Respuesta completa del servicio:", response); // Verifica estructura
+      return response.data; // Solo devuelve el array de profesionales
+    } catch (err) {
+      console.error("Error al obtener profesionales:", err);
+      return rejectWithValue(err.message || "Error al obtener profesionales");
+    }
+  }
+);
+
+
+// Estado inicial
 const initialState = {
   loading: false,
   error: null,
@@ -154,6 +172,7 @@ const initialState = {
   accessToken: localStorage.getItem("accessToken") || null,
   roles: [],
   currentRole: null,
+  profesionals: [],
 };
 
 const userSlice = createSlice({
@@ -308,7 +327,21 @@ const userSlice = createSlice({
       .addCase(fetchRoleByIdAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+
+    // Profesionales
+    .addCase(fetchProfessionals.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchProfessionals.fulfilled, (state, action) => {
+      state.loading = false;
+      state.profesionals = action.payload; // Guardamos los profesionales en el estado
+    })
+    .addCase(fetchProfessionals.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
   },
 });
 

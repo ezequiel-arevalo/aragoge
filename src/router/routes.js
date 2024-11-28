@@ -56,6 +56,12 @@ const routes = [
     role: 3,
   },
   {
+    path: "/professionals",
+    name: "Professionales",
+    component: "ProfessionalPage",
+    isAuth: false,
+  },
+  {
     path: "*",
     component: "ErrorPage",
   },

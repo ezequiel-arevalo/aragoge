@@ -53,3 +53,14 @@ export const deleteUser = (token) =>
  * @returns {Promise} - Una promesa que se resuelve con la lista de usuarios.
  */
 export const getAllUsers = (token) => call("users", "GET", null, token);
+
+/**
+ * Obtiene la lista de todos los profesionales.
+ * @param {string} token - El token de autenticación del usuario.
+ * @param {string} role - El rol de los usuarios que se desean filtrar (opcional).
+ * @returns {Promise} - Una promesa que se resuelve con la lista de usuarios.
+ */
+export const getAllProfesionals = (token, role = "professional") => {
+  const query = role ? `?rol=${role}` : "";
+  return call(`users${query}`, "GET", null, token);
+};

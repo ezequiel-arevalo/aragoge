@@ -12,9 +12,9 @@ export const PlatformFeaturesSection = () => {
           {[
             { title: "Pagos Seguros", description: "Realiza transacciones de forma segura y fácil", icon: <CreditCard size={32} /> },
             { title: "Planificación", description: "Organiza tu agenda y sesiones de entrenamiento", icon: <Calendar size={32} /> },
-            { title: "Chat en Tiempo Real", description: "Comunícate directamente con tus entrenadores o clientes", icon: <MessageSquare size={32} /> },
+            { title: "Chat en Tiempo Real", description: <>Comunícate directamente con tus entrenadores o clientes <br /><span className="font-bold">Próximamente!</span></>, icon: <MessageSquare size={32} /> },
             { title: "Categorías Especializadas", description: "Encuentra servicios adaptados a tus necesidades", icon: <Dumbbell size={32} /> },
-            { title: "Favoritos", description: "Guarda tus entrenadores y servicios preferidos", icon: <Star size={32} /> },
+            { title: "Favoritos", description: <>Guarda tus entrenadores y servicios preferidos <br /><span className="font-bold">Próximamente!</span></>, icon: <Star size={32} /> },
             { title: "Perfiles Públicos", description: "Muestra tus logros y experiencia al mundo", icon: <User size={32} /> }
           ].map((feature, index) => (
             <motion.div
