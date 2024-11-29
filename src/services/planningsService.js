@@ -9,6 +9,7 @@ import { call } from "./callFetch";
  * @returns {Promise<Object>} Una promesa que se resuelve con los datos de las planificaciones del usuario.
  */
 export const getPlanningsByUserId = (userId, token) => call(`users/${userId}/plannings`, "GET", null, token);
+
 /**
  * Fetches marketplace plannings based on the provided filters.
  *
@@ -35,8 +36,23 @@ export const fetchPlanningById = (planningId, token) =>
  * @param {string} token - The authentication token for the request.
  * @returns {Promise} A promise that resolves with the response from the API.
  */
-export const createPlanning = (planningData, token) =>
-  call("plannings", "POST", planningData, token);
+export const createPlanning = (planningData, token) => {
+  let payload = planningData;
+
+  // Si hay un archivo, convertir los datos a FormData
+  const hasFile = Object.values(planningData).some(
+    (value) => value instanceof File || value instanceof Blob
+  );
+
+  if (hasFile) {
+    payload = new FormData();
+    Object.entries(planningData).forEach(([key, value]) => {
+      payload.append(key, value);
+    });
+  }
+
+  return call("plannings", "POST", payload, token);
+};
 
 /**
  * Updates an existing planning with the provided data.

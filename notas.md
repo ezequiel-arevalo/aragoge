@@ -13,3 +13,22 @@ git merge <nombre-de-la-rama>
 
 // para saber en que rama estoy
 git branch
+
+<!-- Content Type Images -->
+
+Trae todas las subscripciones del usuario
+<!-- http://127.0.0.1:8000/api/users/6/subscriptions -->
+
+Trae una subscripción en especifico
+    <!-- return call(`users/${userId}/subscriptions`, "GET"); -->
+
+Traer las subscripcions en general
+  <!-- call("subscriptions", "GET", null, token); -->
+
+  <!-- Poner nombre del usuario en la vista del dashboard -->
+
+  <!-- fetchPlanning -->
+
+  plannings, enviar por post cover y cover_Alt
+
+  <!-- Bug en el marketplace con las planificaciones  -->

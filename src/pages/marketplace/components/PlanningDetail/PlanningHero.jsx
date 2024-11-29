@@ -18,7 +18,7 @@ export const PlanningHero = ({ planning }) => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               className="w-full h-64 object-cover rounded-lg shadow-2xl"
-              src={planning.image_id ? `/api/images/${planning.image_id}` : "https://placehold.co/800x400"}
+              src={`http://127.0.0.1:8000/api/plannings/${planning.id}/image`}
               alt={planning.title}
             />
           </div>
@@ -36,7 +36,7 @@ export const PlanningHero = ({ planning }) => {
               <div className="grid grid-cols-2 gap-4 mb-8">
                 <div className="flex items-center">
                   <User className="h-5 w-5 mr-2" />
-                  <Link 
+                  <Link
                     to={`/professional/${planning.professional_id}`} // Cambia la ruta según tu estructura
                     className="text-white hover:text-white hover:underline cursor-pointer"
                   >

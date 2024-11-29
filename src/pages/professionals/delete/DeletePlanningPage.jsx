@@ -48,6 +48,21 @@ export const DeletePlanningPage = () => {
     return <Loader aria-label="Cargando planificación..." />;
   }
 
+  if (!planningDetail) {
+    return (
+      <div className="text-center py-12 text-red-500">
+        No se encontraron detalles para esta planificación.
+      </div>
+    );
+  }
+
+  // Construcción de la URL de la imagen
+  const imageUrl = planningDetail.image_id
+    ? `http://127.0.0.1:8000/api/plannings/${planningDetail.id}/image`
+    : './default-aragoge.jpg'; // Imagen de respaldo
+
+  console.log('Image URL:', imageUrl); // Verificar la URL generada
+
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="bg-gradient-to-r from-[#da1641] to-[#ff6b6b] text-white py-16">
@@ -80,7 +95,7 @@ export const DeletePlanningPage = () => {
             name="title"
             label="Título"
             errors={{}}
-            register={() => {}}
+            register={() => { }}
             inputProps={{
               placeholder: 'Título de la planificación',
               defaultValue: planningDetail?.title,
@@ -91,7 +106,7 @@ export const DeletePlanningPage = () => {
             name="description"
             label="Descripción"
             errors={{}}
-            register={() => {}}
+            register={() => { }}
             textareaProps={{
               placeholder: 'Descripción de la planificación',
               defaultValue: planningDetail?.description,
@@ -103,7 +118,7 @@ export const DeletePlanningPage = () => {
             name="synopsis"
             label="Sinopsis"
             errors={{}}
-            register={() => {}}
+            register={() => { }}
             inputProps={{
               placeholder: 'Sinopsis',
               defaultValue: planningDetail?.synopsis,
@@ -115,13 +130,14 @@ export const DeletePlanningPage = () => {
             label="Precio"
             type="number"
             errors={{}}
-            register={() => {}}
+            register={() => { }}
             inputProps={{
               placeholder: 'Precio',
               defaultValue: planningDetail?.price,
               disabled: true,
             }}
           />
+
           <div>
             <label className="block text-sm font-medium text-gray-700 text-left">Categoría</label>
             <input
@@ -130,6 +146,18 @@ export const DeletePlanningPage = () => {
               disabled
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#da1641] focus:border-[#da1641]"
             />
+          </div>
+
+          {/* Mostrar imagen y texto alternativo */}
+          <div className="mb-6 text-center">
+            <img
+              src={imageUrl}
+              alt={planningDetail.cover_alt || 'Imagen de la planificación'}
+              className="w-full h-auto max-h-64 object-contain mx-auto rounded-md shadow"
+            />
+            <p className="mt-2 text-sm text-gray-600 italic">
+              {planningDetail.cover_alt || 'Texto alternativo no proporcionado'}
+            </p>
           </div>
         </div>
 

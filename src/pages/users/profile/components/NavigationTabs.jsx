@@ -15,11 +15,10 @@ const NavigationTabs = ({ activeTab, setActiveTab }) => {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-2 font-font-title text-h6 transition-colors ${
-              activeTab === tab.id
+            className={`flex items-center gap-2 px-4 py-2 font-font-title text-h6 transition-colors ${activeTab === tab.id
                 ? 'text-white'
                 : 'text-disable hover:text-white'
-            }`}
+              }`}
           >
             <tab.icon className="w-4 h-4" />
             {tab.label}

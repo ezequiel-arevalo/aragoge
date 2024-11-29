@@ -1,31 +1,20 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Trash, Edit, Heart, Star, Eye } from 'lucide-react';
+import { Trash, Edit, Star, Eye } from 'lucide-react';
 
 const PlanningCard = ({ planning, isEditable = false }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  const toggleFavorite = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsFavorite(!isFavorite);
-  };
-
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full">
       <div className="flex flex-col h-full">
         <div className="relative">
           <img
-            src={planning.image_url || "https://placehold.co/400"}
-            alt={planning.title}
-            className="w-full h-56 object-cover"
+            src={
+              planning.image_id
+                ? `http://127.0.0.1:8000/api/plannings/${planning.id}/image`
+                : "./default-aragoge.jpg"
+            }
+            alt={planning.cover_alt || planning.title}
+            className="w-full h-auto max-h-64 object-contain mx-auto rounded-md shadow"
           />
-          <button
-            onClick={toggleFavorite}
-            className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 z-10 hover:bg-white"
-          >
-            <Heart className={`w-5 h-5 ${isFavorite ? 'text-[#da1641] fill-[#da1641]' : 'text-gray-400'}`} />
-          </button>
         </div>
 
         <div className="p-5 flex-grow flex flex-col">
@@ -61,7 +50,7 @@ const PlanningCard = ({ planning, isEditable = false }) => {
         >
           Ver más
         </Link>
-        
+
         {isEditable && (
           <div className="grid grid-cols-3 divide-x divide-gray-200 border-t border-gray-200">
             <Link

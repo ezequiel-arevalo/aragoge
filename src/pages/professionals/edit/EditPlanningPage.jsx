@@ -7,20 +7,25 @@ import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { Input } from '@/components/form/Input';
 import { Textarea } from '@/components/form/Textarea';
+import { useToast } from '@chakra-ui/react';  // Asegúrate de importar useToast
 
 export const EditPlanningPage = () => {
-  const { id } = useParams();
+  const { id } = useParams();  // Obtiene el id de la planificación desde la URL
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { planningDetail, categories, loading, error } = useSelector((state) => state.plannings);
+  const toast = useToast();
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
+  // Obtener datos de la planificación y categorías desde Redux
+  const { planningDetail, categories, loading, error } = useSelector((state) => state.plannings);
+
+  // Cargar datos cuando se accede a la página
   useEffect(() => {
-    dispatch(fetchPlanning(id));
-    dispatch(fetchInitialData());
+    dispatch(fetchPlanning(id));  // Obtener detalles de la planificación por ID
+    dispatch(fetchInitialData());  // Obtener categorías
   }, [dispatch, id]);
 
+  // Llenar el formulario con los detalles de la planificación
   useEffect(() => {
     if (planningDetail) {
       setValue('title', planningDetail.title);
@@ -28,18 +33,45 @@ export const EditPlanningPage = () => {
       setValue('synopsis', planningDetail.synopsis);
       setValue('price', planningDetail.price);
       setValue('category_id', planningDetail.category_id);
+      setValue('cover_alt', planningDetail.cover_alt);  // Llenamos cover_alt
     }
   }, [planningDetail, setValue]);
 
-  const onSubmit = (data) => {
-    dispatch(updatePlanning({ id, planningData: data }))
-      .unwrap()
-      .then(() => {
-        navigate('/professional');
-      })
-      .catch((error) => {
-        console.error("Failed to update planning:", error);
+  // Enviar los datos del formulario para actualizar la planificación
+  const onSubmit = async (data) => {
+    const payload = new FormData();
+    // Agregar los campos de texto
+    Object.entries(data).forEach(([key, value]) => {
+      payload.append(key, value);
+    });
+
+    // Si se ha seleccionado una nueva imagen, agregarla a FormData
+    if (data.cover && data.cover[0]) {
+      payload.append('cover', data.cover[0]);  // Asegurarse de que sea un archivo
+    }
+
+    try {
+      await dispatch(updatePlanning({ id, planningData: payload })).unwrap();
+      toast({
+        title: 'Planificación actualizada',
+        description: 'La planificación se actualizó correctamente.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom-right',
       });
+      navigate('/professional');  // Redirigir después de la actualización
+    } catch (error) {
+      console.error('Error al actualizar la planificación:', error);
+      toast({
+        title: 'Error al actualizar la planificación',
+        description: error.message || 'No se pudo actualizar la planificación.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom-right',
+      });
+    }
   };
 
   if (loading) {
@@ -52,6 +84,7 @@ export const EditPlanningPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      {/* Header */}
       <div className="bg-gradient-to-r from-[#da1641] to-[#ff6b6b] text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <button
@@ -66,6 +99,7 @@ export const EditPlanningPage = () => {
         </div>
       </div>
 
+      {/* Form Section */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -134,6 +168,36 @@ export const EditPlanningPage = () => {
             </select>
             {errors.category_id && <p className="text-red-500">{errors.category_id.message}</p>}
           </div>
+
+          {/* Portada */}
+          <div>
+            <label htmlFor="cover" className="block text-sm font-medium text-gray-700">
+              Portada
+            </label>
+            <input
+              id="cover"
+              type="file"
+              name="cover"
+              {...register('cover')}  // Registrar el campo de portada
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#da1641] focus:border-[#da1641]"
+              accept="image/*"
+            />
+          </div>
+
+          {/* Texto alternativo de la portada */}
+          <Input
+            register={register}
+            id="cover_alt"
+            name="cover_alt"
+            label="Alt de imagen"
+            errors={errors}
+            value={planningDetail?.cover_alt || ""} // Si no hay cover_alt, se pone vacío
+            inputProps={{
+              placeholder: 'Texto Alternativo de la Portada'
+            }}
+          />
+
+          {/* Botón de envío */}
           <div className="flex justify-end">
             <button
               type="submit"
