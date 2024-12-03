@@ -1,36 +1,14 @@
-import { Save } from 'lucide-react'
+import { Link } from "react-router-dom";
 
-const InformationTab = ({ formData, handleInputChange, handleSave }) => {
+const InformationTab = () => {
   return (
     <div className="space-y-6">
-      <div>
-        <label className="block text-text-primary font-font-title text-h6 mb-2">
-          Descripción
-        </label>
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleInputChange}
-          className="w-full px-4 py-2 rounded-lg border border-bg-primary focus:outline-none focus:border-primary"
-          rows={4}
-        />
-      </div>
-      <div>
-        <label className="block text-text-primary font-font-title text-h6 mb-2">
-          Synopsis
-        </label>
-        <textarea
-          name="synopsis"
-          value={formData.synopsis}
-          onChange={handleInputChange}
-          className="w-full px-4 py-2 rounded-lg border border-bg-primary focus:outline-none focus:border-primary"
-          rows={4}
-        />
-      </div>
-      <button onClick={handleSave} className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition-colors">
-        <Save className="w-4 h-4" />
-        Guardar cambios
-      </button>
+      <Link
+        to={`/subscriptions/`}
+        className="inline-block px-6 py-3 bg-primary text-white hover:text-white rounded-lg hover:bg-secondary transition-colors"
+      >
+        Mis Subscripciones
+      </Link>
     </div>
   )
 }

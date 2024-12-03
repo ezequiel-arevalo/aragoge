@@ -61,8 +61,6 @@ export const DeletePlanningPage = () => {
     ? `http://127.0.0.1:8000/api/plannings/${planningDetail.id}/image`
     : './default-aragoge.jpg'; // Imagen de respaldo
 
-  console.log('Image URL:', imageUrl); // Verificar la URL generada
-
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="bg-gradient-to-r from-[#da1641] to-[#ff6b6b] text-white py-16">

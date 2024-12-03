@@ -17,7 +17,12 @@ export const HomeProPage = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    setLocalPlannings(plannings);
+    // Validar que `plannings` sea un array antes de actualizar el estado local
+    if (Array.isArray(plannings)) {
+      setLocalPlannings(plannings);
+    } else {
+      setLocalPlannings([]);
+    }
   }, [plannings]);
 
   const handleDeleteClick = (planning) => {
@@ -49,7 +54,11 @@ export const HomeProPage = () => {
           <div className="flex justify-center">
             <Loader />
           </div>
-        ) : (
+        ) : error ? (
+          <div className="flex justify-center items-center h-48">
+            <p className="text-red-500 text-lg">Error al cargar las planificaciones. Por favor, inténtalo de nuevo más tarde.</p>
+          </div>
+        ) : localPlannings.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {localPlannings.map((planning) => (
               <PlanningCard
@@ -59,6 +68,10 @@ export const HomeProPage = () => {
                 onDeleteClick={() => handleDeleteClick(planning)}
               />
             ))}
+          </div>
+        ) : (
+          <div className="flex justify-center items-center h-48">
+            <p className="text-gray-500 text-lg">No tienes planificaciones creadas. ¡Empieza creando una nueva planificación!</p>
           </div>
         )}
       </section>

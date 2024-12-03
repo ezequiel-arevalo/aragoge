@@ -14,19 +14,10 @@ const initialState = {
   accessToken: localStorage.getItem("accessToken") || null,
 };
 
-/**
- * Slice para manejar el estado del usuario.
- * Contiene reducers y casos adicionales para gestionar las acciones relacionadas con usuarios.
- */
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    /**
-     * Limpia los datos del usuario del estado y del almacenamiento local.
-     * @function
-     * @param {Object} state - El estado actual del slice.
-     */
     clearUserData: (state) => {
       state.user = null;
       state.accessToken = null;
@@ -94,7 +85,12 @@ const userSlice = createSlice({
       .addCase(updateUserAction.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.user = action.payload;
+        // Extraemos los datos del usuario de la respuesta
+        const userData = action.payload.data;
+        // Actualizamos el usuario en el estado
+        state.user = userData;
+        // Actualizamos el usuario en localStorage
+        localStorage.setItem("user", JSON.stringify(userData));
       })
       .addCase(updateUserAction.rejected, (state, action) => {
         state.loading = false;
@@ -121,15 +117,5 @@ const userSlice = createSlice({
   },
 });
 
-/** 
- * Exporta las acciones del slice de usuario.
- * @type {Object}
- * @property {Function} clearUserData - Acción para limpiar los datos del usuario.
- */
 export const { clearUserData } = userSlice.actions;
-
-/**
- * Reducer del slice de usuario.
- * @type {Function}
- */
 export default userSlice.reducer;

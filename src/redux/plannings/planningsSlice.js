@@ -280,7 +280,11 @@ const planningsSlice = createSlice({
       })
       .addCase(createPlanning.fulfilled, (state, action) => {
         state.loading = false;
-        state.items.push(action.payload);
+        if (Array.isArray(state.items)) {
+          state.items.push(action.payload);
+        } else {
+          state.items = [action.payload]; // Restablecer como array válido
+        }
       })
       .addCase(createPlanning.rejected, (state, action) => {
         state.loading = false;

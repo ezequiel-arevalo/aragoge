@@ -6,7 +6,7 @@ const TabsSection = ({ activeTab, setActiveTab, isProfessional }) => (
     {isProfessional && (
       <>
         <TabButton title="Planificaciones" isActive={activeTab === 'schedules'} onClick={() => setActiveTab('schedules')} />
-        <TabButton title="Servicios" isActive={activeTab === 'services'} onClick={() => setActiveTab('services')} />
+        <TabButton title="Perfil" isActive={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
       </>
     )}
   </div>

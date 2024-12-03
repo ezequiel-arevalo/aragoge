@@ -18,6 +18,7 @@ export const ProfilePublicPage = () => {
       try {
         const data = await getUserDetails(id);
         setUser(data.data);
+        console.log(data)
       } catch (err) {
         setError(err.message);
       }
@@ -35,7 +36,7 @@ export const ProfilePublicPage = () => {
 
   if (!user) return <Loader />;
 
-  const isProfessional = user.professional_id !== null;
+  const isProfessional = true;
 
   return (
     <>

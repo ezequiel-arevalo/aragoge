@@ -33,7 +33,7 @@ export const EditPlanningPage = () => {
       setValue('synopsis', planningDetail.synopsis);
       setValue('price', planningDetail.price);
       setValue('category_id', planningDetail.category_id);
-      setValue('cover_alt', planningDetail.cover_alt);  // Llenamos cover_alt
+      setValue('cover_alt', planningDetail.cover_alt);
     }
   }, [planningDetail, setValue]);
 
@@ -191,7 +191,7 @@ export const EditPlanningPage = () => {
             name="cover_alt"
             label="Alt de imagen"
             errors={errors}
-            value={planningDetail?.cover_alt || ""} // Si no hay cover_alt, se pone vacío
+            value={planningDetail?.cover_alt || ""}
             inputProps={{
               placeholder: 'Texto Alternativo de la Portada'
             }}

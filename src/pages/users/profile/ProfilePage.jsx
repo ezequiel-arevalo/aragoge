@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateUserAction, deleteUserAction } from '@/redux/user/userActions'
+import { updateUserAction, deleteUserAction, logoutUserAction } from '@/redux/user/userActions'
 import { fetchRolesAction } from '@/redux/role/roleActions'
 import { selectRoles } from '@/redux/role/roleSelectors'
 import { useUserData } from '@/hooks/useUserData'
+import { useNavigate } from 'react-router-dom'
 import Loader from '@/components/Loader'
 import ProfileHeader from './components/ProfileHeader'
 import NavigationTabs from './components/NavigationTabs'
@@ -12,11 +13,12 @@ import GeneralTab from './components/GeneralTab'
 import SecurityTab from './components/SecurityTab'
 import InformationTab from './components/InformationTab'
 import PublicProfileTab from './components/PublicProfileTab'
-import { useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react"
 
 export const ProfilePage = () => {
   const dispatch = useDispatch()
-  const toast = useToast();
+  const navigate = useNavigate()
+  const toast = useToast()
   const { user, accessToken } = useSelector((state) => state.user)
   const roles = useSelector(selectRoles)
   const { userData, error } = useUserData(user, accessToken)
@@ -42,12 +44,11 @@ export const ProfilePage = () => {
         email: userData.email || '',
         description: userData.description || '',
         synopsis: userData.synopsis || '',
-        rol_id: userData.rol_id || '' // Este valor debe ser manejado desde los datos del usuario
+        rol_id: userData.rol_id || ''
       })
     }
   }, [userData])
 
-  console.log('userData:', userData)
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
@@ -56,6 +57,7 @@ export const ProfilePage = () => {
   const handleSave = async () => {
     try {
       await dispatch(updateUserAction(formData)).unwrap()
+
       toast({
         title: "Perfil actualizado",
         description: "Tus datos han sido actualizados correctamente.",
@@ -64,6 +66,20 @@ export const ProfilePage = () => {
         isClosable: true,
         position: 'bottom-right',
       })
+
+      // Si el rol ha cambiado, cerrar sesión y redirigir a login
+      if (formData.rol_id !== userData.rol_id) {
+        await dispatch(logoutUserAction()).unwrap()
+        toast({
+          title: "Perfil actualizado",
+          description: "Por favor, inicia sesión nuevamente para convertite en un profesional",
+          status: "info",
+          duration: 5000,
+          isClosable: true,
+          position: 'bottom-right',
+        })
+        navigate('/login')
+      }
     } catch (error) {
       toast({
         title: "Error al actualizar el perfil",
@@ -87,7 +103,7 @@ export const ProfilePage = () => {
         isClosable: true,
         position: 'bottom-right',
       })
-      // Redirigir al usuario a la página de inicio o de login
+      navigate('/login')
     } catch (error) {
       toast({
         title: "Error al eliminar la cuenta",
@@ -128,7 +144,7 @@ export const ProfilePage = () => {
                   handleInputChange={handleInputChange}
                   handleSave={handleSave}
                   userData={userData}
-                  roles={roles} // Ahora los roles vienen del roleSlice
+                  roles={roles}
                 />
               )}
               {activeTab === 'security' && (

@@ -1,5 +1,5 @@
 // Select all specialities from the state
-export const selectAllSpecialities   = (state) => state.speciality.specialities;
+export const selectAllSpecialities = (state) => state.speciality.specialities?.data || [];
 
 // Select the loading state
 export const selectSpecialityLoading = (state) => state.speciality.loading;

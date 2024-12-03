@@ -1,141 +1,51 @@
+import { NavigationLinks } from './components/NavigationLinks';
+import { UserMenu } from './components/UserMenu';
+import { AuthButtons } from './components/AuthButtons';
+import { MobileMenuButton } from './components/MobileMenuButton';
+import { useHeaderLogic } from './components/useHeaderLogic';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import routes from '@/router/routes';
-import { useState } from 'react';
-import { LucideMenu, LucideX, LucideUser } from 'lucide-react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { logoutUserAction } from '@/redux/user/userActions';
-import { useToast } from "@chakra-ui/react";
 
 export const Header = () => {
-  const { user, accessToken } = useSelector(state => state.user);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const toast = useToast();
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false);
-
-  const filteredLinks = routes.filter(route => {
-    if (route.isAuth && !accessToken) return false;
-    if (route.role && user?.rol_id !== route.role) return false;
-    if (route.name === 'Login' || route.name === 'Register') return false;
-    if (route.name === 'Profile') return false;
-    if (route.name === 'ProfilePublic') return false;
-    if (route.name === 'Professionales') return false;
-    return route.name;
-  });
-
-  const handleLogout = async () => {
-    try {
-      await dispatch(logoutUserAction()).unwrap();
-      toast({
-        title: "Cerraste sesión con éxito.",
-        description: "Cerraste sesión correctamente.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom-right",
-      });
-      navigate("/");
-    } catch (error) {
-      // Eliminar datos del almacenamiento local
-      localStorage.removeItem("user");
-      localStorage.removeItem("accessToken");
-
-      toast({
-        title: "Error al cerrar sesión.",
-        description: "Error desconocido",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom-right",
-      });
-
-      // Recargar la página
-      window.location.reload();
-    }
-  };
+  const {
+    user,
+    accessToken,
+    isMenuOpen,
+    toggleMenu,
+    closeMenu,
+    handleLogout,
+    availableLinks,
+  } = useHeaderLogic();
 
   return (
-    <header className="sticky top-0 z-10 bg-white">
+    <header className="sticky top-0 z-10 bg-white shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
         <NavLink to="/" className="text-2xl font-bold text-[#da1641]">
           Aragoge
         </NavLink>
 
-        <ul className="hidden md:flex flex-row space-x-8">
-          {filteredLinks.map(({ path, name }, index) => (
-            <li key={index}>
-              <NavLink
-                to={path}
-                className={({ isActive }) =>
-                  `text-gray-600 hover:text-[#da1641] transition duration-300 ${isActive ? 'text-[#da1641]' : ''}`
-                }
-              >
-                {name}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+        <NavigationLinks
+          links={availableLinks}
+          className="hidden md:flex flex-row space-x-8"
+        />
 
         <div className="flex items-center space-x-4">
           {!accessToken ? (
-            <>
-              <NavLink to="/login" className="text-gray-600 hover:text-[#da1641] transition duration-300">
-                Iniciar Sesión
-              </NavLink>
-              <NavLink
-                to="/register"
-                className="bg-[#da1641] text-white px-4 py-2 rounded-full hover:bg-[#b81235] transition duration-300"
-              >
-                Registrarse
-              </NavLink>
-            </>
+            <AuthButtons />
           ) : (
-            <div className="flex items-center gap-4">
-              <NavLink to="/profile" className="flex items-center space-x-2 text-gray-600 hover:text-[#da1641]">
-                <LucideUser className="w-6 h-6" />
-                <span className='no-global-styles no-styles-global'>{user.first_name}</span>
-              </NavLink>
-              <button
-                onClick={handleLogout}
-                className="bg-[#da1641] text-white px-4 py-2 rounded-full hover:bg-[#b81235] hover:text-white transition duration-300"
-                aria-label="Cerrar Sesión"
-              >
-                Cerrar Sesión
-              </button>
-            </div>
+            <UserMenu user={user} onLogout={handleLogout} />
           )}
 
-          <button
-            className="text-2xl md:hidden"
-            onClick={toggleMenu}
-            aria-label={isMenuOpen ? 'Cerrar Menú' : 'Abrir Menú'}
-          >
-            {isMenuOpen ? <LucideX /> : <LucideMenu />}
-          </button>
+          <MobileMenuButton isOpen={isMenuOpen} onClick={toggleMenu} />
         </div>
       </nav>
 
+      {/* Mobile Menu */}
       <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
-        <ul className="flex flex-col items-center space-y-4 mb-4 p-4">
-          {filteredLinks.map(({ path, name }, index) => (
-            <li key={index}>
-              <NavLink
-                to={path}
-                onClick={closeMenu}
-                className={({ isActive }) =>
-                  `text-gray-600 hover:text-[#da1641] transition duration-300 ${isActive ? 'text-[#da1641]' : ''}`
-                }
-              >
-                {name}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+        <NavigationLinks
+          links={availableLinks}
+          className="flex flex-col items-center space-y-4 mb-4 p-4"
+          onClick={closeMenu}
+        />
       </div>
     </header>
   );
