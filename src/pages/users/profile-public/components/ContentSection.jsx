@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useToast } from "@chakra-ui/react";
 import { PlanningsTab } from "./professional/PlanningsTab";
 import { Information } from "./professional/Information";
 import { ProfileEdit } from "./professional/ProfileEdit";
 
 const ContentSection = ({ activeTab, user, isProfessional }) => {
-  const [activeProfileComponent, setActiveProfileComponent] = useState(null);
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md mt-4">
@@ -33,7 +33,7 @@ const ContentSection = ({ activeTab, user, isProfessional }) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
         >
-          <ProfileEdit />
+          <ProfileEdit user={user} />
         </motion.div>
       )}
     </div>

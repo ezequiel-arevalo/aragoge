@@ -5,11 +5,11 @@ import { selectAllSubscriptions, selectSubscriptionLoading } from "@/redux/subsc
 import { Link } from "react-router-dom";
 import { Calendar, DollarSign, CheckCircle, XCircle, ArrowLeft } from "lucide-react";
 import { HeroSection } from "@/components/ui/HeroSection";
-import Loader from '@/components/Loader'
+import Loader from "@/components/Loader";
 
 export const SubscriptionListPage = () => {
     const dispatch = useDispatch();
-    const subscriptions = useSelector(selectAllSubscriptions);
+    const subscriptions = useSelector(selectAllSubscriptions) || [];
     const loading = useSelector(selectSubscriptionLoading);
 
     // Extraer el userId desde el localStorage
@@ -23,9 +23,7 @@ export const SubscriptionListPage = () => {
     }, [dispatch, userId]);
 
     if (loading) {
-        return (
-            <Loader />
-        );
+        return <Loader />;
     }
 
     return (
@@ -79,7 +77,7 @@ export const SubscriptionListPage = () => {
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                     <div className="flex items-center">
                                                         <Calendar className="w-4 h-4 mr-2 text-gray-400" />
-                                                        {new Date(sub.subscription_date).toLocaleDateString()}
+                                                        {new Date(sub.created_at).toLocaleDateString()}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

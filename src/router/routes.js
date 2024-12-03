@@ -62,6 +62,18 @@ const routes = [
     isAuth: false,
   },
   {
+    path: "/subscriptions",
+    name: "Subscriptions",
+    component: "SubscriptionListPage",
+    isAuth: true,
+  },
+  {
+    path: "/subscriptions/:id",
+    name: "SubscriptionDetail",
+    component: "SubscriptionDetailPage",
+    isAuth: true,
+  },
+  {
     path: "*",
     component: "ErrorPage",
   },

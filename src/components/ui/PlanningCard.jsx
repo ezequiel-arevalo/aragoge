@@ -29,7 +29,7 @@ const PlanningCard = ({ planning, isEditable = false }) => {
 
             <div className="flex items-center justify-between">
               <Link
-                to={`/public/profile/${planning.professional_id}`} // Cambiar a /profile/public/${userId}
+                to={`/profile/public/${planning.user_id}`}
                 className="flex items-center hover:underline"
               >
                 <span className="text-gray-700 text-sm font-medium">{planning.professional_name}</span>

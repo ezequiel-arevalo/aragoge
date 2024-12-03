@@ -2,6 +2,8 @@ export * from "./common/home/HomePage";
 export * from "./common/contact/ContactPage";
 export * from "./common/error/ErrorPage";
 export * from "./users/profile/ProfilePage";
+export * from "./users/profile/components/SubscriptionDetailPage";
+export * from "./users/profile/components/SubscriptionListPage";
 export * from "./users/profile-public/ProfilePublicPage";
 export * from "./marketplace/MarketPage";
 export * from "./auth/login/LoginPage";

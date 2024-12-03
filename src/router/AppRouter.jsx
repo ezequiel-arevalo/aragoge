@@ -9,6 +9,8 @@ import { EditPlanningPage } from '@/pages/professionals/edit/EditPlanningPage';
 import { DeletePlanningPage } from '@/pages/professionals/delete/DeletePlanningPage';
 import { SubscriptionsPage } from '@/pages/professionals/subscriptions/SubscriptionsPage';
 import { ProfilePublicPage } from '@/pages/users/profile-public/ProfilePublicPage';
+import { SubscriptionListPage } from '@/pages/users/profile/components/SubscriptionListPage';
+import { SubscriptionDetailPage } from '@/pages/users/profile/components/SubscriptionDetailPage';
 
 export const AppRouter = () => {
   const { user, accessToken } = useSelector(state => state.user);
@@ -42,6 +44,10 @@ export const AppRouter = () => {
         <Route path="/professional/edit/:id" element={<EditPlanningPage />} />
         <Route path="/professional/delete/:id" element={<DeletePlanningPage />} />
         <Route path="/professional/subscriptions/:id" element={<SubscriptionsPage />} />
+
+        {/* Rutas dinámicas para suscripciones */}
+        <Route path="/subscriptions" element={<SubscriptionListPage />} />
+        <Route path="/subscriptions/:id" element={<SubscriptionDetailPage />} />;
 
         {/* Redirección por defecto */}
         <Route path="/" element={<Navigate to="/home" />} />

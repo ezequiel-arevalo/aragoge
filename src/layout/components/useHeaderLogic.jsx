@@ -23,6 +23,8 @@ export const useHeaderLogic = () => {
             if (route.name === 'Profile') return false;
             if (route.name === 'ProfilePublic') return false;
             if (route.name === 'Professionales') return false;
+            if (route.name === 'Subscriptions') return false;
+            if (route.name === 'SubscriptionDetail') return false;
             return true;
         });
     }, [user?.rol_id, accessToken]);

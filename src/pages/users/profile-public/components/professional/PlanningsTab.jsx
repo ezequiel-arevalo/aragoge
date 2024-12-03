@@ -38,8 +38,6 @@ export const PlanningsTab = () => {
                         <PlanningCard
                             key={planning.id}
                             planning={planning}
-                            isEditable
-                            onDeleteClick={() => console.log(`Eliminar planificación con ID: ${planning.id}`)}
                         />
                     ))}
                 </div>

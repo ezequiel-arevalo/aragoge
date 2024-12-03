@@ -9,22 +9,23 @@ import { call } from "./callFetch";
 export const fetchSubscriptions = (token) =>
   call("subscriptions", "GET", null, token);
 
-// /**
-//  * Fetches a specific subscription by its ID.
-//  *
-//  * @param {string} subscriptionId - The ID of the subscription to fetch.
-//  * @param {string} token - The authentication token for the request.
-//  * @returns {Promise} A promise that resolves with the response from the API.
-//  */
-// export const fetchSubscriptionById = (subscriptionId, token) =>
-//   call(`subscriptions/${subscriptionId}`, "GET", null, token);
+/**
+ * Fetches a specific subscription by its ID.
+ *
+ * @param {string} subscriptionId - The ID of the subscription to fetch.
+ * @param {string} token - The authentication token for the request.
+ * @returns {Promise} A promise that resolves with the response from the API.
+ */
+export const fetchSubscriptionById = (subscriptionId, token) =>
+  call(`subscriptions/${subscriptionId}`, "GET", null, token);
 
 /**
- * Obtiene las suscripciones de un usuario específico.
- * @param {number} userId - ID del usuario.
- * @returns {Promise<Object>} - Lista de suscripciones del usuario.
+ * Fetches all subscriptions for a specific user.
+ *
+ * @param {number} userId - The ID of the user whose subscriptions are being fetched.
+ * @returns {Promise<Object>} A promise that resolves with the user's subscriptions.
  */
-export const fetchSubscriptionById = (userId) => {
+export const fetchSubscriptionsByUserId = (userId) => {
     return call(`users/${userId}/subscriptions`, "GET");
 };
 
@@ -36,7 +37,7 @@ export const fetchSubscriptionById = (userId) => {
  * @returns {Promise} A promise that resolves with the response from the API.
  */
 export const subscribeToPlanning = (planningId, token) =>
-  call(`subscriptions/subscribing/${planningId}`, "POST", null, token);
+  call(`subscriptions/subscripting/${planningId}`, "POST", null, token);
 
 /**
  * Renews the subscription for a specific planning.
@@ -56,4 +57,4 @@ export const renewSubscription = (planningId, token) =>
  * @returns {Promise} A promise that resolves with the response from the API.
  */
 export const unsubscribeFromPlanning = (planningId, token) =>
-  call(`subscriptions/unsuscribing/${planningId}`, "POST", null, token);
+  call(`subscriptions/unsubscribing/${planningId}`, "POST", null, token);

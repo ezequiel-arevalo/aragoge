@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { 
   fetchSubscriptions, 
   fetchSubscriptionById, 
+  fetchSubscriptionsByUserId, 
   subscribeToPlanning, 
   renewSubscription, 
   unsubscribeFromPlanning 
@@ -19,6 +20,26 @@ export const getAllSubscriptions = createAsyncThunk(
   async (token, { rejectWithValue }) => {
     try {
       const response = await fetchSubscriptions(token);
+      console.log('Fetched Subscriptions:', response); // Log de la respuesta del API
+      return response;
+    } catch (error) {
+      console.error('Error fetching subscriptions:', error); // Log del error
+      return rejectWithValue(error.message);
+    }
+  }
+);
+/**
+ * Fetches all subscriptions for a specific user.
+ * @function
+ * @param {string} userId - The ID of the user.
+ * @returns {Promise<Object>} The subscription details for the user.
+ * @throws Will return a rejected value with an error message if the operation fails.
+ */
+export const getSubscriptionsByUserId = createAsyncThunk(
+  'subscription/getSubscriptionsByUserId',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await fetchSubscriptionsByUserId(userId);
       return response;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -27,19 +48,22 @@ export const getAllSubscriptions = createAsyncThunk(
 );
 
 /**
- * Fetches subscription details by user ID.
+ * Fetches a specific subscription by its ID.
  * @function
- * @param {string} userId - The ID of the user.
- * @returns {Promise<Object>} The subscription details for the user.
+ * @param {string} subscriptionId - The ID of the subscription.
+ * @param {string} token - The authentication token.
+ * @returns {Promise<Object>} The subscription details.
  * @throws Will return a rejected value with an error message if the operation fails.
  */
-export const getSubscriptionByUserId = createAsyncThunk(
-  'subscription/getSubscriptionByUserId',
-  async (userId, { rejectWithValue }) => {
+export const getSubscriptionById = createAsyncThunk(
+  'subscription/getSubscriptionById',
+  async ({ subscriptionId, token }, { rejectWithValue }) => {
     try {
-      const response = await fetchSubscriptionById(userId);
-      return response;
+      const response = await fetchSubscriptionById(subscriptionId, token);
+      console.log("Fetched Subscription Detail:", response);
+      return response.data;
     } catch (error) {
+      console.error("Error fetching subscription detail:", error);
       return rejectWithValue(error.message);
     }
   }
@@ -76,16 +100,19 @@ export const createSubscription = createAsyncThunk(
  * @throws Will return a rejected value with an error message if the operation fails.
  */
 export const renewSubscriptionThunk = createAsyncThunk(
-  'subscription/renewSubscription',
+  "subscription/renewSubscription",
   async ({ planningId, token }, { rejectWithValue }) => {
     try {
       const response = await renewSubscription(planningId, token);
-      return response;
+      console.log("Respuesta de la API al renovar:", response); // Depuración
+      return response; // La API debe devolver los detalles actualizados
     } catch (error) {
-      return rejectWithValue(error.message);
+      console.error("Error al renovar la suscripción:", error.response || error);
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
+
 
 /**
  * Cancels an existing subscription for a given planning ID.

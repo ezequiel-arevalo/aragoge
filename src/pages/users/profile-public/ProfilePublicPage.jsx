@@ -18,7 +18,6 @@ export const ProfilePublicPage = () => {
       try {
         const data = await getUserDetails(id);
         setUser(data.data);
-        console.log(data)
       } catch (err) {
         setError(err.message);
       }
@@ -36,13 +35,14 @@ export const ProfilePublicPage = () => {
 
   if (!user) return <Loader />;
 
-  const isProfessional = true;
+  // Verificar si el usuario es un profesional basado en el rol_id
+  const isProfessional = user.rol_id === 3;
 
   return (
     <>
       <HeaderSection user={user} />
       <div className="container mx-auto px-4 py-8">
-        <TabsSection activeTab={activeTab} setActiveTab={setActiveTab} isProfessional={isProfessional} />
+        <TabsSection activeTab={activeTab} user={user} setActiveTab={setActiveTab} isProfessional={isProfessional} />
         <ContentSection activeTab={activeTab} user={user} isProfessional={isProfessional} />
       </div>
     </>
