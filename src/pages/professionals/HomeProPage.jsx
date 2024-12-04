@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProfessionalPlannings } from '@/redux/plannings/planningsSlice';
+import { fetchProfessionalPlannings } from '@/redux/plannings/planningsThunks';
+import {
+  selectProfessionalItems,
+  selectLoading,
+  selectError
+} from '@/redux/plannings/planningsSelectors';
 import { Plus } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import PlanningCard from '@/components/ui/PlanningCard';
@@ -9,7 +14,11 @@ import Loader from '@/components/Loader';
 export const HomeProPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { items: plannings, loading, error } = useSelector((state) => state.plannings);
+  const plannings = useSelector(selectProfessionalItems);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+
+  // Estado local para asegurar que plannings sea siempre un array
   const [localPlannings, setLocalPlannings] = useState([]);
 
   useEffect(() => {
@@ -17,7 +26,7 @@ export const HomeProPage = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    // Validar que `plannings` sea un array antes de actualizar el estado local
+    // Validar que plannings sea un array antes de actualizar el estado local
     if (Array.isArray(plannings)) {
       setLocalPlannings(plannings);
     } else {

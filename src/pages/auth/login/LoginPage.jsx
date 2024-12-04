@@ -1,48 +1,37 @@
 import { LoginForm } from "./components/LoginForm";
 import { ImageSection } from "./components/ImageSection";
-import { motion } from 'framer-motion';
-import { Box, Flex } from "@chakra-ui/react";
-const MotionBox = motion(Box);
+import { motion } from "framer-motion";
 
+/**
+ * Página de inicio de sesión
+ * Contiene una sección de imagen y un formulario de inicio de sesión animado.
+ */
 export const LoginPage = () => {
   return (
-    <Flex 
-      minHeight="100vh" 
-      width="full" 
-      align="center" 
-      justifyContent="center" 
-      className="bg-gradient-to-br from-bg-primary to-bg-secondary"
+    <div
+      className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-bg-primary to-bg-secondary"
     >
-      <Box 
-        borderWidth={1}
-        width="full"
-        maxWidth="1000px"
-        borderRadius="lg"
-        boxShadow="lg"
-        overflow="hidden"
-        className="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg"
+      <div
+        className="w-full max-w-4xl border border-gray-200 rounded-lg shadow-lg overflow-hidden bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg"
       >
-        <Flex direction={{ base: 'column', md: 'row' }}>
-          {/* Left Section with Image */}
+        <div className="flex flex-col md:flex-row">
+          {/* Sección izquierda con imagen */}
           <ImageSection />
 
-          {/* Right Section with Login Form */}
-          <MotionBox
+          {/* Sección derecha con formulario de inicio de sesión */}
+          <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            flex={1}
-            p={8}
-            height={700}
-            textAlign="center"
+            className="flex-1 p-8 h-[700px] text-center"
           >
-            <LoginForm 
+            <LoginForm
               title="Bienvenido de Nuevo"
               subtitle="¡Estamos emocionados de verte de nuevo!"
             />
-          </MotionBox>
-        </Flex>
-      </Box>
-    </Flex>
+          </motion.div>
+        </div>
+      </div>
+    </div>
   );
 };

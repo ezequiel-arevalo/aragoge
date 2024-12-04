@@ -2,22 +2,30 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchPlanning, updatePlanning, fetchInitialData } from '@/redux/plannings/planningsSlice';
+import { fetchPlanning, updatePlanning, fetchInitialData } from '@/redux/plannings/planningsThunks';
+import {
+  selectPlanningDetail,
+  selectCategories,
+  selectLoading,
+  selectError
+} from '@/redux/plannings/planningsSelectors';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { Input } from '@/components/form/Input';
 import { Textarea } from '@/components/form/Textarea';
-import { useToast } from '@chakra-ui/react';  // Asegúrate de importar useToast
+import { useToast } from '@chakra-ui/react';
 
 export const EditPlanningPage = () => {
-  const { id } = useParams();  // Obtiene el id de la planificación desde la URL
+  const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const toast = useToast();
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
-  // Obtener datos de la planificación y categorías desde Redux
-  const { planningDetail, categories, loading, error } = useSelector((state) => state.plannings);
+  const planningDetail = useSelector(selectPlanningDetail);
+  const categories = useSelector(selectCategories);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
 
   // Cargar datos cuando se accede a la página
   useEffect(() => {

@@ -1,8 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchInitialData } from '@/redux/plannings/planningsActions';
+import { fetchInitialData } from '@/redux/plannings/planningsThunks';
 import { setFilters } from '@/redux/plannings/planningsSlice';
-import { selectIsInitialized, selectPlanningLoading, selectPlanningError } from '@/redux/plannings/planningsSelectors';
+import {
+  selectIsInitialized,
+  selectLoading,
+  selectError,
+  selectFilteredMarketplacePlannings
+} from '@/redux/plannings/planningsSelectors';
 import { FilterBar } from './components/Filters/FilterBar';
 import { PlanningList } from './components/PlanningList/PlanningList';
 import { HeroSection } from '@/components/ui/herosection';
@@ -10,8 +15,9 @@ import { HeroSection } from '@/components/ui/herosection';
 export const MarketPage = () => {
   const dispatch = useDispatch();
   const isInitialized = useSelector(selectIsInitialized);
-  const loading = useSelector(selectPlanningLoading);
-  const error = useSelector(selectPlanningError);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+  const filteredPlannings = useSelector(selectFilteredMarketplacePlannings);
 
   useEffect(() => {
     if (!isInitialized) {
@@ -42,7 +48,11 @@ export const MarketPage = () => {
               <FilterBar onFiltersApply={handleFiltersApply} />
             </div>
             <div className="w-full md:w-3/4">
-              <PlanningList loading={loading} error={error} />
+              <PlanningList
+                plannings={filteredPlannings}
+                loading={loading}
+                error={error}
+              />
             </div>
           </div>
         </div>

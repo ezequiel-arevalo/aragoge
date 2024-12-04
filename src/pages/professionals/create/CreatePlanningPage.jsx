@@ -5,9 +5,8 @@ import { useToast } from "@chakra-ui/react";
 import { ArrowLeft } from "lucide-react";
 import { useForm } from 'react-hook-form';
 import { motion } from "framer-motion";
-import { fetchInitialData } from "@/redux/plannings/planningsActions";
-import { selectPlanningLoading, selectPlanningError } from "@/redux/plannings/planningsSelectors";
-import { createPlanning } from "@/redux/plannings/planningsActions";
+import { fetchInitialData, createPlanning } from '@/redux/plannings/planningsThunks';
+import { selectCategories, selectLoading, selectError } from "@/redux/plannings/planningsSelectors";
 import { Input } from '@/components/form/Input';
 import { Textarea } from '@/components/form/Textarea';
 
@@ -17,9 +16,9 @@ export const CreatePlanningPage = () => {
   const toast = useToast();
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const categories = useSelector((state) => state.plannings.categories);
-  const loading = useSelector(selectPlanningLoading);
-  const error = useSelector(selectPlanningError);
+  const categories = useSelector(selectCategories);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -32,7 +31,6 @@ export const CreatePlanningPage = () => {
   });
 
   useEffect(() => {
-    // Fetch categories if not already loaded
     if (categories.length === 0) {
       dispatch(fetchInitialData());
     }
@@ -42,21 +40,18 @@ export const CreatePlanningPage = () => {
     const { name, value, type, files } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === "file" ? files[0] : value, // Correctly handle file input
+      [name]: type === "file" ? files[0] : value,
     }));
   };
 
-  // Correct onSubmit function to handle form data and files
   const onSubmit = async (data) => {
-    // Create a new FormData object to handle both text and file data
     const payload = new FormData();
     Object.entries(data).forEach(([key, value]) => {
-      payload.append(key, value); // Append text data
+      payload.append(key, value);
     });
 
-    // Add file data manually (if exists)
     if (formData.cover) {
-      payload.append("cover", formData.cover); // Append the image file
+      payload.append("cover", formData.cover);
     }
 
     try {
@@ -71,7 +66,6 @@ export const CreatePlanningPage = () => {
       });
       navigate("/professional");
     } catch (err) {
-      console.error("Error al crear la planificación:", err);
       toast({
         title: "Error al crear la planificación",
         description: err.message || "No se pudo crear la planificación.",
@@ -85,7 +79,7 @@ export const CreatePlanningPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
+      {/* No se usa header y footer, ya que están en el layout */}
       <div className="bg-gradient-to-r from-[#da1641] to-[#ff6b6b] text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <button

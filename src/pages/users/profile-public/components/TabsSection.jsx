@@ -3,8 +3,6 @@ import TabButton from './TabButton';
 
 const TabsSection = ({ activeTab, setActiveTab, isProfessional, user }) => {
 
-  console.log(user)
-
   // Obtener el usuario logueado desde el estado de Redux
   const loggedUser = useSelector((state) => state.user.user);
 
@@ -15,7 +13,7 @@ const TabsSection = ({ activeTab, setActiveTab, isProfessional, user }) => {
     <div className="flex justify-center space-x-4 py-4">
       <TabButton title="Información" isActive={activeTab === 'info'} onClick={() => setActiveTab('info')} />
 
-      {isProfessional && isOwner(
+      {isProfessional && isOwner && (
         <TabButton title="Perfil" isActive={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
       )}
 

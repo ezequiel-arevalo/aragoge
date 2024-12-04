@@ -8,7 +8,7 @@ export const UserMenu = ({ user, onLogout }) => {
             <NavLink to="/profile" className="flex items-center space-x-2 text-gray-600 hover:text-[#da1641]">
                 <LucideUser className="w-6 h-6" />
                 <div className='flex flex-col'>
-                    <span className="text-sm font-medium">{user.first_name}</span>
+                    <span className="text-sm font-medium">{user.first_name} {user.last_name}</span>
                     <span className="text-xs text-gray-500">{getRoleName(user.rol_id)}</span>
                 </div>
             </NavLink>

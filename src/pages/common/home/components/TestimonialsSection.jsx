@@ -16,32 +16,36 @@ const testimonials = [
 ];
 
 export const TestimonialsSection = () => {
-
     return (
-        <section className="py-16 bg-gray-100">
+        <section className="py-16 bg-bg-secondary">
             <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-h2 font-title font-bold mb-12 text-center">
+                <h2 className="text-h2 font-title text-text-primary font-bold mb-12 text-center">
                     Lo Que Dicen Nuestros Usuarios
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {testimonials.map((testimonial, index) => (
                         <motion.div
                             key={index}
-                            className="bg-white p-8 rounded-xl shadow-lg"
+                            className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: index * 0.2 }}
                         >
-                            <p className="text-gray-600 mb-6 italic min-h-[100px]">"{testimonial.text}"</p>
+                            <p className="text-text-secondary mb-6 italic min-h-[100px]">
+                                "{testimonial.text}"
+                            </p>
                             <div className="flex items-center">
                                 <img
                                     src={testimonial.image}
-                                    alt={testimonial.name}
-                                    className="w-12 h-12 rounded-full mr-4"
+                                    alt={`Foto de ${testimonial.name}`}
+                                    className="w-12 h-12 rounded-full mr-4 object-cover"
+                                    loading="lazy"
                                 />
                                 <div>
-                                    <h3 className="text-h3 font-title font-semibold">{testimonial.name}</h3>
-                                    <p className="text-gray-600 text-sm">{testimonial.role}</p>
+                                    <h3 className="text-h3 font-title font-semibold text-text-primary">
+                                        {testimonial.name}
+                                    </h3>
+                                    <p className="text-text-secondary text-sm">{testimonial.role}</p>
                                 </div>
                             </div>
                         </motion.div>

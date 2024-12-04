@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchPlanningSubscriptions } from '@/redux/plannings/planningsSlice';
+import { fetchPlanningSubscriptions } from '@/redux/plannings/planningsThunks';
 import Loader from '@/components/Loader';
 
 export const SubscriptionsPage = () => {
@@ -63,11 +63,10 @@ export const SubscriptionsPage = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
-                          className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            subscription.is_active
-                              ? 'bg-green-100 text-green-800'
-                              : 'bg-red-100 text-red-800'
-                          }`}
+                          className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${subscription.is_active
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                            }`}
                         >
                           {subscription.is_active ? 'Activo' : 'Inactivo'}
                         </span>

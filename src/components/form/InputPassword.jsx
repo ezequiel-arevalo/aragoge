@@ -25,7 +25,7 @@ export const InputPassword = ({ register, name, errors, label, inputProps = {}, 
           {isPasswordVisible ? <EyeOff className="h-5 w-5 text-gray-500" /> : <Eye className="h-5 w-5 text-gray-500" />}
         </button>
       </div>
-      {errors[name] && <p className="mt-2 text-sm text-red-600">{errors[name].message}</p>}
+      {errors[name] && <p className="mt-2 text-sm text-red-600 text-left flex flex-start">{errors[name].message}</p>}
     </div>
   );
 };

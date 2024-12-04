@@ -10,7 +10,7 @@ export const Input = ({ register, name, errors, label, type = 'text', inputProps
         {...inputProps}
         className="shadow-sm block w-full p-2 sm:text-sm border rounded-md focus:border-[#DA1641] focus:ring-1 focus:ring-[#DA1641] outline-none"
       />
-      {errors[name] && <p className="mt-2 text-sm text-red-600">{errors[name].message}</p>}
+      {errors[name] && <p className="mt-2 text-sm text-red-600 text-left flex flex-start">{errors[name].message}</p>}
     </div>
   );
 };

@@ -1,40 +1,56 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProfessionalPlannings } from '@/redux/plannings/planningsSlice';
-import Loader from '@/components/Loader';
-import PlanningCard from '@/components/ui/PlanningCard';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfessionalPlanningsByID } from "@/redux/plannings/planningsThunks";
+import {
+    selectProfessionalPlanningsById,
+    selectLoading,
+    selectError,
+} from "@/redux/plannings/planningsSelectors";
+import PlanningCard from "@/components/ui/PlanningCard";
+import Loader from "@/components/Loader";
 
-export const PlanningsTab = () => {
+export const PlanningsTab = ({ user }) => {
     const dispatch = useDispatch();
-    const { items: plannings, loading, error } = useSelector((state) => state.plannings);
+    const professionalId = user?.id; // Asegurarse de que user esté definido
+    const plannings = useSelector((state) =>
+        selectProfessionalPlanningsById(state, professionalId)
+    );
+    const loading = useSelector(selectLoading);
+    const error = useSelector(selectError);
 
-    // Fetch professional plannings on mount
+    // Estado local para manejar las planificaciones
+    const [localPlannings, setLocalPlannings] = useState([]);
+
     useEffect(() => {
-        dispatch(fetchProfessionalPlannings());
-    }, [dispatch]);
+        if (professionalId) {
+            dispatch(fetchProfessionalPlanningsByID(professionalId));
+        }
+    }, [dispatch, professionalId]);
 
-    if (loading) {
-        return (
-            <div className="flex justify-center mt-4">
-                <Loader />
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="text-center mt-4 text-red-500">
-                Ocurrió un error al cargar las planificaciones: {error}
-            </div>
-        );
-    }
+    useEffect(() => {
+        // Validar que plannings sea un array antes de actualizar el estado local
+        if (Array.isArray(plannings)) {
+            setLocalPlannings(plannings);
+        } else {
+            setLocalPlannings([]);
+        }
+    }, [plannings]);
 
     return (
         <div className="mt-4">
             <h1 className="text-h2 font-title font-semibold mb-6">Planificaciones</h1>
-            {plannings && Array.isArray(plannings) && plannings.length > 0 ? (
+
+            {loading ? (
+                <div className="flex justify-center">
+                    <Loader />
+                </div>
+            ) : error ? (
+                <p className="text-red-500 text-center">
+                    Error al cargar las planificaciones. Por favor, inténtalo de nuevo más tarde.
+                </p>
+            ) : localPlannings.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {plannings.map((planning) => (
+                    {localPlannings.map((planning) => (
                         <PlanningCard
                             key={planning.id}
                             planning={planning}
@@ -49,3 +65,5 @@ export const PlanningsTab = () => {
         </div>
     );
 };
+
+export default PlanningsTab;

@@ -17,14 +17,16 @@ export const ContactSection = () => {
         status: "success",
         duration: 5000,
         isClosable: true,
+        position: 'bottom-right'
       });
     } catch (error) {
       toast({
         title: "Error",
-        description: "Hubo un problema al enviar tu mensaje. Por favor, inténtalo de nuevo.",
+        description: "Hubo un problema al enviar tu mensaje. Por favor, inténtalo nuevamente.",
         status: "error",
         duration: 5000,
         isClosable: true,
+        position: 'bottom-right'
       });
     }
   };
@@ -40,7 +42,7 @@ export const ContactSection = () => {
         <h2 className="text-h2 font-title font-bold text-center text-gray-900 mb-6">
           Envíanos un mensaje
         </h2>
-        <p className="text-center text-gray-600 mb-8">
+        <p className="text-p text-center text-gray-600 mb-8">
           Llena el formulario y nos pondremos en contacto contigo lo más pronto posible.
         </p>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

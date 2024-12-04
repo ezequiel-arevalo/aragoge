@@ -1,56 +1,48 @@
-// Select all plannings
-export const selectAllPlannings          = (state) => state.plannings.items;
+import { createSelector } from "@reduxjs/toolkit";
 
-// Select planning detail
-export const selectPlanningDetail        = (state) => state.plannings.planningDetail;
+// Base selectors
+export const selectPlanningsState = (state) => state.plannings;
+export const selectMarketplaceItems = (state) => state.plannings.marketplace.items;
+export const selectProfessionalItems = (state) => state.plannings.professional.items;
+export const selectProfessionalPlanningsById = (state, id) => state.plannings.professional.byId[id] || [];
+export const selectPlanningFilters = (state) => state.plannings.marketplace.filters;
+export const selectCategories = (state) => state.plannings.categories;
+export const selectPlanningDetail = (state) => state.plannings.planningDetail;
+export const selectSubscriptions = (state) => state.plannings.subscriptions;
+export const selectLoading = (state) => state.plannings.loading;
+export const selectError = (state) => state.plannings.error;
+export const selectIsInitialized = (state) => state.plannings.isInitialized;
+export const selectIsInitializing = (state) => state.plannings.isInitializing;
 
-// Select categories
-export const selectCategories            = (state) => state.plannings.categories;
+// Memoized selector para planificaciones filtradas del marketplace
+export const selectFilteredMarketplacePlannings = createSelector(
+  [selectMarketplaceItems, selectPlanningFilters],
+  (plannings, filters) => {
+    const { searchTerm, selectedCategory, priceRange } = filters;
+    let filtered = [...plannings];
 
-// Select subscriptions
-export const selectPlanningSubscriptions = (state) => state.plannings.subscriptions;
-
-// Select loading states
-export const selectPlanningLoading       = (state) => state.plannings.loading;
-export const selectSubscriptionsLoading  = (state) => state.plannings.subscriptionsLoading;
-
-// Select error states
-export const selectPlanningError         = (state) => state.plannings.error;
-export const selectSubscriptionsError    = (state) => state.plannings.subscriptionsError;
-
-// Select initialization states
-export const selectIsInitialized         = (state) => state.plannings.isInitialized;
-export const selectIsInitializing        = (state) => state.plannings.isInitializing;
-
-// Select filters
-export const selectPlanningFilters       = (state) => state.plannings.filters;
-
-// Select filtered plannings
-export const selectFilteredPlannings     = (state) => {
-  let filtered = [...state.plannings.items];
-  const { searchTerm, selectedCategory, priceRange } = state.plannings.filters;
-
-  if (selectedCategory) {
-    filtered = filtered.filter(
-      (planning) => planning.category_id === parseInt(selectedCategory)
-    );
-  }
-
-  if (searchTerm) {
-    filtered = filtered.filter((planning) =>
-      planning.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }
-
-  if (priceRange.minPrice || priceRange.maxPrice) {
-    filtered = filtered.filter((planning) => {
-      const price = planning.price;
-      return (
-        (!priceRange.minPrice || price >= priceRange.minPrice) &&
-        (!priceRange.maxPrice || price <= priceRange.maxPrice)
+    if (selectedCategory) {
+      filtered = filtered.filter(
+        (planning) => planning.category_id === parseInt(selectedCategory)
       );
-    });
-  }
+    }
 
-  return filtered;
-};
+    if (searchTerm) {
+      filtered = filtered.filter((planning) =>
+        planning.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    if (priceRange.minPrice || priceRange.maxPrice) {
+      filtered = filtered.filter((planning) => {
+        const price = planning.price;
+        return (
+          (!priceRange.minPrice || price >= priceRange.minPrice) &&
+          (!priceRange.maxPrice || price <= priceRange.maxPrice)
+        );
+      });
+    }
+
+    return filtered;
+  }
+);

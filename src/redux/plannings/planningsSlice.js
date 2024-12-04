@@ -1,25 +1,31 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
-  getPlanningsByUserId,
-  fetchMarketplacePlannings as fetchMarketplacePlanningsService,
-  fetchPlanningById,
-  createPlanning as createPlanningService,
-  updatePlanning as updatePlanningService,
-  deletePlanning as deletePlanningService,
-  fetchSubscriptionsByPlanningId,
-} from "@/services/planningsService";
-import { fetchCategories as fetchCategoriesService } from "@/services/categoryService";
+  fetchInitialData,
+  fetchProfessionalPlannings,
+  fetchProfessionalPlanningsByID,
+  fetchPlanning,
+  createPlanning,
+  updatePlanning,
+  deletePlanning,
+  fetchPlanningSubscriptions,
+} from "./planningsThunks";
 
 const initialState = {
-  items: [],
-  planningDetail: null,
-  categories: [],
-  subscriptions: [],
-  filters: {
-    searchTerm: "",
-    selectedCategory: null,
-    priceRange: { minPrice: "", maxPrice: "" },
+  marketplace: {
+    items: [],
+    filters: {
+      searchTerm: "",
+      selectedCategory: null,
+      priceRange: { minPrice: "", maxPrice: "" },
+    },
   },
+  professional: {
+    items: [],
+    byId: {},
+  },
+  categories: [],
+  planningDetail: null,
+  subscriptions: [],
   loading: false,
   error: null,
   subscriptionsLoading: false,
@@ -28,200 +34,18 @@ const initialState = {
   isInitializing: false,
 };
 
-export const selectFilteredPlannings = (state) => {
-  let filtered = [...state.plannings.items];
-  const { searchTerm, selectedCategory, priceRange } = state.plannings.filters;
-
-  if (selectedCategory) {
-    filtered = filtered.filter(
-      (planning) => planning.category_id === parseInt(selectedCategory)
-    );
-  }
-
-  if (searchTerm) {
-    filtered = filtered.filter((planning) =>
-      planning.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }
-
-  if (priceRange.minPrice || priceRange.maxPrice) {
-    filtered = filtered.filter((planning) => {
-      const price = planning.price;
-      return (
-        (!priceRange.minPrice || price >= priceRange.minPrice) &&
-        (!priceRange.maxPrice || price <= priceRange.maxPrice)
-      );
-    });
-  }
-
-  return filtered;
-};
-
-export const fetchInitialData = createAsyncThunk(
-  "plannings/fetchInitialData",
-  async (_, { getState, rejectWithValue }) => {
-    try {
-      const [planningsResponse, categoriesResponse] = await Promise.all([
-        fetchMarketplacePlanningsService(),
-        fetchCategoriesService(),
-      ]);
-      return {
-        plannings: planningsResponse.data,
-        categories: categoriesResponse.data,
-      };
-    } catch (error) {
-      return rejectWithValue(
-        error.message || "Error al cargar los datos iniciales"
-      );
-    }
-  },
-  {
-    condition: (_, { getState }) => {
-      const { plannings } = getState();
-      return !plannings.isInitialized && !plannings.isInitializing;
-    },
-  }
-);
-
-export const fetchProfessionalPlannings = createAsyncThunk(
-  "plannings/fetchProfessionalPlannings",
-  async (_, { getState, rejectWithValue }) => {
-    try {
-      const { user, accessToken } = getState().user;
-      if (!user || !accessToken) {
-        throw new Error("Usuario no autenticado");
-      }
-      const response = await getPlanningsByUserId(user.id, accessToken);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.message || "Error al cargar las planificaciones"
-      );
-    }
-  }
-);
-
-export const fetchPlanning = createAsyncThunk(
-  "plannings/fetchPlanning",
-  async (id, { rejectWithValue }) => {
-    try {
-      const response = await fetchPlanningById(id);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.message || "Error al cargar la planificación"
-      );
-    }
-  }
-);
-
-export const createPlanning = createAsyncThunk(
-  "plannings/createPlanning",
-  async (planningData, { getState, rejectWithValue }) => {
-    try {
-      const token = getState().user.accessToken;
-      if (!token) {
-        throw new Error("No se encontró el token de autenticación");
-      }
-      const response = await createPlanningService(planningData, token);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.message || "Error al crear la planificación"
-      );
-    }
-  }
-);
-
-export const updatePlanning = createAsyncThunk(
-  "plannings/updatePlanning",
-  async ({ id, planningData }, { getState, rejectWithValue }) => {
-    try {
-      const token = getState().user.accessToken;
-      if (!token) {
-        throw new Error("No se encontró el token de autenticación");
-      }
-      const response = await updatePlanningService(id, planningData, token);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.message || "Error al actualizar la planificación"
-      );
-    }
-  }
-);
-
-export const deletePlanning = createAsyncThunk(
-  "plannings/deletePlanning",
-  async (id, { getState, rejectWithValue }) => {
-    try {
-      const token = getState().user.accessToken;
-      if (!token) {
-        throw new Error("No se encontró el token de autenticación");
-      }
-      await deletePlanningService(id, token);
-      return id;
-    } catch (error) {
-      return rejectWithValue(
-        error.message || "Error al eliminar la planificación"
-      );
-    }
-  }
-);
-
-export const fetchPlanningSubscriptions = createAsyncThunk(
-  "plannings/fetchPlanningSubscriptions",
-  async (planningId, { getState, rejectWithValue }) => {
-    try {
-      const token = getState().user.accessToken;
-      if (!token) {
-        throw new Error("No se encontró el token de autenticación");
-      }
-      const response = await fetchSubscriptionsByPlanningId(planningId, token);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.message || "Error al cargar las suscripciones"
-      );
-    }
-  }
-);
-
 const planningsSlice = createSlice({
   name: "plannings",
   initialState,
   reducers: {
     setFilters: (state, action) => {
-      state.filters = { ...state.filters, ...action.payload };
+      state.marketplace.filters = {
+        ...state.marketplace.filters,
+        ...action.payload,
+      };
     },
-    getFilteredPlannings: (state) => {
-      let filtered = [...state.items];
-
-      const { searchTerm, selectedCategory, priceRange } = state.filters;
-
-      if (selectedCategory) {
-        filtered = filtered.filter(
-          (planning) => planning.category_id === parseInt(selectedCategory)
-        );
-      }
-
-      if (searchTerm) {
-        filtered = filtered.filter((planning) =>
-          planning.title.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-      }
-
-      if (priceRange.minPrice || priceRange.maxPrice) {
-        filtered = filtered.filter((planning) => {
-          const price = planning.price;
-          return (
-            (!priceRange.minPrice || price >= priceRange.minPrice) &&
-            (!priceRange.maxPrice || price <= priceRange.maxPrice)
-          );
-        });
-      }
-
-      return filtered;
+    resetFilters: (state) => {
+      state.marketplace.filters = initialState.marketplace.filters;
     },
   },
   extraReducers: (builder) => {
@@ -234,7 +58,7 @@ const planningsSlice = createSlice({
       })
       .addCase(fetchInitialData.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload.plannings;
+        state.marketplace.items = action.payload.plannings;
         state.categories = action.payload.categories;
         state.isInitialized = true;
         state.isInitializing = false;
@@ -252,12 +76,27 @@ const planningsSlice = createSlice({
       })
       .addCase(fetchProfessionalPlannings.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
+        state.professional.items = action.payload;
       })
       .addCase(fetchProfessionalPlannings.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
+
+      // Fetch Professional Plannings By ID
+      .addCase(fetchProfessionalPlanningsByID.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProfessionalPlanningsByID.fulfilled, (state, action) => {
+        state.loading = false;
+        state.professional.byId[action.meta.arg] = action.payload; // Guardar por ID
+      })
+      .addCase(fetchProfessionalPlanningsByID.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
 
       // Single Planning
       .addCase(fetchPlanning.pending, (state) => {
@@ -280,11 +119,14 @@ const planningsSlice = createSlice({
       })
       .addCase(createPlanning.fulfilled, (state, action) => {
         state.loading = false;
-        if (Array.isArray(state.items)) {
-          state.items.push(action.payload);
+    
+        if (Array.isArray(state.professional.items)) {
+            state.professional.items.push(action.payload);
         } else {
-          state.items = [action.payload]; // Restablecer como array válido
+            state.professional.items = [action.payload];
         }
+    
+        state.marketplace.items.push(action.payload);
       })
       .addCase(createPlanning.rejected, (state, action) => {
         state.loading = false;
@@ -298,12 +140,23 @@ const planningsSlice = createSlice({
       })
       .addCase(updatePlanning.fulfilled, (state, action) => {
         state.loading = false;
-        const index = state.items.findIndex(
+        // Actualizar en planificaciones profesionales
+        const profIndex = state.professional.items.findIndex(
           (item) => item.id === action.payload.id
         );
-        if (index !== -1) {
-          state.items[index] = action.payload;
+        if (profIndex !== -1) {
+          state.professional.items[profIndex] = action.payload;
         }
+        
+        // Actualizar en marketplace
+        const marketIndex = state.marketplace.items.findIndex(
+          (item) => item.id === action.payload.id
+        );
+        if (marketIndex !== -1) {
+          state.marketplace.items[marketIndex] = action.payload;
+        }
+        
+        // Actualizar detalle si es necesario
         if (state.planningDetail?.id === action.payload.id) {
           state.planningDetail = action.payload;
         }
@@ -320,7 +173,12 @@ const planningsSlice = createSlice({
       })
       .addCase(deletePlanning.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = state.items.filter((item) => item.id !== action.payload);
+        state.professional.items = state.professional.items.filter(
+          (item) => item.id !== action.payload
+        );
+        state.marketplace.items = state.marketplace.items.filter(
+          (item) => item.id !== action.payload
+        );
         if (state.planningDetail?.id === action.payload) {
           state.planningDetail = null;
         }
@@ -346,5 +204,5 @@ const planningsSlice = createSlice({
   },
 });
 
-export const { setFilters, getFilteredPlannings } = planningsSlice.actions;
+export const { setFilters, resetFilters } = planningsSlice.actions;
 export default planningsSlice.reducer;

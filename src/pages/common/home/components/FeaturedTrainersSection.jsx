@@ -32,15 +32,15 @@ export const FeaturedTrainersSection = () => {
                 className="w-full h-48 object-cover"
               />
               <div className="p-6">
-                <h3 className="text-h3 font-title font-bold text-xl mb-2">
+                <h3 className="text-h3 font-title font-bold mb-2">
                   Nombre del Profesional
                 </h3>
-                <p className="text-gray-600 text-sm mb-4">
+                <p className="text-p text-gray-600 mb-4">
                   Especialidad: {categories[index % categories.length]}
                 </p>
                 <div className="flex justify-between items-center">
                   <Link
-                    to={`/profile/public/1`} //harcodeado
+                    to={`/profile/public/1`}
                     className="w-full text-center bg-[#da1641] text-white hover:text-white px-4 py-2 rounded-full hover:bg-[#c30d35] transition duration-300"
                   >
                     Ver Perfil

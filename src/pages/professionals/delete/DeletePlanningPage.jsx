@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchPlanning, deletePlanning } from '@/redux/plannings/planningsSlice';
+import { fetchPlanning, deletePlanning } from '@/redux/plannings/planningsThunks';
+import { selectPlanningDetail, selectLoading } from '@/redux/plannings/planningsSelectors';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { useToast } from '@chakra-ui/react';
@@ -13,7 +14,8 @@ export const DeletePlanningPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { planningDetail, loading } = useSelector((state) => state.plannings);
+  const planningDetail = useSelector(selectPlanningDetail);
+  const loading = useSelector(selectLoading);
   const toast = useToast();
 
   useEffect(() => {
@@ -33,6 +35,7 @@ export const DeletePlanningPage = () => {
       });
       navigate('/professional');
     } catch (err) {
+      console.log(err)
       toast({
         title: "Error al eliminar",
         description: err || "No se pudo eliminar la planificación.",

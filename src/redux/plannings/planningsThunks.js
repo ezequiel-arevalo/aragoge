@@ -1,31 +1,22 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   getPlanningsByUserId,
-  fetchMarketplacePlannings,
+  fetchMarketplacePlannings as fetchMarketplacePlanningsService,
   fetchPlanningById,
   createPlanning as createPlanningService,
   updatePlanning as updatePlanningService,
   deletePlanning as deletePlanningService,
   fetchSubscriptionsByPlanningId,
 } from "@/services/planningsService";
-import { fetchCategories } from "@/services/categoryService";
+import { fetchCategories as fetchCategoriesService } from "@/services/categoryService";
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-/**
- * Acción asíncrona que obtiene los datos iniciales de las planificaciones y categorías.
- * 
- * @function
- * @param {undefined} _ - No se requiere parámetro de entrada.
- * @param {object} thunkAPI - El objeto de la API de Thunk que proporciona la función rejectWithValue.
- * @returns {Promise<object>} Objeto con los datos de las planificaciones y las categorías.
- * @throws {string} Error si la solicitud falla.
- */
 export const fetchInitialData = createAsyncThunk(
   "plannings/fetchInitialData",
   async (_, { getState, rejectWithValue }) => {
     try {
       const [planningsResponse, categoriesResponse] = await Promise.all([
-        fetchMarketplacePlannings(),
-        fetchCategories(),
+        fetchMarketplacePlanningsService(),
+        fetchCategoriesService(),
       ]);
       return {
         plannings: planningsResponse.data,
@@ -43,15 +34,6 @@ export const fetchInitialData = createAsyncThunk(
   }
 );
 
-/**
- * Acción asíncrona que obtiene las planificaciones profesionales de un usuario.
- * 
- * @function
- * @param {undefined} _ - No se requiere parámetro de entrada.
- * @param {object} thunkAPI - El objeto de la API de Thunk que proporciona la función rejectWithValue.
- * @returns {Promise<object[]>} Lista de planificaciones del profesional.
- * @throws {string} Error si la solicitud falla.
- */
 export const fetchProfessionalPlannings = createAsyncThunk(
   "plannings/fetchProfessionalPlannings",
   async (_, { getState, rejectWithValue }) => {
@@ -68,15 +50,21 @@ export const fetchProfessionalPlannings = createAsyncThunk(
   }
 );
 
-/**
- * Acción asíncrona que obtiene una planificación específica por su ID.
- * 
- * @function
- * @param {string} id - El ID de la planificación que se desea obtener.
- * @param {object} thunkAPI - El objeto de la API de Thunk que proporciona la función rejectWithValue.
- * @returns {Promise<object>} Datos de la planificación obtenida.
- * @throws {string} Error si la solicitud falla.
- */
+export const fetchProfessionalPlanningsByID = createAsyncThunk(
+  "plannings/fetchProfessionalPlanningsByID",
+  async (id, { rejectWithValue }) => {
+    try {
+      if (!id) {
+        throw new Error("ID de profesional no proporcionado");
+      }
+      const response = await getPlanningsByUserId(id);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message || "Error al cargar las planificaciones");
+    }
+  }
+);
+
 export const fetchPlanning = createAsyncThunk(
   "plannings/fetchPlanning",
   async (id, { rejectWithValue }) => {
@@ -89,15 +77,6 @@ export const fetchPlanning = createAsyncThunk(
   }
 );
 
-/**
- * Acción asíncrona que crea una nueva planificación.
- * 
- * @function
- * @param {object} planningData - Los datos necesarios para crear la planificación.
- * @param {object} thunkAPI - El objeto de la API de Thunk que proporciona la función rejectWithValue.
- * @returns {Promise<object>} Datos de la planificación creada.
- * @throws {string} Error si la solicitud falla.
- */
 export const createPlanning = createAsyncThunk(
   "plannings/createPlanning",
   async (planningData, { getState, rejectWithValue }) => {
@@ -114,17 +93,6 @@ export const createPlanning = createAsyncThunk(
   }
 );
 
-/**
- * Acción asíncrona que actualiza una planificación existente.
- * 
- * @function
- * @param {object} param0 - Los datos necesarios para actualizar la planificación.
- * @param {string} param0.id - El ID de la planificación que se desea actualizar.
- * @param {object} param0.planningData - Los nuevos datos de la planificación.
- * @param {object} thunkAPI - El objeto de la API de Thunk que proporciona la función rejectWithValue.
- * @returns {Promise<object>} Datos de la planificación actualizada.
- * @throws {string} Error si la solicitud falla.
- */
 export const updatePlanning = createAsyncThunk(
   "plannings/updatePlanning",
   async ({ id, planningData }, { getState, rejectWithValue }) => {
@@ -141,15 +109,6 @@ export const updatePlanning = createAsyncThunk(
   }
 );
 
-/**
- * Acción asíncrona que elimina una planificación.
- * 
- * @function
- * @param {string} id - El ID de la planificación que se desea eliminar.
- * @param {object} thunkAPI - El objeto de la API de Thunk que proporciona la función rejectWithValue.
- * @returns {Promise<string>} ID de la planificación eliminada.
- * @throws {string} Error si la solicitud falla.
- */
 export const deletePlanning = createAsyncThunk(
   "plannings/deletePlanning",
   async (id, { getState, rejectWithValue }) => {
@@ -166,15 +125,6 @@ export const deletePlanning = createAsyncThunk(
   }
 );
 
-/**
- * Acción asíncrona que obtiene las suscripciones asociadas a una planificación.
- * 
- * @function
- * @param {string} planningId - El ID de la planificación para obtener las suscripciones.
- * @param {object} thunkAPI - El objeto de la API de Thunk que proporciona la función rejectWithValue.
- * @returns {Promise<object[]>} Lista de suscripciones asociadas a la planificación.
- * @throws {string} Error si la solicitud falla.
- */
 export const fetchPlanningSubscriptions = createAsyncThunk(
   "plannings/fetchPlanningSubscriptions",
   async (planningId, { getState, rejectWithValue }) => {

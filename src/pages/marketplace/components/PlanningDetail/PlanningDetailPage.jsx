@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPlanning } from '@/redux/plannings/planningsSlice'
+import { fetchPlanning } from '@/redux/plannings/planningsThunks'
+import { selectPlanningDetail, selectLoading, selectError } from '@/redux/plannings/planningsSelectors'
 import { ArrowLeft } from 'lucide-react'
 import Loader from '@/components/Loader'
 import { PlanningHero } from './PlanningHero'
@@ -10,7 +11,9 @@ import { PlanningDescription } from './PlanningDescription'
 export const PlanningDetailPage = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
-  const { planningDetail: planning, suggestedPlannings, loading, error } = useSelector(state => state.plannings)
+  const planning = useSelector(selectPlanningDetail)
+  const loading = useSelector(selectLoading)
+  const error = useSelector(selectError)
 
   useEffect(() => {
     dispatch(fetchPlanning(id))

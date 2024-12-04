@@ -28,7 +28,7 @@ export const PlatformFeaturesSection = () => {
               <h3 className="text-h3 font-title font-semibold mb-2 text-center">
                 {feature.title}
               </h3>
-              <p className="text-gray-600 text-center">
+              <p className="text-p text-gray-600 text-center">
                 {feature.description}
               </p>
             </motion.div>

@@ -5,7 +5,7 @@ import {
   HowItWorksSection,
   PlatformFeaturesSection,
   TestimonialsSection,
-  SuccessStoriesSection,
+  // SuccessStoriesSection,
   CallToActionSection
 } from './components/index';
 
@@ -22,7 +22,7 @@ export const HomePage = () => {
       <HowItWorksSection />
       <PlatformFeaturesSection />
       <TestimonialsSection />
-      <SuccessStoriesSection />
+      {/* <SuccessStoriesSection /> */}
       <CallToActionSection />
     </section>
   );
