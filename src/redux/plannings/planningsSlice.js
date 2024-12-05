@@ -18,6 +18,12 @@ const initialState = {
       selectedCategory: null,
       priceRange: { minPrice: "", maxPrice: "" },
     },
+    pagination: {
+      currentPage: 1,
+      itemsPerPage: 9,
+      totalItems: 0,
+      totalPages: 0,
+    },
   },
   professional: {
     items: [],
@@ -43,9 +49,25 @@ const planningsSlice = createSlice({
         ...state.marketplace.filters,
         ...action.payload,
       };
+      // Reset pagination when filters change
+      state.marketplace.pagination.currentPage = 1;
     },
     resetFilters: (state) => {
       state.marketplace.filters = initialState.marketplace.filters;
+      state.marketplace.pagination = initialState.marketplace.pagination;
+    },
+    setCurrentPage: (state, action) => {
+      state.marketplace.pagination.currentPage = action.payload;
+    },
+    setItemsPerPage: (state, action) => {
+      state.marketplace.pagination.itemsPerPage = action.payload;
+      state.marketplace.pagination.currentPage = 1; // Reset to first page when changing items per page
+    },
+    updatePaginationInfo: (state, action) => {
+      state.marketplace.pagination.totalItems = action.payload.totalItems;
+      state.marketplace.pagination.totalPages = Math.ceil(
+        action.payload.totalItems / state.marketplace.pagination.itemsPerPage
+      );
     },
   },
   extraReducers: (builder) => {
@@ -204,5 +226,11 @@ const planningsSlice = createSlice({
   },
 });
 
-export const { setFilters, resetFilters } = planningsSlice.actions;
+export const { 
+  setFilters, 
+  resetFilters, 
+  setCurrentPage, 
+  setItemsPerPage,
+  updatePaginationInfo 
+} = planningsSlice.actions;
 export default planningsSlice.reducer;

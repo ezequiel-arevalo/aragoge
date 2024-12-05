@@ -14,11 +14,20 @@ export const selectError = (state) => state.plannings.error;
 export const selectIsInitialized = (state) => state.plannings.isInitialized;
 export const selectIsInitializing = (state) => state.plannings.isInitializing;
 
-// Memoized selector para planificaciones filtradas del marketplace
+// Pagination selectors
+export const selectPagination = (state) => state.plannings.marketplace.pagination;
+export const selectCurrentPage = (state) => state.plannings.marketplace.pagination.currentPage;
+export const selectItemsPerPage = (state) => state.plannings.marketplace.pagination.itemsPerPage;
+export const selectTotalPages = (state) => state.plannings.marketplace.pagination.totalPages;
+export const selectTotalItems = (state) => state.plannings.marketplace.pagination.totalItems;
+
+// Memoized selector para planificaciones filtradas y paginadas del marketplace
 export const selectFilteredMarketplacePlannings = createSelector(
-  [selectMarketplaceItems, selectPlanningFilters],
-  (plannings, filters) => {
+  [selectMarketplaceItems, selectPlanningFilters, selectPagination],
+  (plannings, filters, pagination) => {
     const { searchTerm, selectedCategory, priceRange } = filters;
+    const { currentPage, itemsPerPage } = pagination;
+    
     let filtered = [...plannings];
 
     if (selectedCategory) {
@@ -43,6 +52,13 @@ export const selectFilteredMarketplacePlannings = createSelector(
       });
     }
 
-    return filtered;
+    // Calculate pagination
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    
+    return {
+      items: filtered.slice(startIndex, endIndex),
+      totalItems: filtered.length
+    };
   }
 );
