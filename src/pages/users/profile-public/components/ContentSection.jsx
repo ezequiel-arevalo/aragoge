@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { useToast } from "@chakra-ui/react";
 import { PlanningsTab } from "./professional/PlanningsTab";
 import { Information } from "./professional/Information";
 import { ProfileEdit } from "./professional/ProfileEdit";

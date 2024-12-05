@@ -3,6 +3,7 @@ import {
   createProfessionalProfileAction,
   updateProfessionalProfileAction,
   fetchProfessionalsAction,
+  fetchTopSubscribedProfessionalsAction,
 } from "./professionalActions";
 
 /**
@@ -86,6 +87,20 @@ const professionalSlice = createSlice({
         state.professionals = action.payload;
       })
       .addCase(fetchProfessionalsAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      
+      // Obtener profesionales destacados
+      .addCase(fetchTopSubscribedProfessionalsAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchTopSubscribedProfessionalsAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.professionals = action.payload;
+      })
+      .addCase(fetchTopSubscribedProfessionalsAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

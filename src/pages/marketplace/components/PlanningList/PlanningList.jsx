@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import PlanningCard from '@/components/ui/PlanningCard';
 import Loader from '@/components/Loader';
 import ConnectionError from '@/components/ui/ConnectionError';
@@ -12,28 +12,44 @@ export const PlanningList = ({ plannings, loading, error }) => {
     return <ConnectionError />;
   }
 
+  const cardVariants = {
+    hidden: (index) => ({
+      opacity: 0,
+      x: index % 2 === 0 ? -50 : 50, // Alterna entre izquierda y derecha
+      y: -30, // Movimiento inicial hacia arriba
+    }),
+    visible: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 100,
+        damping: 10,
+      },
+    },
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <AnimatePresence>
-        {plannings.length === 0 ? (
-          <motion.p
-            className="text-center text-gray-500 col-span-full"
-            transition={{ duration: 0.5 }}
+      {plannings.length === 0 ? (
+        <p className="text-center text-gray-500 col-span-full" role="status">
+          No hay planificaciones que coincidan con los filtros.
+        </p>
+      ) : (
+        plannings.map((planning, index) => (
+          <motion.div
+            key={planning.id}
+            className="relative"
+            custom={index} // Pasar el índice al variante
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
           >
-            No hay planificaciones que coincidan con los filtros.
-          </motion.p>
-        ) : (
-          plannings.map((planning) => (
-            <motion.div
-              key={planning.id}
-              layout
-              transition={{ duration: 0.5 }}
-            >
-              <PlanningCard planning={planning} />
-            </motion.div>
-          ))
-        )}
-      </AnimatePresence>
+            <PlanningCard planning={planning} />
+          </motion.div>
+        ))
+      )}
     </div>
   );
 };

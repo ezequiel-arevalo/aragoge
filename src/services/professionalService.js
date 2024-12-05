@@ -36,3 +36,11 @@ export const getAllProfesionals = (token, role = "professional") => {
   const query = role ? `?rol=${role}` : "";
   return call(`users${query}`, "GET", null, token);
 };
+
+/**
+ * Obtiene a los profesionales más suscritos.
+ * @param {number} limit - Límite de profesionales a obtener.
+ * @returns {Promise} - Una promesa con la lista de profesionales destacados.
+ */
+export const getTopSubscribedProfessionals = (limit = 4) =>
+  call(`users/professionals/top-subscribed?limit=${limit}`, "GET", null);

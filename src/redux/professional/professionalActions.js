@@ -3,6 +3,7 @@ import {
   createProfessionalProfile,
   updateProfessionalProfile,
   getAllProfesionals,
+  getTopSubscribedProfessionals
 } from "@/services/professionalService";
 
 /**
@@ -68,6 +69,24 @@ export const fetchProfessionalsAction = createAsyncThunk(
       return response.data;
     } catch (err) {
       return rejectWithValue(err.message || "Error al obtener profesionales");
+    }
+  }
+);
+
+/**
+ * Acción asíncrona para obtener a los profesionales más suscritos.
+ * 
+ * @param {number} limit - Límite de profesionales a obtener.
+ * @returns {Promise<Object[]>} - La lista de profesionales destacados.
+ */
+export const fetchTopSubscribedProfessionalsAction = createAsyncThunk(
+  "professional/fetchTopSubscribedProfessionals",
+  async (limit = 4, { rejectWithValue }) => {
+    try {
+      const response = await getTopSubscribedProfessionals(limit);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.message || "Error al obtener profesionales destacados");
     }
   }
 );

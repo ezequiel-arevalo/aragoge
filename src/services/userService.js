@@ -31,13 +31,28 @@ export const getUserDetails = (userId, token) =>
   call(`users/${userId}`, "GET", null, token);
 
 /**
- * Actualiza la información de un usuario.
- * @param {Object} userData - Los nuevos datos del usuario.
+ * Actualiza la información de un usuario, incluida su foto de perfil.
+ * @param {Object} userData - Los nuevos datos del usuario. Puede incluir archivos.
  * @param {string} token - El token de autenticación del usuario.
  * @returns {Promise} - Una promesa que se resuelve con la respuesta del servidor.
  */
-export const updateUser = (userData, token) =>
-  call("users/update", "POST", userData, token);
+export const updateUser = (userData, token) => {
+  let payload = userData;
+
+  // Verificar si hay un archivo en los datos del usuario
+  const hasFile = Object.values(userData).some(
+    (value) => value instanceof File || value instanceof Blob
+  );
+
+  if (hasFile) {
+    payload = new FormData();
+    Object.entries(userData).forEach(([key, value]) => {
+      payload.append(key, value);
+    });
+  }
+
+  return call("users/update", "POST", payload, token);
+};
 
 /**
  * Elimina un usuario.

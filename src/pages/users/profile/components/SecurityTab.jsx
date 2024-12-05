@@ -1,22 +1,27 @@
-import { Trash2 } from 'lucide-react'
+import { Link } from 'react-router-dom';
 
 const SecurityTab = ({ handleDelete }) => {
   return (
-    <div className="space-y-6">
-      <div className="p-4 bg-bg-primary rounded-lg">
-        <h3 className="font-font-title text-h5 text-text-primary mb-2">
-          Eliminar cuenta
-        </h3>
-        <p className="text-text-disable font-font-text mb-4">
-          Advertencia: Esta acción es irreversible. Todos tus datos serán eliminados permanentemente.
-        </p>
-        <button onClick={handleDelete} className="flex items-center gap-2 px-4 py-2 bg-destructive text-white rounded-lg hover:bg-destructive-dark transition-colors">
-          <Trash2 className="w-4 h-4" />
-          Eliminar cuenta
-        </button>
-      </div>
-    </div>
-  )
-}
+    <section className="space-y-6">
+      {/* Título de la sección */}
+      <h2 className="text-h2 font-title font-bold">Eliminar cuenta</h2>
 
-export default SecurityTab
+      {/* Descripción de la sección */}
+      <p className="text-p text-gray-700">
+        <strong className="text-destructive">Advertencia:</strong> Esta acción es irreversible. Todos tus datos serán eliminados permanentemente.
+      </p>
+
+      {/* Enlace a las subscripciones */}
+      <Link
+        onClick={handleDelete}
+        to="/subscriptions"
+        className="inline-block px-6 py-3 bg-primary text-white hover:text-white rounded-lg hover:bg-secondary transition-colors"
+        aria-label="Eliminar permanentemente la cuenta"
+      >
+        Eliminar cuenta
+      </Link>
+    </section>
+  );
+};
+
+export default SecurityTab;

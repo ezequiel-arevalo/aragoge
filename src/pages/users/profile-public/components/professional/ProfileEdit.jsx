@@ -54,10 +54,10 @@ export const ProfileEdit = ({ user }) => {
 
     return (
         <div className="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-md rounded-md">
-            <h1 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
-                <Edit3 className="w-6 h-6 text-indigo-600" />
+            <h2 className="text-h2 font-title font-semibold mb-6 flex items-center gap-2">
+                <Edit3 className="w-6 h-6 text-primary" />
                 Editar Perfil Profesional
-            </h1>
+            </h2>
             {loading && <p className="text-blue-600">Guardando...</p>}
             {error && <p className="text-red-600">{error}</p>}
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -153,7 +153,7 @@ export const ProfileEdit = ({ user }) => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full flex justify-center items-center gap-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400"
+                        className="w-full flex justify-center items-center gap-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary"
                     >
                         {loading ? "Guardando..." : "Actualizar Perfil"}
                     </button>
