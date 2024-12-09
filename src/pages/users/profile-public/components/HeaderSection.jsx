@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { User } from 'lucide-react';
 
 const HeaderSection = ({ user }) => (
-  <section className="relative py-20 overflow-hidden bg-gradient-to-br from-[#da1641] to-[#ff6b6b] opacity-90">
+  <section className="relative overflow-hidden py-20 bg-gradient-to-r from-primary to-secondary opacity-90">
     <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-white flex flex-col items-center">
       <motion.div
         initial={{ opacity: 0, y: 20 }}

@@ -49,7 +49,7 @@ export const PlanningsTab = ({ user }) => {
                     Error al cargar las planificaciones. Por favor, inténtalo de nuevo más tarde.
                 </p>
             ) : localPlannings.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {localPlannings.map((planning) => (
                         <PlanningCard
                             key={planning.id}

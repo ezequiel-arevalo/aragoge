@@ -28,24 +28,31 @@ export const Header = () => {
           className="hidden md:flex flex-row space-x-8"
         />
 
-        <div className="flex items-center space-x-4">
+        {/* Ocultar AuthButtons y UserMenu en mobile */}
+        <div className="hidden md:flex items-center space-x-4">
           {!accessToken ? (
             <AuthButtons />
           ) : (
             <UserMenu user={user} onLogout={handleLogout} />
           )}
-
-          <MobileMenuButton isOpen={isMenuOpen} onClick={toggleMenu} />
         </div>
+
+        {/* Botón del menú móvil */}
+        <MobileMenuButton isOpen={isMenuOpen} onClick={toggleMenu} />
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Menú móvil */}
       <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
-        <NavigationLinks
-          links={availableLinks}
-          className="flex flex-col items-center space-y-4 mb-4 p-4"
-          onClick={closeMenu}
-        />
+        <div className="flex flex-col items-center space-y-4 mb-4 p-4">
+          <NavigationLinks links={availableLinks} onClick={closeMenu} />
+
+          {/* Mostrar AuthButtons o UserMenu en mobile */}
+          {!accessToken ? (
+            <AuthButtons />
+          ) : (
+            <UserMenu user={user} onLogout={handleLogout} />
+          )}
+        </div>
       </div>
     </header>
   );

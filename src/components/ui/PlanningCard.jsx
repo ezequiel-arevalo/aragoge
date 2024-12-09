@@ -5,7 +5,7 @@ const PlanningCard = ({ planning, isEditable = false }) => {
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full">
       <div className="flex flex-col h-full">
-        <div className="relative">
+        <div className="relative aspect-w-4 aspect-h-3">
           <img
             src={
               planning.image_id
@@ -13,7 +13,7 @@ const PlanningCard = ({ planning, isEditable = false }) => {
                 : "./default-aragoge.jpg"
             }
             alt={planning.cover_alt || planning.title}
-            className="w-full h-auto max-h-64 mx-auto rounded-md shadow"
+            className="w-full h-full object-cover rounded-md shadow"
           />
         </div>
 
