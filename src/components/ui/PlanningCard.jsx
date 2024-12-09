@@ -13,7 +13,7 @@ const PlanningCard = ({ planning, isEditable = false }) => {
                 : "./default-aragoge.jpg"
             }
             alt={planning.cover_alt || planning.title}
-            className="w-full h-auto max-h-64 object-contain mx-auto rounded-md shadow"
+            className="w-full h-auto max-h-64 mx-auto rounded-md shadow"
           />
         </div>
 

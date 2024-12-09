@@ -63,14 +63,13 @@ export const PlanningHero = ({ planning }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="lg:flex lg:items-center lg:justify-between">
           <div className="lg:w-1/2 mb-8 lg:mb-0">
-            <motion.img
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="w-full h-64 object-cover rounded-lg shadow-2xl"
-              src={`http://127.0.0.1:8000/api/plannings/${planning.id}/image`}
-              alt={planning.title}
-            />
+            <div className="w-full aspect-w-16 aspect-h-9">
+              <motion.img
+                src={`http://127.0.0.1:8000/api/plannings/${planning.id}/image`}
+                alt={planning.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
           <div className="lg:w-1/2 lg:pl-12">
             <motion.div

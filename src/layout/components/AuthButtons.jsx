@@ -7,7 +7,7 @@ export const AuthButtons = () => {
                 to="/login"
                 aria-label="Iniciar sesión"
                 className={({ isActive }) =>
-                    `text-gray-600 hover:text-[#da1641] transition duration-300 ${isActive ? 'font-bold' : ''}`
+                    `hover:text-[#da1641] py-2 transition duration-300 ${isActive ? '' : ''}`
                 }
             >
                 Iniciar Sesión

@@ -23,39 +23,51 @@ export const FeaturedTrainersSection = () => {
         {loading ? (
           <p className="text-center">Cargando...</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {professionals.map((professional, index) => (
-              <motion.div
-                key={professional.id}
-                className="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <img
-                  src={`http://127.0.0.1:8000/api/users/${professional.id}/cover` || "https://placehold.co/150x150"}
-                  alt={`${professional.first_name} ${professional.last_name}`}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-h3 font-title font-bold mb-2">
-                    {professional.first_name} {professional.last_name}
-                  </h3>
-                  <p className="text-p text-gray-600 mb-4">
-                    {professional.rol_name}
-                  </p>
-                  <div className="flex justify-between items-center">
-                    <Link
-                      to={`/profile/public/${professional.id}`}
-                      className="w-full text-center bg-[#da1641] text-white hover:text-white px-4 py-2 rounded-full hover:bg-[#c30d35] transition duration-300"
-                    >
-                      Ver Perfil
-                    </Link>
+          <>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {professionals.map((professional, index) => (
+                <motion.div
+                  key={professional.id}
+                  className="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <img
+                    src={`http://127.0.0.1:8000/api/users/${professional.id}/cover` || "https://placehold.co/150x150"}
+                    alt={`${professional.first_name} ${professional.last_name}`}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-6">
+                    <h3 className="text-h3 font-title font-bold mb-2">
+                      {professional.first_name} {professional.last_name}
+                    </h3>
+                    <p className="text-p text-gray-600 mb-4">
+                      {professional.rol_name}
+                    </p>
+                    <div className="flex justify-between items-center">
+                      <Link
+                        to={`/profile/public/${professional.id}`}
+                        className="w-full text-center bg-[#da1641] text-white hover:text-white px-4 py-2 rounded-full hover:bg-[#c30d35] transition duration-300"
+                      >
+                        Ver Perfil
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </div>
+            <div className="text-center mt-12">
+              <Link
+                to="/professionals"
+                className="inline-flex items-center text-[#da1641] font-semibold hover:underline"
+              >
+                Ver todos los profesionales
+                <span className="ml-2">→</span>
+              </Link>
+            </div>
+          </>
         )}
       </div>
     </section>

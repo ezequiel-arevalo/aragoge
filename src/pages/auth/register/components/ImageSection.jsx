@@ -13,7 +13,7 @@ export const ImageSection = () => {
       overflow="hidden"
     >
       <Image
-        src="./src/pages/auth/register/components/aragoge.svg"
+        src="./register.webp"
         alt="Login illustration"
         objectFit="cover"
         height="full"

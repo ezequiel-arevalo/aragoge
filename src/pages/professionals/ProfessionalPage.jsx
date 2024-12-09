@@ -46,7 +46,7 @@ export const ProfessionalPage = () => {
                                 >
                                     <div className="flex justify-center items-center p-4 bg-gradient-to-br from-[#da1641] to-[#ff6b6b] opacity-90 min-w-[200px]">
                                         <img
-                                            src="https://via.placeholder.com/150"
+                                            src={`http://127.0.0.1:8000/api/users/${professional.id}/cover`}
                                             alt={`${professional.first_name} ${professional.last_name}`}
                                             className="w-36 h-36 object-cover rounded-full"
                                         />
