@@ -40,6 +40,9 @@ p,
 span,
 a,
 label,
+option,
+th,
+td,
 button {
   font-family: 'Cardo', serif;
 }
