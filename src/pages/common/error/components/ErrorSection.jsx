@@ -18,12 +18,12 @@ export const ErrorSection = () => {
         <h2 className="text-h2 font-title text-text-primary mb-4">
           404 - Página no encontrada
         </h2>
-        <p className="text-p text-text-hover mb-8">
+        <p className="text-p font-text text-text-hover mb-8">
           Lo sentimos, la página que estás buscando no existe.
         </p>
         <Link
           to="/"
-          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-semibold rounded-full shadow-sm text-white hover:text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-text font-semibold rounded-full shadow-sm text-white hover:text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
         >
           <Home className="w-5 h-5 mr-2" />
           Volver al inicio

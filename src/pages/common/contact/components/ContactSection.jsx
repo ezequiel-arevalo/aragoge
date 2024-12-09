@@ -42,7 +42,7 @@ export const ContactSection = () => {
         <h2 className="text-h2 font-title font-bold text-center text-gray-900 mb-6">
           Envíanos un mensaje
         </h2>
-        <p className="text-p text-center text-gray-600 mb-8">
+        <p className="text-p font-text text-center text-gray-600 mb-8">
           Llena el formulario y nos pondremos en contacto contigo lo más pronto posible.
         </p>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
