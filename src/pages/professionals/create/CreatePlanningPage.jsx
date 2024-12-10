@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { fetchInitialData, createPlanning } from '@/redux/plannings/planningsThunks';
 import { selectCategories, selectLoading, selectError } from "@/redux/plannings/planningsSelectors";
 import { Input } from '@/components/form/Input';
-import { Textarea } from '@/components/form/Textarea';
+import { Textarea } from '@/components/form/TextArea';
 
 export const CreatePlanningPage = () => {
   const dispatch = useDispatch();

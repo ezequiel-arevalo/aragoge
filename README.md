@@ -30,6 +30,7 @@ Sigue estos pasos para configurar el proyecto en tu entorno local:
 
 > [!IMPORTANT]
 > Recuerda tener todo instalado con:  `npm install`
+> crear el archivo .env utilizando el archivo .env.example
 
 ## Recursos Utilizados
 

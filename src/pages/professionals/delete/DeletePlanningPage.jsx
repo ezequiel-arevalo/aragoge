@@ -8,7 +8,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useToast } from '@chakra-ui/react';
 import Loader from '@/components/Loader';
 import { Input } from '@/components/form/Input';
-import { Textarea } from '@/components/form/Textarea';
+import { Textarea } from '@/components/form/TextArea';
 
 export const DeletePlanningPage = () => {
   const { id } = useParams();
