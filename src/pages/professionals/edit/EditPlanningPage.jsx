@@ -93,7 +93,7 @@ export const EditPlanningPage = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
-      <div className="bg-gradient-to-r from-[#da1641] to-[#ff6b6b] text-white py-16">
+      <div className="bg-primary text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <button
             onClick={() => navigate('/professional')}

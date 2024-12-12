@@ -19,7 +19,7 @@ export const Header = () => {
   return (
     <header className="sticky top-0 z-10 bg-white shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-        <NavLink to="/" className="text-2xl font-bold text-[#da1641]">
+        <NavLink to="/" className="text-2xl font-bold text-[#da1641] text-uppercase uppercase">
           Aragoge
         </NavLink>
 

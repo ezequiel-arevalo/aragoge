@@ -11,6 +11,7 @@ import { SubscriptionsPage } from '@/pages/professionals/subscriptions/Subscript
 import { ProfilePublicPage } from '@/pages/users/profile-public/ProfilePublicPage';
 import { SubscriptionListPage } from '@/pages/users/profile/components/SubscriptionListPage';
 import { SubscriptionDetailPage } from '@/pages/users/profile/components/SubscriptionDetailPage';
+import { HomeAdminPage } from '@/pages/admin/HomeAdminPage';
 
 export const AppRouter = () => {
   const { user, accessToken } = useSelector(state => state.user);
@@ -48,6 +49,8 @@ export const AppRouter = () => {
         {/* Rutas dinámicas para suscripciones */}
         <Route path="/subscriptions" element={<SubscriptionListPage />} />
         <Route path="/subscriptions/:id" element={<SubscriptionDetailPage />} />;
+
+        <Route path="/admin" element={<HomeAdminPage />} />;
 
         {/* Redirección por defecto */}
         <Route path="/" element={<Navigate to="/home" />} />

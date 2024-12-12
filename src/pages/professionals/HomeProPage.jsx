@@ -40,7 +40,7 @@ export const HomeProPage = () => {
 
   return (
     <>
-      <div className="bg-gradient-to-r from-[#da1641] to-[#ff6b6b] text-white py-16">
+      <div className="bg-primary text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-h1 font-title font-bold mb-4">Panel de Profesional</h1>
           <h2 className="text-h2 font-title mb-2">Gestiona tus planificaciones y potencia tu carrera fitness</h2>
@@ -68,7 +68,7 @@ export const HomeProPage = () => {
             <p className="text-red-500 text-lg">Error al cargar las planificaciones. Por favor, inténtalo de nuevo más tarde.</p>
           </div>
         ) : localPlannings.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {localPlannings.map((planning) => (
               <PlanningCard
                 key={planning.id}

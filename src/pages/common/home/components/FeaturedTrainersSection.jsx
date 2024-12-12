@@ -24,7 +24,6 @@ export const FeaturedTrainersSection = () => {
           <p className="text-center">Cargando...</p>
         ) : (
           <>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {professionals.map((professional, index) => (
                 <motion.div
@@ -34,19 +33,27 @@ export const FeaturedTrainersSection = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <img
-                    src={`http://127.0.0.1:8000/api/users/${professional.id}/cover` || "https://placehold.co/150x150"}
-                    alt={`${professional.first_name} ${professional.last_name}`}
-                    className="w-full h-48 object-cover"
-                  />
+                  <div className="flex justify-center mt-4">
+                    {/* Imagen redonda */}
+                    <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg">
+                      <img
+                        src={
+                          `http://127.0.0.1:8000/api/users/${professional.id}/cover` ||
+                          "https://placehold.co/150x150"
+                        }
+                        alt={`${professional.first_name} ${professional.last_name}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
                   <div className="p-6">
-                    <h3 className="text-h3 font-title font-bold mb-2">
+                    <h3 className="text-h3 font-title font-bold mb-2 text-center">
                       {professional.first_name} {professional.last_name}
                     </h3>
-                    <p className="text-p text-gray-600 mb-4">
+                    <p className="text-p text-gray-600 mb-4 text-center">
                       {professional.rol_name}
                     </p>
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-center items-center">
                       <Link
                         to={`/profile/public/${professional.id}`}
                         className="w-full text-center bg-[#da1641] text-white hover:text-white px-4 py-2 rounded-full hover:bg-[#c30d35] transition duration-300"

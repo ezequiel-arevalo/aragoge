@@ -6,11 +6,11 @@ const MotionBox = motion(Box);
 
 export const RegisterPage = () => {
   return (
-    <Flex 
-      minHeight="100vh" 
-      width="full" 
-      align="center" 
-      justifyContent="center" 
+    <Flex
+      minHeight="100vh"
+      width="full"
+      align="center"
+      justifyContent="center"
       className="bg-gradient-to-br from-bg-primary to-bg-secondary"
     >
       <Box
@@ -23,8 +23,11 @@ export const RegisterPage = () => {
         className="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg"
       >
         <Flex direction={{ base: 'column', md: 'row' }}>
+          {/* Encabezado principal */}
+          <h1 className="sr-only">Página de Registro</h1>
+
           {/* Sección Izquierda con Imagen */}
-          <ImageSection 
+          <ImageSection
             src="/aragoge.svg"  // Asegúrate de que esta imagen esté en la carpeta public
             alt="Register illustration"
           />
@@ -39,7 +42,7 @@ export const RegisterPage = () => {
             height={700}
             textAlign="center"
           >
-            <RegisterForm 
+            <RegisterForm
               title="Únete a Nosotros"
               subtitle="¡Crea tu cuenta para comenzar!"
             />

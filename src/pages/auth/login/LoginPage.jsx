@@ -2,10 +2,6 @@ import { LoginForm } from "./components/LoginForm";
 import { ImageSection } from "./components/ImageSection";
 import { motion } from "framer-motion";
 
-/**
- * Página de inicio de sesión
- * Contiene una sección de imagen y un formulario de inicio de sesión animado.
- */
 export const LoginPage = () => {
   return (
     <div
@@ -14,6 +10,9 @@ export const LoginPage = () => {
       <div
         className="w-full max-w-4xl border border-gray-200 rounded-lg shadow-lg overflow-hidden bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg"
       >
+        {/* Encabezado principal */}
+        <h1 className="sr-only">Página de Inicio de Sesión</h1>
+
         <div className="flex flex-col md:flex-row">
           {/* Sección izquierda con imagen */}
           <ImageSection />

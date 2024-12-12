@@ -44,7 +44,7 @@ export const ProfessionalPage = () => {
                                     key={professional.id}
                                     className="flex flex-col sm:flex-row overflow-hidden border border-gray-300 rounded-lg"
                                 >
-                                    <div className="flex justify-center items-center p-4 bg-gradient-to-br from-[#da1641] to-[#ff6b6b] opacity-90 min-w-[200px]">
+                                    <div className="flex justify-center items-center p-4 bg-primary opacity-90 min-w-[200px]">
                                         <img
                                             src={`http://127.0.0.1:8000/api/users/${professional.id}/cover`}
                                             alt={`${professional.first_name} ${professional.last_name}`}

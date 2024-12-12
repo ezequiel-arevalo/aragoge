@@ -3,12 +3,12 @@ import { Settings, ClipboardList, Users, Briefcase, Tag, DollarSign } from "luci
 import { HeroSection } from '@/components/ui/HeroSection';
 
 const adminSections = [
-  { title: "Categorías", description: "Gestiona las categorías disponibles", icon: Tag },
-  { title: "Planificaciones", description: "Administra las planificaciones creadas", icon: ClipboardList },
-  { title: "Usuarios", description: "Controla la lista de usuarios", icon: Users },
-  { title: "Profesionales", description: "Gestiona los profesionales disponibles", icon: Briefcase },
-  { title: "Especialidades", description: "Administra las especialidades ofrecidas", icon: Settings },
-  { title: "Pagos", description: "Revisa y controla los pagos realizados", icon: DollarSign },
+  { title: "Categorías",      description: "Gestiona las categorías disponibles",     icon: Tag },
+  { title: "Planificaciones", description: "Administra las planificaciones creadas",  icon: ClipboardList },
+  { title: "Usuarios",        description: "Controla la lista de usuarios",           icon: Users },
+  { title: "Profesionales",   description: "Gestiona los profesionales disponibles",  icon: Briefcase },
+  { title: "Especialidades",  description: "Administra las especialidades ofrecidas", icon: Settings },
+  { title: "Pagos",           description: "Revisa y controla los pagos realizados",  icon: DollarSign },
 ];
 
 export const HomeAdminPage = () => {
