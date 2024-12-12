@@ -12,7 +12,7 @@ import {
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { Input } from '@/components/form/Input';
-import { Textarea } from '@/components/form/Textarea';
+import { Textarea } from '@/components/form/TextArea';
 import { useToast } from '@chakra-ui/react';
 
 export const EditPlanningPage = () => {

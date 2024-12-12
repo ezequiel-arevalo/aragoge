@@ -1,5 +1,5 @@
 import { Mail, Calendar, Shield, Save } from 'lucide-react';
-import formatDate from '@/utilities/formatDate';
+import formatDate from '@/utilities/FormatDate';
 
 const GeneralTab = ({ formData, handleInputChange, handleSave, userData, roles }) => {
   return (

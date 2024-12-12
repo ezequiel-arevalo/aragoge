@@ -1,5 +1,5 @@
-import { HeroSection } from '@/components/ui/herosection';
-import { ContactSection } from "./components/ContactSection";
+import { HeroSection } from '@/components/ui/HeroSection.jsx';
+import { ContactSection } from "./components/ContactSection.jsx";
 
 export const ContactPage = () => {
   return (

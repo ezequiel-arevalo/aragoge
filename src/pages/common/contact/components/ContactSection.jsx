@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
 import { useToast } from '@chakra-ui/react';
 import { Input } from '@/components/form/Input';
-import { Textarea } from '@/components/form/Textarea';
+import { Textarea } from '@/components/form/TextArea';
 import { useContactForm } from '@/hooks/useContactForm';
 
 export const ContactSection = () => {

@@ -16,10 +16,10 @@ import {
   selectItemsPerPage,
   selectTotalPages,
 } from '@/redux/plannings/planningsSelectors';
-import { FilterBar } from './components/Filters/FilterBar';
+import { FilterBar } from './components/filters/FilterBar.jsx';
 import { PlanningList } from './components/PlanningList/PlanningList';
 import { Pagination } from '@/components/Pagination';
-import { HeroSection } from '@/components/ui/herosection';
+import { HeroSection } from '@/components/ui/HeroSection';
 
 export const MarketPage = () => {
   const dispatch = useDispatch();
