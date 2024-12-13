@@ -15,23 +15,26 @@ export const fetchChats = createAsyncThunk(
   async (userId, { rejectWithValue }) => {
     try {
       const chatsRef = collection(db, "chats");
-      const q = query(
-        chatsRef,
-        where("participants", "array-contains", userId)
-      );
-      
+      const q = query(chatsRef, where("participants", "array-contains", userId));
       const querySnapshot = await getDocs(q);
       const chats = [];
       const defaultUserIds = [1, 2]; // IDs de los usuarios con los que debe tener un chat por defecto
       const missingChats = [];
 
       querySnapshot.forEach((doc) => {
-        chats.push({ id: doc.id, ...doc.data() });
+        const data = doc.data();
+        chats.push({
+          id: doc.id,
+          ...data,
+          // Convierte los Timestamp a milisegundos o ISO string
+          lastMessageTime: data.lastMessageTime ? data.lastMessageTime.toDate().toISOString() : null,
+          createdAt: data.createdAt ? data.createdAt.toDate().toISOString() : null,
+        });
       });
 
       // Verificar si faltan los chats por defecto
       for (const defaultUserId of defaultUserIds) {
-        const hasChat = chats.some(chat => chat.participants.includes(defaultUserId));
+        const hasChat = chats.some((chat) => chat.participants.includes(defaultUserId));
         if (!hasChat) {
           missingChats.push(defaultUserId);
         }
@@ -43,7 +46,7 @@ export const fetchChats = createAsyncThunk(
           participants: [userId, missingUserId],
           createdAt: serverTimestamp(),
           lastMessage: null,
-          lastMessageTime: null
+          lastMessageTime: null,
         });
 
         chats.push({
@@ -51,10 +54,10 @@ export const fetchChats = createAsyncThunk(
           participants: [userId, missingUserId],
           createdAt: new Date().toISOString(),
           lastMessage: null,
-          lastMessageTime: null
+          lastMessageTime: null,
         });
       }
-      
+
       return chats;
     } catch (error) {
       return rejectWithValue(error.message);

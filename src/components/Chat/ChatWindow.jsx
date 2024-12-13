@@ -41,10 +41,12 @@ export const ChatWindow = () => {
           updatedMessages.push({
             id: doc.id,
             ...messageData,
-            timestamp: messageData.timestamp?.toDate?.() || new Date()
+            // Convierte el timestamp en un formato serializable
+            timestamp: messageData.timestamp?.toDate?.().toISOString() || new Date().toISOString(),
           });
         });
 
+        // Actualiza los mensajes en Redux con un payload serializable
         dispatch({ type: 'chat/updateMessages', payload: updatedMessages });
 
         if (updatedMessages.length > 0) {
@@ -52,13 +54,13 @@ export const ChatWindow = () => {
           dispatch(updateLastMessage({
             chatId: currentChat.id,
             message: lastMessage.text,
-            timestamp: lastMessage.timestamp
+            timestamp: lastMessage.timestamp, // Ya es serializable (ISO string)
           }));
 
           const chatRef = doc(db, 'chats', currentChat.id);
           updateDoc(chatRef, {
             lastMessage: lastMessage.text,
-            lastMessageTime: lastMessage.timestamp
+            lastMessageTime: new Date(lastMessage.timestamp), // Convierte de ISO string a Date
           });
         }
       });
