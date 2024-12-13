@@ -7,6 +7,7 @@ import paymentReducer from './payment/paymentSlice';
 import roleReducer from './role/roleSlice';
 import specialityReducer from './speciality/specialitySlice';
 import subscriptionReducer from './subscription/subscriptionSlice';
+import chatReducer from './chat/chatSlice';
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   role: roleReducer,
   speciality: specialityReducer,
   subscription: subscriptionReducer,
+  chat: chatReducer,
 });
 
 export default rootReducer;

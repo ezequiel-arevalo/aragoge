@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Camera } from "lucide-react";
+const URL = import.meta.env.VITE_API_KEY;
 
 export const ProfileHeader = ({ userData, onCoverChange }) => {
   const [imageHover, setImageHover] = useState(false);
-  const [coverPreview, setCoverPreview] = useState(`http://127.0.0.1:8000/api/users/${userData.id}/cover` || "https://placehold.co/150x150");
+  const [coverPreview, setCoverPreview] = useState(`${URL}/users/${userData.id}/cover` || "https://placehold.co/150x150");
 
   const handleCoverImageChange = (event) => {
     const file = event.target.files[0];

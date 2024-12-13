@@ -8,6 +8,7 @@ import {
   selectSubscriptionError,
 } from "@/redux/subscription/subscriptionSelectors";
 import { useToast } from "@chakra-ui/react";
+const URL = import.meta.env.VITE_API_KEY;
 
 export const PlanningHero = ({ planning }) => {
   const dispatch = useDispatch();
@@ -68,7 +69,7 @@ export const PlanningHero = ({ planning }) => {
             <img
               src={
                 planning.image_id
-                  ? `http://127.0.0.1:8000/api/plannings/${planning.id}/image`
+                  ? `${URL}/plannings/${planning.id}/image`
                   : "./default-aragoge.jpg"
               }
               alt={planning.title}

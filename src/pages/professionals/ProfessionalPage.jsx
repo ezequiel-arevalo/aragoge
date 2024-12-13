@@ -6,6 +6,7 @@ import Loader from "@/components/Loader";
 import ConnectionError from "@/components/ui/ConnectionError";
 import { Link } from "react-router-dom";
 import { Calendar } from "lucide-react";
+const URL = import.meta.env.VITE_API_KEY;
 
 export const ProfessionalPage = () => {
     const dispatch = useDispatch();
@@ -46,7 +47,7 @@ export const ProfessionalPage = () => {
                                 >
                                     <div className="flex justify-center items-center p-4 bg-primary opacity-90 min-w-[200px]">
                                         <img
-                                            src={`http://127.0.0.1:8000/api/users/${professional.id}/cover`}
+                                            src={`${URL}/users/${professional.id}/cover`}
                                             alt={`${professional.first_name} ${professional.last_name}`}
                                             className="w-36 h-36 object-cover rounded-full"
                                         />

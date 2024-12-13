@@ -4,6 +4,7 @@ import { fetchTopSubscribedProfessionalsAction } from "@/redux/professional/prof
 import { selectProfessionals, selectProfessionalLoading } from "@/redux/professional/professionalSelectors";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+const URL = import.meta.env.VITE_API_KEY;
 
 export const FeaturedTrainersSection = () => {
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ export const FeaturedTrainersSection = () => {
                     <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg">
                       <img
                         src={
-                          `http://127.0.0.1:8000/api/users/${professional.id}/cover` ||
+                          `${URL}/users/${professional.id}/cover` ||
                           "https://placehold.co/150x150"
                         }
                         alt={`${professional.first_name} ${professional.last_name}`}

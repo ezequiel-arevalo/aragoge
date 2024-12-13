@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { 
-  registerNewUser, 
-  loginUserAction, 
-  logoutUserAction, 
-  updateUserAction, 
-  deleteUserAction 
+import {
+  registerNewUser,
+  loginUserAction,
+  logoutUserAction,
+  updateUserAction,
+  deleteUserAction,
+  fetchUserDetails,
+  fetchAllUsers,
 } from "./userActions";
 
 const initialState = {
@@ -12,6 +14,8 @@ const initialState = {
   error: null,
   user: JSON.parse(localStorage.getItem("user")) || null,
   accessToken: localStorage.getItem("accessToken") || null,
+  allUsers: [], // Nuevo estado para la lista de usuarios
+  userDetails: null, // Nuevo estado para los detalles de un usuario
 };
 
 const userSlice = createSlice({
@@ -21,6 +25,8 @@ const userSlice = createSlice({
     clearUserData: (state) => {
       state.user = null;
       state.accessToken = null;
+      state.allUsers = [];
+      state.userDetails = null;
       localStorage.removeItem("accessToken");
       localStorage.removeItem("user");
     },
@@ -111,6 +117,40 @@ const userSlice = createSlice({
         localStorage.removeItem("user");
       })
       .addCase(deleteUserAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Casos para fetchUserDetails
+      .addCase(fetchUserDetails.pending, (state, action) => {
+        state.loading = true;
+    })
+    .addCase(fetchUserDetails.fulfilled, (state, action) => {
+      const { userId, userDetails } = action.payload;
+  
+      // Asegúrate de mantener los datos existentes y añadir los nuevos
+      state.userDetails = {
+          ...state.userDetails,
+          [userId]: userDetails.data, // Almacena solo la propiedad "data" del usuario
+      };
+      state.loading = false;
+  })
+    .addCase(fetchUserDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+    })
+
+      // Casos para fetchAllUsers
+      .addCase(fetchAllUsers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.allUsers = action.payload;
+      })
+      .addCase(fetchAllUsers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

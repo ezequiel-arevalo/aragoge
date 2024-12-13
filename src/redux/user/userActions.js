@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { registerUser, loginUser, logoutUser, updateUser, deleteUser } from "@/services/userService";
+import { registerUser, loginUser, logoutUser, updateUser, deleteUser, getUserDetails, getAllUsers } from "@/services/userService";
 
 /**
  * Registers a new user with a default role.
@@ -110,6 +110,32 @@ export const deleteUserAction = createAsyncThunk(
       return response;
     } catch (err) {
       return rejectWithValue(err.message || "Error al eliminar usuario");
+    }
+  }
+);
+
+// Acción para obtener detalles de un usuario específico
+export const fetchUserDetails = createAsyncThunk(
+  "user/fetchUserDetails",
+  async ({ userId, token }, { rejectWithValue }) => {
+      try {
+          const userDetails = await getUserDetails(userId, token);
+          return { userId, userDetails };
+      } catch (error) {
+          return rejectWithValue(error.message);
+      }
+  }
+);
+
+// Acción para obtener la lista de todos los usuarios
+export const fetchAllUsers = createAsyncThunk(
+  "user/fetchAllUsers",
+  async (token, { rejectWithValue }) => {
+    try {
+      const response = await getAllUsers(token);
+      return response;
+    } catch (err) {
+      return rejectWithValue(err.message || "Error al obtener la lista de usuarios");
     }
   }
 );

@@ -9,6 +9,7 @@ import { useToast } from '@chakra-ui/react';
 import Loader from '@/components/Loader';
 import { Input } from '@/components/form/Input';
 import { Textarea } from '@/components/form/TextArea';
+const URL = import.meta.env.VITE_API_KEY;
 
 export const DeletePlanningPage = () => {
   const { id } = useParams();
@@ -61,7 +62,7 @@ export const DeletePlanningPage = () => {
 
   // Construcción de la URL de la imagen
   const imageUrl = planningDetail.image_id
-    ? `http://127.0.0.1:8000/api/plannings/${planningDetail.id}/image`
+    ? `${URL}/plannings/${planningDetail.id}/image`
     : './default-aragoge.jpg'; // Imagen de respaldo
 
   return (

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { User } from 'lucide-react';
+const URL = import.meta.env.VITE_API_KEY;
 
 const HeaderSection = ({ user }) => (
   <section className="relative overflow-hidden py-20 bg-primary">
@@ -13,7 +14,7 @@ const HeaderSection = ({ user }) => (
         <div className="w-[150px] h-[150px] rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
           {user.image_id ? (
             <img
-              src={`http://127.0.0.1:8000/api/users/${user.id}/cover`}
+              src={`${URL}/users/${user.id}/cover`}
               alt={`${user.first_name} ${user.last_name}`}
               className="w-full h-full object-cover rounded-full"
             />

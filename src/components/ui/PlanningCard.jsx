@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Trash, Edit, Star, Eye } from 'lucide-react';
+const URL = import.meta.env.VITE_API_KEY;
 
 const PlanningCard = ({ planning, isEditable = false }) => {
   return (
@@ -9,7 +10,7 @@ const PlanningCard = ({ planning, isEditable = false }) => {
           <img
             src={
               planning.image_id
-                ? `http://127.0.0.1:8000/api/plannings/${planning.id}/image`
+                ? `${URL}/plannings/${planning.id}/image`
                 : "./default-aragoge.jpg"
             }
             alt={planning.cover_alt || planning.title}
