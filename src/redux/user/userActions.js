@@ -118,12 +118,12 @@ export const deleteUserAction = createAsyncThunk(
 export const fetchUserDetails = createAsyncThunk(
   "user/fetchUserDetails",
   async ({ userId, token }, { rejectWithValue }) => {
-      try {
-          const userDetails = await getUserDetails(userId, token);
-          return { userId, userDetails };
-      } catch (error) {
-          return rejectWithValue(error.message);
-      }
+    try {
+      const userDetails = await getUserDetails(userId, token);
+      return { userId, userDetails };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
 );
 

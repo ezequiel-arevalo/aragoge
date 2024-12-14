@@ -35,6 +35,9 @@ const chatSlice = createSlice({
         chat.lastMessage = message;
         chat.lastMessageTime = timestamp;
       }
+    },
+    updateChats: (state, action) => {
+      state.chats = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -105,7 +108,8 @@ export const {
   setCurrentChat, 
   clearChat, 
   updateMessages,
-  updateLastMessage 
+  updateLastMessage,
+  updateChats
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

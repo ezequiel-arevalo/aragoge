@@ -15,3 +15,6 @@ export const selectAllUsers    = (state) => state.user.allUsers;
 
 // Selector para obtener la información del usuario
 export const selectUserDetails = (state) => state.user.userDetails || {};
+
+export const selectUserLoading = (state) => state.user.loading;
+export const selectUserError = (state) => state.user.error;
