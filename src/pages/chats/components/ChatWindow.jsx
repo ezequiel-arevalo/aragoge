@@ -15,7 +15,6 @@ export const ChatWindow = () => {
   const currentUser = useSelector(selectUser);
   const userDetails = useSelector(selectUserDetails);
   const [newMessage, setNewMessage] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
   // Obtener ID del otro usuario
@@ -80,7 +79,6 @@ export const ChatWindow = () => {
         })).unwrap();
 
         setNewMessage('');
-        setIsTyping(false);
       } catch (error) {
       }
     }
@@ -88,7 +86,6 @@ export const ChatWindow = () => {
 
   const handleTyping = (e) => {
     setNewMessage(e.target.value);
-    setIsTyping(e.target.value.length > 0);
   };
 
   if (!currentChat) {
@@ -102,12 +99,9 @@ export const ChatWindow = () => {
   return (
     <div className="flex-1 flex flex-col h-full">
       <div className="p-4 border-b bg-white shadow-sm">
-        <h3 className="text-lg font-semibold">
-          Chat con: {otherUser ? `${otherUser.first_name} ${otherUser.last_name}` : "Cargando..."}
+        <h3 className="text-lg font-semibold text-center">
+          {otherUser ? `${otherUser.first_name} ${otherUser.last_name}` : "Cargando..."}
         </h3>
-        {isTyping && (
-          <p className="text-sm text-gray-500">Escribiendo...</p>
-        )}
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">

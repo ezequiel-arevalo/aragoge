@@ -42,6 +42,12 @@ const routes = [
     isAuth: false,
   },
   {
+    path: "/chats",
+    name: "Chats",
+    component: "ChatPage",
+    isAuth: true,
+  },
+  {
     path: "/admin",
     name: "Admin",
     component: "HomeAdminPage",

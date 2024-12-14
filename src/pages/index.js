@@ -1,6 +1,7 @@
 export * from "./common/home/HomePage";
 export * from "./common/contact/ContactPage";
 export * from "./common/error/ErrorPage";
+export * from "./chats/ChatPage";
 export * from "./users/profile/ProfilePage";
 export * from "./users/profile/components/SubscriptionDetailPage";
 export * from "./users/profile/components/SubscriptionListPage";

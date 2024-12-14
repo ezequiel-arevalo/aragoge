@@ -1,5 +1,4 @@
 import { HashRouter } from "react-router-dom";
-import { StrictMode } from "react";
 import { ChakraProvider } from '@chakra-ui/react';
 import { createRoot } from "react-dom/client";
 import { Provider } from 'react-redux';
@@ -9,13 +8,11 @@ import theme from '@/contexts/theme';
 import '@/assets/css/global.css';
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Provider store={store}>
-      <HashRouter>
-        <ChakraProvider theme={theme}>
-          <App />
-        </ChakraProvider>
-      </HashRouter>
-    </Provider>
-  </StrictMode>
+  <Provider store={store}>
+    <HashRouter>
+      <ChakraProvider theme={theme}>
+        <App />
+      </ChakraProvider>
+    </HashRouter>
+  </Provider>
 );
