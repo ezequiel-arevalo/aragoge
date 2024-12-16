@@ -4,7 +4,7 @@ import { collection, query, orderBy, onSnapshot, doc, updateDoc } from 'firebase
 import { db } from '@/services/firestore';
 import { selectCurrentChat, selectMessages, selectChatLoading } from '@/redux/chat/chatSelectors';
 import { selectUser, selectUserDetails } from '@/redux/user/userSelectors';
-import { sendMessage, fetchChatById } from '@/redux/chat/chatActions'
+import { sendMessage, fetchChatById } from '@/redux/chat/chatActions';
 import { updateLastMessage } from '@/redux/chat/chatSlice';
 import { fetchUserDetails } from '@/redux/user/userActions';
 import { ChatHeader } from './ChatHeader';
@@ -26,7 +26,6 @@ export const ChatWindow = ({ chatId }) => {
 
     useEffect(() => {
         if (chatId) {
-            // Cargar el chat actual al cambiar el chatId
             dispatch(fetchChatById(chatId));
         }
     }, [chatId, dispatch]);
@@ -38,51 +37,38 @@ export const ChatWindow = ({ chatId }) => {
     }, [dispatch, otherUserId, otherUser, currentUser]);
 
     useEffect(() => {
-        if (chatId) {
-            const messagesRef = collection(db, `chats/${chatId}/messages`);
-            const q = query(messagesRef, orderBy("timestamp", "asc"));
+        if (!chatId) return;
 
-            const unsubscribe = onSnapshot(q, (snapshot) => {
-                const updatedMessages = snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data(),
-                    timestamp: doc.data().timestamp?.toDate?.().toISOString() || new Date().toISOString(),
+        const q = query(collection(db, `chats/${chatId}/messages`), orderBy("timestamp", "asc"));
+        return onSnapshot(q, (snapshot) => {
+            const updatedMessages = snapshot.docs.map(doc => ({
+                id: `${doc.id}_${doc.data().timestamp?.toDate?.().getTime() || Date.now()}`, // Crear un ID único combinando el ID del documento y el timestamp
+                ...doc.data(),
+                timestamp: doc.data().timestamp?.toDate?.().toISOString() || new Date().toISOString(),
+            }));
+
+            // Asegurarse de que no hay mensajes duplicados
+            const uniqueMessages = Array.from(new Map(updatedMessages.map(msg => [msg.id, msg])).values());
+
+            dispatch({ type: 'chat/updateMessages', payload: uniqueMessages });
+
+            if (uniqueMessages.length > 0) {
+                const lastMessage = uniqueMessages[uniqueMessages.length - 1];
+                dispatch(updateLastMessage({
+                    chatId,
+                    message: lastMessage.text,
+                    timestamp: lastMessage.timestamp,
                 }));
 
-                dispatch({ type: 'chat/updateMessages', payload: updatedMessages });
-
-                if (updatedMessages.length > 0) {
-                    const lastMessage = updatedMessages[updatedMessages.length - 1];
-                    dispatch(updateLastMessage({
-                        chatId,
-                        message: lastMessage.text,
-                        timestamp: lastMessage.timestamp,
-                    }));
-
-                    updateDoc(doc(db, 'chats', chatId), {
-                        lastMessage: lastMessage.text,
-                        lastMessageTime: new Date(lastMessage.timestamp),
-                    });
-                }
-            });
-
-            return () => unsubscribe();
-        }
+                updateDoc(doc(db, 'chats', chatId), {
+                    lastMessage: lastMessage.text,
+                    lastMessageTime: new Date(lastMessage.timestamp),
+                });
+            }
+        });
     }, [chatId, dispatch]);
 
-    const handleSendMessage = async (text) => {
-        if (chatId) {
-            await dispatch(sendMessage({
-                chatId,
-                senderId: currentUser.id,
-                text
-            })).unwrap();
-        }
-    };
-
-    if (!currentChat) {
-        return <EmptyChatWindow />;
-    }
+    if (!currentChat) return <EmptyChatWindow />;
 
     return (
         <div className="flex-1 flex flex-col h-full bg-white">
@@ -92,7 +78,16 @@ export const ChatWindow = ({ chatId }) => {
                 loading={loading}
                 currentUserId={currentUser.id}
             />
-            <ChatInput onSendMessage={handleSendMessage} isLoading={loading} />
+            <ChatInput
+                onSendMessage={(text) =>
+                    dispatch(sendMessage({
+                        chatId,
+                        senderId: currentUser.id,
+                        text
+                    }))
+                }
+                isLoading={loading}
+            />
         </div>
     );
 };
