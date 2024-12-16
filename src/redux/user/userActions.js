@@ -127,14 +127,15 @@ export const fetchUserDetails = createAsyncThunk(
   }
 );
 
-// Acción para obtener la lista de todos los usuarios
 export const fetchAllUsers = createAsyncThunk(
   "user/fetchAllUsers",
   async (token, { rejectWithValue }) => {
     try {
       const response = await getAllUsers(token);
+      console.log("Respuesta de la API:", response); // Verifica los datos aquí
       return response;
     } catch (err) {
+      console.error("Error al obtener usuarios:", err);
       return rejectWithValue(err.message || "Error al obtener la lista de usuarios");
     }
   }

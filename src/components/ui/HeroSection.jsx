@@ -8,8 +8,8 @@ export const HeroSection = ({
   onSearchSubmit,
 }) => {
   return (
-    <section className="relative py-20 bg-primary text-white">
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 mb-10 bg-primary text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

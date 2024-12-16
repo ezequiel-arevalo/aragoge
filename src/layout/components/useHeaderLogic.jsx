@@ -1,12 +1,12 @@
-import { useState, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useState, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
-import { logoutUserAction } from '@/redux/user/userActions';
-import routes from '@/router/routes';
+import { logoutUserAction } from "@/redux/user/userActions";
+import routes from "@/router/routes";
 
 export const useHeaderLogic = () => {
-    const { user, accessToken } = useSelector(state => state.user);
+    const { user, accessToken } = useSelector((state) => state.user);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -16,15 +16,16 @@ export const useHeaderLogic = () => {
     const closeMenu = () => setIsMenuOpen(false);
 
     const getAvailableLinks = useCallback(() => {
-        return routes.filter(route => {
+        return routes.filter((route) => {
+            // Solo mostrar rutas con `view: true`
+            if (!route.view) return false;
+
+            // Verificar autenticación si es necesario
             if (route.isAuth && !accessToken) return false;
+
+            // Verificar roles si están definidos
             if (route.role && user?.rol_id !== route.role) return false;
-            if (route.name === 'Login' || route.name === 'Register') return false;
-            if (route.name === 'Profile') return false;
-            if (route.name === 'ProfilePublic') return false;
-            if (route.name === 'Professionales') return false;
-            if (route.name === 'Subscriptions') return false;
-            if (route.name === 'SubscriptionDetail') return false;
+
             return true;
         });
     }, [user?.rol_id, accessToken]);

@@ -5,8 +5,10 @@ import {
   query, 
   where, 
   getDocs, 
-  orderBy,
-  serverTimestamp 
+  orderBy, 
+  serverTimestamp, 
+  doc, 
+  getDoc 
 } from "firebase/firestore";
 import { db } from "@/services/firestore";
 
@@ -26,13 +28,11 @@ export const fetchChats = createAsyncThunk(
         chats.push({
           id: doc.id,
           ...data,
-          // Convierte los Timestamp a milisegundos o ISO string
           lastMessageTime: data.lastMessageTime ? data.lastMessageTime.toDate().toISOString() : null,
           createdAt: data.createdAt ? data.createdAt.toDate().toISOString() : null,
         });
       });
 
-      // Verificar si faltan los chats por defecto
       for (const defaultUserId of defaultUserIds) {
         const hasChat = chats.some((chat) => chat.participants.includes(defaultUserId));
         if (!hasChat) {
@@ -40,7 +40,6 @@ export const fetchChats = createAsyncThunk(
         }
       }
 
-      // Crear los chats faltantes
       for (const missingUserId of missingChats) {
         const chatDoc = await addDoc(chatsRef, {
           participants: [userId, missingUserId],
@@ -127,6 +126,27 @@ export const fetchMessages = createAsyncThunk(
       });
       
       return messages;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const fetchChatById = createAsyncThunk(
+  "chat/fetchChatById",
+  async (chatId, { rejectWithValue }) => {
+    try {
+      const chatDoc = await getDoc(doc(db, "chats", chatId));
+      if (chatDoc.exists()) {
+        return {
+          id: chatDoc.id,
+          ...chatDoc.data(),
+          createdAt: chatDoc.data().createdAt?.toDate().toISOString() || null,
+          lastMessageTime: chatDoc.data().lastMessageTime?.toDate().toISOString() || null,
+        };
+      } else {
+        throw new Error("Chat not found");
+      }
     } catch (error) {
       return rejectWithValue(error.message);
     }

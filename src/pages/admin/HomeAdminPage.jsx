@@ -1,14 +1,15 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Settings, ClipboardList, Users, Briefcase, Tag, DollarSign } from "lucide-react";
 import { HeroSection } from '@/components/ui/HeroSection';
 
 const adminSections = [
-  { title: "Categorías",      description: "Gestiona las categorías disponibles",     icon: Tag },
-  { title: "Planificaciones", description: "Administra las planificaciones creadas",  icon: ClipboardList },
-  { title: "Usuarios",        description: "Controla la lista de usuarios",           icon: Users },
-  { title: "Profesionales",   description: "Gestiona los profesionales disponibles",  icon: Briefcase },
-  { title: "Especialidades",  description: "Administra las especialidades ofrecidas", icon: Settings },
-  { title: "Pagos",           description: "Revisa y controla los pagos realizados",  icon: DollarSign },
+  { title: "Categorías",      description: "Gestiona las categorías disponibles",     icon: Tag,           route: "/categories" },
+  // { title: "Planificaciones", description: "Administra las planificaciones creadas",  icon: ClipboardList, route: "/plannings" },
+  { title: "Usuarios",        description: "Controla la lista de usuarios",           icon: Users,         route: "/users" },
+  { title: "Profesionales",   description: "Gestiona los profesionales disponibles",  icon: Briefcase,     route: "/professionals" },
+  { title: "Especialidades",  description: "Administra las especialidades ofrecidas", icon: Settings,      route: "/specialities" },
+  { title: "Pagos",           description: "Revisa y controla los pagos realizados",  icon: DollarSign,    route: "/payments" },
 ];
 
 export const HomeAdminPage = () => {
@@ -39,29 +40,30 @@ export const HomeAdminPage = () => {
             {adminSections.map((section, index) => {
               const Icon = section.icon;
               return (
-                <motion.div
-                  key={section.title}
-                  className="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition duration-300 cursor-pointer flex flex-col items-center"
-                  whileHover={{ scale: 1.05 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  role="article"
-                  aria-labelledby={`card-title-${index}`}
-                >
-                  <div className="bg-red-100 p-3 rounded-full mb-3 flex justify-center">
-                    <Icon className="w-5 h-5 text-[#da1641]" />
-                  </div>
-                  <h3
-                    id={`card-title-${index}`}
-                    className="text-lg font-semibold text-gray-800 mb-1 text-center"
+                <Link to={`/admin${section.route}`} key={section.title}>
+                  <motion.div
+                    className="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition duration-300 cursor-pointer flex flex-col items-center"
+                    whileHover={{ scale: 1.05 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    role="article"
+                    aria-labelledby={`card-title-${index}`}
                   >
-                    {section.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 text-center">
-                    {section.description}
-                  </p>
-                </motion.div>
+                    <div className="bg-red-100 p-3 rounded-full mb-3 flex justify-center">
+                      <Icon className="w-5 h-5 text-[#da1641]" />
+                    </div>
+                    <h3
+                      id={`card-title-${index}`}
+                      className="text-lg font-semibold text-gray-800 mb-1 text-center"
+                    >
+                      {section.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 text-center">
+                      {section.description}
+                    </p>
+                  </motion.div>
+                </Link>
               );
             })}
           </div>

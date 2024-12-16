@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { 
-  fetchChats, 
-  sendMessage, 
+import {
+  fetchChats,
+  sendMessage,
   createChat,
-  fetchMessages 
+  fetchMessages,
 } from "./chatActions";
 
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
   currentChat: null,
   messages: [],
   loading: false,
-  error: null
+  error: null,
 };
 
 const chatSlice = createSlice({
@@ -30,7 +30,7 @@ const chatSlice = createSlice({
     },
     updateLastMessage: (state, action) => {
       const { chatId, message, timestamp } = action.payload;
-      const chat = state.chats.find(c => c.id === chatId);
+      const chat = state.chats.find((c) => c.id === chatId);
       if (chat) {
         chat.lastMessage = message;
         chat.lastMessageTime = timestamp;
@@ -38,7 +38,7 @@ const chatSlice = createSlice({
     },
     updateChats: (state, action) => {
       state.chats = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -100,16 +100,30 @@ const chatSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         state.messages = [];
+      })
+      // Fetch chat by ID (new logic)
+      .addCase("chat/fetchChatById/pending", (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase("chat/fetchChatById/fulfilled", (state, action) => {
+        state.loading = false;
+        state.currentChat = action.payload;
+        state.error = null;
+      })
+      .addCase("chat/fetchChatById/rejected", (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
-  }
+  },
 });
 
-export const { 
-  setCurrentChat, 
-  clearChat, 
+export const {
+  setCurrentChat,
+  clearChat,
   updateMessages,
   updateLastMessage,
-  updateChats
+  updateChats,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

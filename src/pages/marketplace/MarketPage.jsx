@@ -61,13 +61,13 @@ export const MarketPage = () => {
 
   return (
     <>
-      <HeroSection
-        title="Encuentra tu entrenador perfecto"
-        description="Descubre los mejores entrenadores para alcanzar tu máximo potencial"
-        showInput={true}
-        onSearchSubmit={handleSearchSubmit}
-      />
-      <section className="py-16">
+      <section className="mx-auto text-center p-4">
+        <HeroSection
+          title="Encuentra tu entrenador perfecto"
+          description="Descubre los mejores entrenadores para alcanzar tu máximo potencial"
+          showInput={true}
+          onSearchSubmit={handleSearchSubmit}
+        />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row gap-8">
             <aside className="w-full md:w-1/4 bg-transparent">

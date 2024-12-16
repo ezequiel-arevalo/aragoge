@@ -54,7 +54,7 @@ const specialitySlice = createSlice({
        */
       .addCase(fetchSpecialities.fulfilled, (state, action) => {
         state.loading = false;
-        state.specialities = action.payload;
+        state.specialities = action.payload.data || []; // Asegúrate de que siempre sea un array
       })
 
       /**

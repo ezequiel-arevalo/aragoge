@@ -146,9 +146,10 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchAllUsers.fulfilled, (state, action) => {
+        console.log("Usuarios obtenidos:", action.payload.data); // Verifica los datos aquí
         state.loading = false;
         state.error = null;
-        state.allUsers = action.payload;
+        state.allUsers = action.payload.data; // Accede a "data" correctamente
       })
       .addCase(fetchAllUsers.rejected, (state, action) => {
         state.loading = false;
