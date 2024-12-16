@@ -15,6 +15,7 @@
     "@chakra-ui/react": "2.8.2",
     "@emotion/react": "11.13.3",
     "@emotion/styled": "11.13.0",
+    "@mercadopago/sdk-react": "^0.0.19",
     "@reduxjs/toolkit": "^2.2.7",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "axios": "^1.7.7",

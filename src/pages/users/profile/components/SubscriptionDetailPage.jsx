@@ -5,6 +5,7 @@ import { getSubscriptionById, cancelSubscription, renewSubscriptionThunk } from 
 import { selectCurrentSubscription, selectSubscriptionLoading, selectSubscriptionError } from "@/redux/subscription/subscriptionSelectors";
 import { Calendar, Tag, ArrowLeft, RefreshCw, X, Clock, CheckCircle, XCircle } from "lucide-react";
 import { HeroSection } from "@/components/ui/HeroSection";
+import { ButtonMP } from "@/components/mp/ButtonMP";
 import Loader from "@/components/Loader";
 import { useToast } from "@chakra-ui/react";
 
@@ -129,6 +130,7 @@ export const SubscriptionDetailPage = () => {
         );
     }
 
+    console.log(subscription.payments[0]);
     return (
         <>
             <HeroSection
@@ -238,12 +240,22 @@ export const SubscriptionDetailPage = () => {
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="text-gray-700">
                                                 <p className="text-sm font-medium">Monto</p>
-                                                <p className="text-sm">${payment.amount}</p>
+                                                <p className="text-sm">${payment.total_price}</p>
                                             </div>
                                             <div className="text-gray-700">
                                                 <p className="text-sm font-medium">Fecha</p>
-                                                <p className="text-sm">{new Date(payment.payment_date).toLocaleDateString()}</p>
+                                                <p className="text-sm">{new Date(payment.created_at).toLocaleDateString()}</p>
                                             </div>
+                                            <div className="text-gray-700 mt-2">
+                                                <p className="text-sm font-medium">Estado</p>
+                                                <p className="text-sm">{payment.payment_status}</p>
+                                            </div>
+                                                {payment.payment_status === 'pendiente' && (
+                                                    <div className="text-gray-700 mt-2">
+                                                      <p className="text-sm font-medium">Pago</p>
+                                                      <ButtonMP />
+                                                    </div>
+                                                  )}
                                         </div>
                                     </div>
                                 ))
