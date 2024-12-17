@@ -46,3 +46,11 @@ td,
 button {
   font-family: 'Cardo', serif;
 }
+
+#chatSystem {
+  background-image: url("../img/aragoge.svg");
+  background-repeat: repeat;
+  background-position: top left;
+  background-size: 400px;
+  background-color: white;
+}

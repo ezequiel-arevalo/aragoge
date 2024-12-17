@@ -1,5 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { registerUser, loginUser, logoutUser, updateUser, deleteUser, getUserDetails, getAllUsers } from "@/services/userService";
+import {
+  registerUser,
+  loginUser,
+  logoutUser,
+  updateUser,
+  deleteUser,
+  getUserDetails,
+  getAllUsers,
+} from "@/services/userService";
 
 /**
  * Registers a new user with a default role.
@@ -132,11 +140,13 @@ export const fetchAllUsers = createAsyncThunk(
   async (token, { rejectWithValue }) => {
     try {
       const response = await getAllUsers(token);
-      console.log("Respuesta de la API:", response); // Verifica los datos aquí
+      // console.log("Respuesta de la API:", response); // Verifica los datos aquí
       return response;
     } catch (err) {
-      console.error("Error al obtener usuarios:", err);
-      return rejectWithValue(err.message || "Error al obtener la lista de usuarios");
+      // console.error("Error al obtener usuarios:", err);
+      return rejectWithValue(
+        err.message || "Error al obtener la lista de usuarios"
+      );
     }
   }
 );

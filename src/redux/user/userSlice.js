@@ -102,7 +102,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // Eliminación de usuario
       .addCase(deleteUserAction.pending, (state) => {
         state.loading = true;
@@ -124,35 +124,29 @@ const userSlice = createSlice({
       // Casos para fetchUserDetails
       .addCase(fetchUserDetails.pending, (state, action) => {
         state.loading = true;
-    })
-    .addCase(fetchUserDetails.fulfilled, (state, action) => {
-      const { userId, userDetails } = action.payload;
-  
-      // Asegúrate de mantener los datos existentes y añadir los nuevos
-      state.userDetails = {
+      })
+      .addCase(fetchUserDetails.fulfilled, (state, action) => {
+        const { userId, userDetails } = action.payload;
+
+        // Asegúrate de mantener los datos existentes y añadir los nuevos
+        state.userDetails = {
           ...state.userDetails,
           [userId]: userDetails.data, // Almacena solo la propiedad "data" del usuario
-      };
-      state.loading = false;
-  })
-    .addCase(fetchUserDetails.rejected, (state, action) => {
+        };
+        state.loading = false;
+      })
+      .addCase(fetchUserDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-    })
+      })
 
-      // Casos para fetchAllUsers
       .addCase(fetchAllUsers.pending, (state) => {
         state.loading = true;
-        state.error = null;
       })
       .addCase(fetchAllUsers.fulfilled, (state, action) => {
-        console.log("Usuarios obtenidos:", action.payload.data); // Verifica los datos aquí
-        state.loading = false;
-        state.error = null;
-        state.allUsers = action.payload.data; // Accede a "data" correctamente
+        state.allUsers = action.payload.data; // Verifica que "data" exista
       })
       .addCase(fetchAllUsers.rejected, (state, action) => {
-        state.loading = false;
         state.error = action.payload;
       });
   },

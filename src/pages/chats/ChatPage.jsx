@@ -1,29 +1,26 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { ChatWindow } from './components/ChatWindow';
-import { ArrowLeft } from 'lucide-react';
+import { useParams } from "react-router-dom";
+import { ChatWindow } from "./components/ChatWindow";
+import { ChatHeader } from "./components/ChatHeader";
 
+/**
+ * Componente ChatPage
+ * Página principal del chat. Se encarga de mostrar la ventana del chat
+ * correspondiente al ID proporcionado en la URL.
+ */
 export const ChatPage = () => {
-    const { chatId } = useParams();
-    const navigate = useNavigate();
+  // Extrae el parámetro "chatId" de la URL
+  const { chatId } = useParams();
 
-    const handleBack = () => {
-        navigate('/chats');
-    };
+  return (
+    <section className="max-w-[1400px] min-h-screen mx-auto my-10">
+      {/* Contenedor principal con sombra y diseño responsivo */}
+      <div className="shadow-lg min-h-screen flex flex-col">
+        {/* Cabecera del chat */}
+        <ChatHeader />
 
-    return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="max-w-[1400px] mx-auto">
-                <div className="bg-white shadow-lg h-screen flex flex-col">
-                    <button
-                        onClick={handleBack}
-                        className="md:hidden p-4 flex items-center text-gray-600 hover:text-gray-900"
-                    >
-                        <ArrowLeft className="w-6 h-6 mr-2" />
-                        Volver a chats
-                    </button>
-                    <ChatWindow chatId={chatId} />
-                </div>
-            </div>
-        </div>
-    );
+        {/* Ventana principal del chat */}
+        <ChatWindow chatId={chatId} />
+      </div>
+    </section>
+  );
 };
