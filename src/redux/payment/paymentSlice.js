@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { getAllPayments, getPaymentById } from './paymentActions';
+import { createSlice } from "@reduxjs/toolkit";
+import { getAllPayments, getPaymentById } from "./paymentActions";
 
 const initialState = {
   payments: [],
@@ -10,26 +10,26 @@ const initialState = {
 
 /**
  * Slice de Redux para manejar el estado relacionado con los pagos.
- * 
+ *
  * @module paymentSlice
  */
 const paymentSlice = createSlice({
-  name: 'payment',
+  name: "payment",
   initialState,
   reducers: {
     /**
      * Acción para limpiar el error de pago.
-     * 
+     *
      * @function
      * @returns {void}
      */
     clearPaymentError: (state) => {
       state.error = null;
     },
-    
+
     /**
      * Acción para limpiar el pago actual.
-     * 
+     *
      * @function
      * @returns {void}
      */
@@ -42,7 +42,7 @@ const paymentSlice = createSlice({
       // Manejar la acción getAllPayments
       /**
        * Acción cuando la solicitud para obtener todos los pagos está pendiente.
-       * 
+       *
        * @function
        * @param {object} state - El estado actual.
        * @returns {void}
@@ -53,7 +53,7 @@ const paymentSlice = createSlice({
       })
       /**
        * Acción cuando la solicitud para obtener todos los pagos se completa con éxito.
-       * 
+       *
        * @function
        * @param {object} state - El estado actual.
        * @param {object} action - El objeto de acción que contiene los pagos obtenidos.
@@ -61,11 +61,12 @@ const paymentSlice = createSlice({
        */
       .addCase(getAllPayments.fulfilled, (state, action) => {
         state.loading = false;
-        state.payments = action.payload;
+        state.payments = action.payload; // action.payload contiene response.data
       })
+
       /**
        * Acción cuando la solicitud para obtener todos los pagos falla.
-       * 
+       *
        * @function
        * @param {object} state - El estado actual.
        * @param {object} action - El objeto de acción que contiene el error.
@@ -79,7 +80,7 @@ const paymentSlice = createSlice({
       // Manejar la acción getPaymentById
       /**
        * Acción cuando la solicitud para obtener un pago por ID está pendiente.
-       * 
+       *
        * @function
        * @param {object} state - El estado actual.
        * @returns {void}
@@ -90,7 +91,7 @@ const paymentSlice = createSlice({
       })
       /**
        * Acción cuando la solicitud para obtener un pago por ID se completa con éxito.
-       * 
+       *
        * @function
        * @param {object} state - El estado actual.
        * @param {object} action - El objeto de acción que contiene el pago obtenido.
@@ -102,7 +103,7 @@ const paymentSlice = createSlice({
       })
       /**
        * Acción cuando la solicitud para obtener un pago por ID falla.
-       * 
+       *
        * @function
        * @param {object} state - El estado actual.
        * @param {object} action - El objeto de acción que contiene el error.

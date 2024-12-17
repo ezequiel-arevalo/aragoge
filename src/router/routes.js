@@ -108,14 +108,6 @@ const routes = [
     view: false,
   },
   {
-    path: "/admin/plannings",
-    name: "Admin",
-    component: "PlanningsView",
-    isAuth: true,
-    role: 1,
-    view: false,
-  },
-  {
     path: "/admin/professionals",
     name: "Admin",
     component: "ProfessionalsView",

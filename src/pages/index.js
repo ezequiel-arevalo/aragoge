@@ -14,7 +14,6 @@ export * from "./auth/register/RegisterPage";
 export * from "./admin/HomeAdminPage";
 export * from "./admin/views/CategoriesView";
 export * from "./admin/views/PaymentsView";
-export * from "./admin/views/PlanningsView";
 export * from "./admin/views/ProfessionalsView";
 export * from "./admin/views/SpecialitiesView";
 export * from "./admin/views/UsersView";

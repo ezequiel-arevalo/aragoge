@@ -1,9 +1,9 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchPayments, fetchPaymentById } from '@/services/paymentService';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { fetchPayments, fetchPaymentById } from "@/services/paymentService";
 
 /**
  * Acción asíncrona que obtiene todos los pagos.
- * 
+ *
  * @function
  * @param {string} token - El token de autenticación del usuario.
  * @param {object} thunkAPI - El objeto de la API de Thunk que proporciona la función rejectWithValue.
@@ -11,11 +11,11 @@ import { fetchPayments, fetchPaymentById } from '@/services/paymentService';
  * @throws {string} Error si la solicitud falla.
  */
 export const getAllPayments = createAsyncThunk(
-  'payment/getAllPayments',
+  "payment/getAllPayments",
   async (token, { rejectWithValue }) => {
     try {
       const response = await fetchPayments(token);
-      return response;
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -24,7 +24,7 @@ export const getAllPayments = createAsyncThunk(
 
 /**
  * Acción asíncrona que obtiene un pago por su ID.
- * 
+ *
  * @function
  * @param {object} param0 - El objeto que contiene los parámetros de la solicitud.
  * @param {string} param0.paymentId - El ID del pago a obtener.
@@ -34,7 +34,7 @@ export const getAllPayments = createAsyncThunk(
  * @throws {string} Error si la solicitud falla.
  */
 export const getPaymentById = createAsyncThunk(
-  'payment/getPaymentById',
+  "payment/getPaymentById",
   async ({ paymentId, token }, { rejectWithValue }) => {
     try {
       const response = await fetchPaymentById(paymentId, token);
