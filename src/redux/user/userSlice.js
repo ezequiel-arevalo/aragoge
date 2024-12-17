@@ -141,12 +141,16 @@ const userSlice = createSlice({
       })
 
       .addCase(fetchAllUsers.pending, (state) => {
-        state.loading = true;
+        state.loading = true; // Inicia el loader
+        state.error = null;
       })
       .addCase(fetchAllUsers.fulfilled, (state, action) => {
-        state.allUsers = action.payload.data; // Verifica que "data" exista
+        state.loading = false; // Termina el loader
+        state.allUsers = action.payload.data; // Actualiza los usuarios
+        state.error = null;
       })
       .addCase(fetchAllUsers.rejected, (state, action) => {
+        state.loading = false; // Asegúrate de detener el loader si hay un error
         state.error = action.payload;
       });
   },
