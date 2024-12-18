@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import { Box, Image } from "@chakra-ui/react";
+
 const MotionBox = motion(Box);
 
 export const ImageSection = () => {

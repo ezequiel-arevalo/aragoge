@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export const CallToActionSection = () => {
   return (
@@ -11,13 +11,12 @@ export const CallToActionSection = () => {
           Únete a nuestra comunidad de profesionales y conecta con atletas de
           todo el mundo.
         </p>
-        <motion.button
+        <Link
+          to={"/register"}
           className="bg-white text-primary hover:text-primary px-8 py-3 rounded-full text-lg font-semibold hover:bg-gray-100 transition duration-300 shadow-lg"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
         >
           Comienza como Entrenador
-        </motion.button>
+        </Link>
       </div>
     </section>
   );

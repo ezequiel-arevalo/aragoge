@@ -1,32 +1,41 @@
-import { motion } from 'framer-motion';
-import { Send } from 'lucide-react';
-import { useToast } from '@chakra-ui/react';
-import { Input } from '@/components/form/Input';
-import { Textarea } from '@/components/form/TextArea';
-import { useContactForm } from '@/hooks/useContactForm';
+import { motion } from "framer-motion";
+import { Send } from "lucide-react";
+import { useToast } from "@chakra-ui/react";
+import { Input } from "@/components/form/Input";
+import { Textarea } from "@/components/form/TextArea";
+import { useContactForm } from "@/hooks/useContactForm";
 
 export const ContactSection = () => {
   const toast = useToast();
-  const { register, handleSubmit, errors, userData } = useContactForm();
+  const { register, handleSubmit, errors, userData, reset } = useContactForm(); // Ahora reset está disponible aquí
 
   const onSubmit = async (data) => {
     try {
+      // Simular envío exitoso
       toast({
         title: "Mensaje enviado",
         description: "¡Gracias por tu mensaje! Te responderemos pronto.",
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: 'bottom-right'
+        position: "bottom-right",
+      });
+
+      reset({
+        // Limpia los campos después del envío
+        name: userData ? `${userData.first_name} ${userData.last_name}` : "",
+        email: userData ? userData.email : "",
+        message: "",
       });
     } catch (error) {
       toast({
         title: "Error",
-        description: "Hubo un problema al enviar tu mensaje. Por favor, inténtalo nuevamente.",
+        description:
+          "Hubo un problema al enviar tu mensaje. Por favor, inténtalo nuevamente.",
         status: "error",
         duration: 5000,
         isClosable: true,
-        position: 'bottom-right'
+        position: "bottom-right",
       });
     }
   };
@@ -43,7 +52,8 @@ export const ContactSection = () => {
           Envíanos un mensaje
         </h2>
         <p className="text-p font-text text-center text-gray-600 mb-8">
-          Llena el formulario y nos pondremos en contacto contigo lo más pronto posible.
+          Llena el formulario y nos pondremos en contacto contigo lo más pronto
+          posible.
         </p>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <Input
@@ -54,8 +64,9 @@ export const ContactSection = () => {
             errors={errors}
             disabled={!!userData}
             inputProps={{
-              placeholder: 'Tu nombre completo',
-              className: "border-gray-300 rounded-lg shadow-sm focus:ring-[#da1641] focus:border-[#da1641]",
+              placeholder: "Tu nombre completo",
+              className:
+                "border-gray-300 rounded-lg shadow-sm focus:ring-[#da1641] focus:border-[#da1641]",
             }}
           />
           <Input
@@ -66,8 +77,9 @@ export const ContactSection = () => {
             errors={errors}
             disabled={!!userData}
             inputProps={{
-              placeholder: 'Tu correo electrónico',
-              className: "border-gray-300 rounded-lg shadow-sm focus:ring-[#da1641] focus:border-[#da1641]",
+              placeholder: "Tu correo electrónico",
+              className:
+                "border-gray-300 rounded-lg shadow-sm focus:ring-[#da1641] focus:border-[#da1641]",
             }}
           />
           <Textarea
@@ -76,9 +88,10 @@ export const ContactSection = () => {
             register={register}
             errors={errors}
             textareaProps={{
-              placeholder: 'Escribe tu mensaje...',
+              placeholder: "Escribe tu mensaje...",
               rows: 6,
-              className: "border-gray-300 rounded-lg shadow-sm focus:ring-[#da1641] focus:border-[#da1641]",
+              className:
+                "border-gray-300 rounded-lg shadow-sm focus:ring-[#da1641] focus:border-[#da1641]",
             }}
           />
           <div className="flex justify-center">

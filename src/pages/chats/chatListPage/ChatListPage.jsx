@@ -28,6 +28,11 @@ export const ChatListPage = () => {
   const [newChatUserId, setNewChatUserId] = useState("");
   const [showInput, setShowInput] = useState(false);
 
+  // Encontrar si el usuario actual es administrador
+  const currentUser = allUsers.find((user) => user.id === currentUserId);
+  const isAdmin =
+    currentUser?.rol_id === 1 && currentUser?.rol_name === "admin";
+
   // Encontrar el mayor user.id de la lista de usuarios
   const maxUserId =
     allUsers.length > 0 ? Math.max(...allUsers.map((user) => user.id)) : 0;
@@ -130,36 +135,37 @@ export const ChatListPage = () => {
         <div className="flex items-center justify-between py-4">
           <h1 className="text-2xl font-bold">Mensajes</h1>
           <div>
-            {showInput ? (
-              <div className="flex items-center">
-                <input
-                  type="text"
-                  value={newChatUserId}
-                  onChange={(e) => setNewChatUserId(e.target.value)}
-                  placeholder="ID usuario"
-                  className="border rounded p-1 text-sm mr-2"
-                />
+            {isAdmin && // Mostrar solo si el usuario es administrador
+              (showInput ? (
+                <div className="flex items-center">
+                  <input
+                    type="text"
+                    value={newChatUserId}
+                    onChange={(e) => setNewChatUserId(e.target.value)}
+                    placeholder="ID usuario"
+                    className="border rounded p-1 text-sm mr-2"
+                  />
+                  <button
+                    onClick={handleNewChat}
+                    className="bg-primary text-white px-4 py-2 rounded hover:bg-secondary"
+                  >
+                    Crear
+                  </button>
+                  <button
+                    onClick={() => setShowInput(false)}
+                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded ml-2 hover:bg-gray-400"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              ) : (
                 <button
-                  onClick={handleNewChat}
+                  onClick={() => setShowInput(true)}
                   className="bg-primary text-white px-4 py-2 rounded hover:bg-secondary"
                 >
-                  Crear
+                  Crear nuevo chat
                 </button>
-                <button
-                  onClick={() => setShowInput(false)}
-                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded ml-2 hover:bg-gray-400"
-                >
-                  Cancelar
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => setShowInput(true)}
-                className="bg-primary text-white px-4 py-2 rounded hover:bg-secondary"
-              >
-                Crear nuevo chat
-              </button>
-            )}
+              ))}
           </div>
         </div>
 

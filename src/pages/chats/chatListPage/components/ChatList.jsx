@@ -55,7 +55,7 @@ export const ChatList = ({ onChatSelect }) => {
           ))
         ) : (
           // Si no hay chats disponibles, muestra un mensaje
-          <div className="flex flex-col items-center justify-center h-full text-gray-500">
+          <div className="flex flex-col items-center justify-center min-h-[600px] text-gray-500">
             <MessageSquare className="w-12 h-12 text-gray-400 mb-2" />
             <p>No hay chats disponibles</p>
           </div>

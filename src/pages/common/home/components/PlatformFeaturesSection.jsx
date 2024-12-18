@@ -1,5 +1,12 @@
 import { motion } from "framer-motion";
-import { CreditCard, Calendar, MessageSquare, Dumbbell, Star, User } from "lucide-react";
+import {
+  CreditCard,
+  Calendar,
+  MessageSquare,
+  Dumbbell,
+  Star,
+  User,
+} from "lucide-react";
 
 export const PlatformFeaturesSection = () => {
   return (
@@ -10,12 +17,42 @@ export const PlatformFeaturesSection = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
-            { title: "Pagos Seguros", description: "Realiza transacciones de forma segura y fácil", icon: <CreditCard size={32} /> },
-            { title: "Planificación", description: "Organiza tu agenda y sesiones de entrenamiento", icon: <Calendar size={32} /> },
-            { title: "Chat en Tiempo Real", description: <>Comunícate directamente con tus entrenadores o clientes <br /><span className="font-bold">Próximamente!</span></>, icon: <MessageSquare size={32} /> },
-            { title: "Categorías Especializadas", description: "Encuentra servicios adaptados a tus necesidades", icon: <Dumbbell size={32} /> },
-            { title: "Favoritos", description: <>Guarda tus entrenadores y servicios preferidos <br /><span className="font-bold">Próximamente!</span></>, icon: <Star size={32} /> },
-            { title: "Perfiles Públicos", description: "Muestra tus logros y experiencia al mundo", icon: <User size={32} /> }
+            {
+              title: "Pagos Seguros",
+              description: "Realiza transacciones de forma segura y fácil",
+              icon: <CreditCard size={32} />,
+            },
+            {
+              title: "Planificación",
+              description: "Organiza tu agenda y sesiones de entrenamiento",
+              icon: <Calendar size={32} />,
+            },
+            {
+              title: "Chat en Tiempo Real",
+              description:
+                "Comunícate directamente con tus entrenadores o clientes",
+              icon: <MessageSquare size={32} />,
+            },
+            {
+              title: "Categorías Especializadas",
+              description: "Encuentra servicios adaptados a tus necesidades",
+              icon: <Dumbbell size={32} />,
+            },
+            {
+              title: "Favoritos",
+              description: (
+                <>
+                  Guarda tus entrenadores y servicios preferidos <br />
+                  <span className="font-bold">Próximamente!</span>
+                </>
+              ),
+              icon: <Star size={32} />,
+            },
+            {
+              title: "Perfiles Públicos",
+              description: "Muestra tus logros y experiencia al mundo",
+              icon: <User size={32} />,
+            },
           ].map((feature, index) => (
             <motion.div
               key={index}
@@ -24,7 +61,9 @@ export const PlatformFeaturesSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <div className="text-[#da1641] mb-4 flex justify-center">{feature.icon}</div>
+              <div className="text-[#da1641] mb-4 flex justify-center">
+                {feature.icon}
+              </div>
               <h3 className="text-h3 font-title font-semibold mb-2 text-center">
                 {feature.title}
               </h3>
