@@ -4,29 +4,47 @@ import { useToast } from "@chakra-ui/react";
 import { Input } from "@/components/form/Input";
 import { Textarea } from "@/components/form/TextArea";
 import { useContactForm } from "@/hooks/useContactForm";
+import { useChat } from "@/hooks/useChat";
 
 export const ContactSection = () => {
   const toast = useToast();
-  const { register, handleSubmit, errors, userData, reset } = useContactForm(); // Ahora reset está disponible aquí
+  const { register, handleSubmit, errors, userData, reset } = useContactForm();
+  const { handleContactMessage } = useChat();
 
   const onSubmit = async (data) => {
-    try {
-      // Simular envío exitoso
+    if (!userData) {
       toast({
-        title: "Mensaje enviado",
-        description: "¡Gracias por tu mensaje! Te responderemos pronto.",
-        status: "success",
+        title: "Error",
+        description: "Debes iniciar sesión para enviar mensajes.",
+        status: "error",
         duration: 5000,
         isClosable: true,
         position: "bottom-right",
       });
+      return;
+    }
 
-      reset({
-        // Limpia los campos después del envío
-        name: userData ? `${userData.first_name} ${userData.last_name}` : "",
-        email: userData ? userData.email : "",
-        message: "",
-      });
+    try {
+      const result = await handleContactMessage(userData, data.message);
+
+      if (result.success) {
+        toast({
+          title: "Mensaje enviado",
+          description: "Tu mensaje ha sido enviado al administrador.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom-right",
+        });
+
+        reset({
+          name: userData ? `${userData.first_name} ${userData.last_name}` : "",
+          email: userData ? userData.email : "",
+          message: "",
+        });
+      } else {
+        throw new Error("Failed to send message");
+      }
     } catch (error) {
       toast({
         title: "Error",

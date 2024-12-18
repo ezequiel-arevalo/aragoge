@@ -29,22 +29,9 @@ export const useContactForm = () => {
     }
   }, [userData, setValue]);
 
-  const onSubmit = (data) => {
-    setTimeout(() => {
-      setSubmitted(true);
-      reset({
-        name: userData ? `${userData.first_name} ${userData.last_name}` : "",
-        email: userData ? userData.email : "",
-        message: "",
-      });
-      setTimeout(() => setSubmitted(false), 5000);
-    }, 1500);
-  };
-
   return {
     register,
     handleSubmit,
-    onSubmit,
     errors,
     submitted,
     userData,
