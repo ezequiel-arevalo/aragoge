@@ -130,7 +130,8 @@ export const SubscriptionDetailPage = () => {
         );
     }
 
-    console.log(subscription.payments[0]);
+
+
     return (
         <>
             <HeroSection
@@ -253,7 +254,7 @@ export const SubscriptionDetailPage = () => {
                                                 {payment.payment_status === 'pendiente' && (
                                                     <div className="text-gray-700 mt-2">
                                                       <p className="text-sm font-medium">Pago</p>
-                                                      <ButtonMP />
+                                                      <ButtonMP planningId={subscription.planning_id} paymentId={payment.id} />
                                                     </div>
                                                   )}
                                         </div>
