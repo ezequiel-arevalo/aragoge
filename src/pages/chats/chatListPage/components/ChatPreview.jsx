@@ -34,13 +34,13 @@ export const ChatPreview = ({ chat, currentUser, userDetails, onSelect }) => {
 
       <div className="flex-1 min-w-0">
         <div className="flex justify-between items-start">
-          <h3 className="font-medium truncate">
+          <p className="font-medium truncate">
             {otherUser.first_name
               ? `${otherUser.first_name} ${otherUser.last_name} (${
                   otherUser.rol_name || "Sin rol"
                 })`
               : "Usuario"}
-          </h3>
+          </p>
           {/* Muestra la hora del último mensaje si está disponible */}
           {lastMessageTime && (
             <span className="text-xs text-gray-500 whitespace-nowrap hover:text-gray-500 ml-2">

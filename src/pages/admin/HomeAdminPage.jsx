@@ -1,17 +1,18 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Settings, ClipboardList, Users, Briefcase, Tag, DollarSign } from "lucide-react";
+import { Settings, Users, Briefcase, Tag, DollarSign } from "lucide-react";
 import { HeroSection } from '@/components/ui/HeroSection';
 
+// Configuración de las secciones del panel de administración
 const adminSections = [
-  { title: "Categorías",      description: "Gestiona las categorías disponibles",     icon: Tag,           route: "/categories" },
-  // { title: "Planificaciones", description: "Administra las planificaciones creadas",  icon: ClipboardList, route: "/plannings" },
-  { title: "Usuarios",        description: "Controla la lista de usuarios",           icon: Users,         route: "/users" },
+  { title: "Categorías",      description: "Gestiona las categorías disponibles",     icon: Tag,           route: "/categories"    },
+  { title: "Usuarios",        description: "Controla la lista de usuarios",           icon: Users,         route: "/users"         },
   { title: "Profesionales",   description: "Gestiona los profesionales disponibles",  icon: Briefcase,     route: "/professionals" },
-  { title: "Especialidades",  description: "Administra las especialidades ofrecidas", icon: Settings,      route: "/specialities" },
-  { title: "Pagos",           description: "Revisa y controla los pagos realizados",  icon: DollarSign,    route: "/payments" },
+  { title: "Especialidades",  description: "Administra las especialidades ofrecidas", icon: Settings,      route: "/specialities"  },
+  { title: "Pagos",           description: "Revisa y controla los pagos realizados",  icon: DollarSign,    route: "/payments"      },
 ];
 
+// Componente principal de la página de administración
 export const HomeAdminPage = () => {
   return (
     <div className="font-sans">
@@ -22,10 +23,10 @@ export const HomeAdminPage = () => {
         showInput={false}
       />
 
-      {/* Main Content Section */}
+      {/* Sección principal */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
+          {/* Encabezado de la sección */}
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Administra tus recursos
@@ -35,7 +36,7 @@ export const HomeAdminPage = () => {
             </p>
           </div>
 
-          {/* Cards Grid */}
+          {/* Grid de tarjetas */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {adminSections.map((section, index) => {
               const Icon = section.icon;

@@ -23,7 +23,7 @@ export const ChatHeader = ({ otherUser }) => {
     <div className="p-4 border-b rounded-t-lg bg-white shadow-sm flex flex-row justify-between">
       {/* Botón de "Volver a chats" ubicado a la izquierda */}
       <Link
-        to="/chats" // Redirige a la lista de chats
+        to="/chats"
         className="flex items-center text-gray-600 hover:text-gray-900"
       >
         <ArrowLeft className="w-6 h-6 mr-2" />
@@ -32,10 +32,15 @@ export const ChatHeader = ({ otherUser }) => {
 
       {/* Información del otro usuario centrada */}
       <div className="flex-1 text-right">
+        {/* Título de la sección para mejorar accesibilidad */}
+        <h1 className="sr-only">
+          Chat con {`${otherUser.first_name} ${otherUser.last_name}`}
+        </h1>
+
         {/* Nombre completo del otro usuario */}
-        <h3 className="text-lg font-semibold">
+        <p className="text-lg font-semibold">
           {`${otherUser.first_name} ${otherUser.last_name}`}
-        </h3>
+        </p>
 
         {/* Si existe el rol del usuario, lo mostramos debajo */}
         {otherUser.role_name && (

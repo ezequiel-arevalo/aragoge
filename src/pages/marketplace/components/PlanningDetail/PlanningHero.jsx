@@ -2,12 +2,13 @@ import { motion } from "framer-motion";
 import { User, Calendar, DollarSign, Tag } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createSubscription } from "@/redux/subscription/subscriptionActions";
+import { createSubscription } from "@/redux/subscription/SubscriptionActions";
 import {
   selectSubscriptionStatus,
   selectSubscriptionError,
-} from "@/redux/subscription/subscriptionSelectors";
+} from "@/redux/subscription/SubscriptionSelectors";
 import { useToast } from "@chakra-ui/react";
+
 const URL = import.meta.env.VITE_API_KEY;
 
 export const PlanningHero = ({ planning }) => {
@@ -17,6 +18,7 @@ export const PlanningHero = ({ planning }) => {
   const accessToken = useSelector((state) => state.user.accessToken);
   const toast = useToast();
 
+  // Maneja la suscripción del usuario al plan
   const handleSubscribe = async () => {
     if (!accessToken) {
       toast({
@@ -46,7 +48,8 @@ export const PlanningHero = ({ planning }) => {
     } else if (createSubscription.rejected.match(resultAction)) {
       toast({
         title: "Error al suscribirse",
-        description: subscriptionError || "Hubo un problema al procesar la suscripción.",
+        description:
+          subscriptionError || "Hubo un problema al procesar la suscripción.",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -60,12 +63,12 @@ export const PlanningHero = ({ planning }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full bg-gradient-to-r from-primary to-secondary text-white"
+      className="w-full bg-primary text-white"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          {/* Imagen responsiva */}
-          <div className="relative aspect-w-16 aspect-h-9">
+          {/* Imagen del plan */}
+          <div className="relative aspect-[4/3]">
             <img
               src={
                 planning.image_id
@@ -77,67 +80,69 @@ export const PlanningHero = ({ planning }) => {
             />
           </div>
 
-          {/* Contenido del plan */}
+          {/* Detalles del plan */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <div className="text-sm font-semibold mb-2 bg-white/20 inline-block px-3 py-1 rounded">
+              <div className="text-sm font-semibold mb-2 bg-white/30 inline-block px-3 py-1 rounded">
                 Planificación #{planning.id}
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-                {planning.title}
-              </h2>
-              <p className="text-lg sm:text-xl mb-6 text-white/80">
-                {planning.synopsis}
-              </p>
+              <h2 className="text-h2 font-bold mb-4">{planning.title}</h2>
+              <p className="text-p mb-6 text-white">{planning.synopsis}</p>
+
+              {/* Información adicional del plan */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 <div className="flex items-center text-white hover:text-white font-bold">
                   <User className="h-5 w-5 mr-2" />
                   <Link
                     to={`/profile/public/${planning.user_id}`}
-                    className="hover:underline text-white hover:text-white font-bold"
+                    className="underline text-white hover:text-white"
                   >
                     {planning.professional_name}
                   </Link>
                 </div>
                 <div className="flex items-center">
                   <Calendar className="h-5 w-5 mr-2" />
-                  <span className=" text-white hover:text-white font-bold">
+                  <span className="text-white hover:text-white font-bold">
                     {new Date(planning.created_at).toLocaleDateString()}
                   </span>
                 </div>
                 <div className="flex items-center">
                   <Tag className="h-5 w-5 mr-2" />
-                  <span className=" text-white hover:text-white font-bold">{planning.category_name}</span>
+                  <span className="text-white hover:text-white font-bold">
+                    {planning.category_name}
+                  </span>
                 </div>
               </div>
+
+              {/* Precio y botón de suscripción */}
               <div className="flex flex-col sm:flex-row items-center justify-between">
-                <span className="text-4xl font-bold mb-4 sm:mb-0 text-white hover:text-white font-bold">
+                <span className="text-4xl font-bold mb-4 sm:mb-0 text-white hover:text-white">
                   <DollarSign className="inline-block h-8 w-8 mr-1" />
                   {planning.price.toFixed(2)}
                 </span>
+
                 {accessToken ? (
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleSubscribe}
                     disabled={subscriptionStatus === "subscribing"}
-                    className={`px-8 py-3 rounded-full font-semibold transition duration-300 shadow-lg ${subscriptionStatus === "subscribing"
-                      ? "bg-gray-400"
-                      : "bg-white text-[#da1641] hover:bg-white hover:text-[#C30D35]"
-                      }`}
+                    className={`px-8 py-3 rounded-full font-semibold transition duration-300 shadow-lg ${
+                      subscriptionStatus === "subscribing"
+                        ? "bg-gray-400"
+                        : "bg-white text-[#da1641] hover:bg-white hover:text-[#C30D35]"
+                    }`}
                   >
                     {subscriptionStatus === "subscribing"
-                      ? "Subscribiendo..."
-                      : "Subscribirse"}
+                      ? "Suscribiendo..."
+                      : "Suscribirse"}
                   </motion.button>
                 ) : (
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
                     onClick={() =>
                       toast({
                         title: "Inicio de sesión requerido",
@@ -148,7 +153,7 @@ export const PlanningHero = ({ planning }) => {
                         position: "bottom-right",
                       })
                     }
-                    className="bg-white text-[#C30D35] px-8 py-3 rounded-full font-semibold transition duration-300 shadow-lg"
+                    className="bg-white hover:bg-white hover:text-[#C30D35] text-primary px-8 py-3 rounded-full font-semibold transition duration-300 shadow-lg"
                   >
                     Debes estar logueado
                   </motion.button>

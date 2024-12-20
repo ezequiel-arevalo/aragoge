@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { fetchCategories } from "@/services/categoryService";
 import Loader from "@/components/Loader";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 export const CategoriesView = () => {
   const [categories, setCategories] = useState([]);
@@ -29,7 +31,17 @@ export const CategoriesView = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <Link
+        to="/admin"
+        className="text-secondary hover:text-secondary underline flex items-center mb-6"
+        aria-label="Volver al panel"
+      >
+        <ArrowLeft className="h-5 w-5 mr-2" />
+        Volver al panel
+      </Link>
+
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
+        {/* Encabezado de la tabla */}
         <div className="px-6 py-4 border-b border-gray-200">
           <h1 className="text-3xl font-bold text-gray-800">
             Lista de Categorías
@@ -39,6 +51,7 @@ export const CategoriesView = () => {
             plataforma.
           </p>
         </div>
+        {/* Tabla de categorías */}
         <div className="p-6">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">

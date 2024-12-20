@@ -1,28 +1,29 @@
 import { motion } from "framer-motion";
-import { Search, Calendar, Dumbbell } from "lucide-react";
+import { Search, MessageSquareText, Dumbbell } from "lucide-react";
 
 export const HowItWorksSection = () => {
   return (
     <section className="py-16 bg-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-h2 font-title font-bold mb-12 text-center">
-          Cómo Funciona
+          Cómo funciona
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Mapeo de pasos con título, descripción e ícono */}
           {[
             {
               title: "Busca",
-              description: "Explora perfiles de entrenadores calificados",
+              description: "Explora perfiles de entrenadores calificados.",
               icon: <Search size={48} />,
             },
             {
               title: "Conecta",
-              description: "Agenda sesiones con tu entrenador ideal",
-              icon: <Calendar size={48} />,
+              description: "Mantente en contacto con tu entrenador ideal.",
+              icon: <MessageSquareText size={48} />,
             },
             {
               title: "Entrena",
-              description: "Alcanza tus metas con orientación experta",
+              description: "Alcanza tus metas con orientación experta.",
               icon: <Dumbbell size={48} />,
             },
           ].map((step, index) => (
@@ -33,6 +34,7 @@ export const HowItWorksSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
             >
+              {/* Contenedor del ícono */}
               <div className="text-[#da1641] mb-4 flex justify-center">
                 {step.icon}
               </div>

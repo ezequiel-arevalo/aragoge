@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { User } from 'lucide-react';
+import { motion } from "framer-motion";
+import { User } from "lucide-react";
 const URL = import.meta.env.VITE_API_KEY;
 
 const HeaderSection = ({ user }) => (
@@ -19,7 +19,7 @@ const HeaderSection = ({ user }) => (
               className="w-full h-full object-cover rounded-full"
             />
           ) : (
-            <User size={48} className="text-gray-400" />
+            <User size={64} className="text-gray-400" />
           )}
         </div>
         <h1 className="text-h1 font-title font-bold mb-2">{`${user.first_name} ${user.last_name}`}</h1>

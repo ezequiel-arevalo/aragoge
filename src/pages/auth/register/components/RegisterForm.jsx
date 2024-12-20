@@ -1,11 +1,17 @@
-import { useForm } from 'react-hook-form';
-import { Input } from '@/components/form/Input';
-import { InputPassword } from '@/components/form/InputPassword';
-import useAuth from '@/hooks/useAuth';
-import { Link } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/form/Input";
+import { InputPassword } from "@/components/form/InputPassword";
+import { Select } from "@/components/form/Select";
+import useAuth from "@/hooks/useAuth";
+import { Link } from "react-router-dom";
 
 export const RegisterForm = ({ title, subtitle }) => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
   const { register: registerUser } = useAuth();
 
   const onSubmit = (data) => {
@@ -15,6 +21,7 @@ export const RegisterForm = ({ title, subtitle }) => {
         last_name: data.last_name,
         email: data.email,
         password: data.password,
+        rol_id: data.rol_id,
       },
       reset
     );
@@ -24,11 +31,8 @@ export const RegisterForm = ({ title, subtitle }) => {
     <div className="w-full max-w-md">
       <h2 className="text-h1 font-title text-primary mb-2">{title}</h2>
       <p className="text-p font-text text-text-primary mb-6">{subtitle}</p>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-8 rounded-lg shadow-md"
-      >
-        {/* Input de Nombre */}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* Input de nombre */}
         <Input
           name="first_name"
           label="Nombre"
@@ -41,7 +45,7 @@ export const RegisterForm = ({ title, subtitle }) => {
           }}
         />
 
-        {/* Input de Apellido */}
+        {/* Input de apellido */}
         <Input
           name="last_name"
           label="Apellido"
@@ -54,10 +58,10 @@ export const RegisterForm = ({ title, subtitle }) => {
           }}
         />
 
-        {/* Input de Email */}
+        {/* Input de correo electrónico */}
         <Input
           name="email"
-          label="Email"
+          label="Correo electrónico"
           type="email"
           register={register}
           errors={errors}
@@ -67,7 +71,7 @@ export const RegisterForm = ({ title, subtitle }) => {
           }}
         />
 
-        {/* Input de Contraseña */}
+        {/* Input de contraseña */}
         <InputPassword
           name="password"
           label="Contraseña"
@@ -77,6 +81,18 @@ export const RegisterForm = ({ title, subtitle }) => {
             className:
               "mb-6 border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary",
           }}
+        />
+
+        {/* Select para rol */}
+        <Select
+          name="rol_id"
+          label="Selecciona tu rol"
+          register={register}
+          errors={errors}
+          options={[
+            { value: "2", label: "Atleta" },
+            { value: "3", label: "Profesional" },
+          ]}
         />
 
         <button
@@ -90,7 +106,7 @@ export const RegisterForm = ({ title, subtitle }) => {
           to={"/login"}
           className="cursor-pointer mt-4 text-sm block font-text text-text-hover hover:underline text-center"
         >
-          ¿Tienes cuenta? Accede desde aquí
+          ¿Tienes cuenta? Accede desde aquí.
         </Link>
       </form>
     </div>

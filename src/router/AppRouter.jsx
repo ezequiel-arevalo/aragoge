@@ -16,12 +16,24 @@ export const AppRouter = () => {
 
           // Rutas privadas (requieren autenticación)
           if (isAuth && !accessToken) {
-            return <Route key={index} path={path} element={<Navigate to="/login" />} />;
+            return (
+              <Route
+                key={index}
+                path={path}
+                element={<Navigate to="/login" />}
+              />
+            );
           }
 
           // Rutas restringidas por rol
           if (role && user?.rol_id !== role) {
-            return <Route key={index} path={path} element={<Navigate to="/home" />} />;
+            return (
+              <Route
+                key={index}
+                path={path}
+                element={<Navigate to="/home" />}
+              />
+            );
           }
 
           // Renderizar las rutas

@@ -1,6 +1,6 @@
 import { RegisterForm } from "./components/RegisterForm";
 import { ImageSection } from "./components/ImageSection";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import { Box, Flex } from "@chakra-ui/react";
 const MotionBox = motion(Box);
 
@@ -22,28 +22,26 @@ export const RegisterPage = () => {
         overflow="hidden"
         className="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg"
       >
-        <Flex direction={{ base: 'column', md: 'row' }}>
+        <Flex direction={{ base: "column", md: "row" }}>
           {/* Encabezado principal */}
-          <h1 className="sr-only">Página de Registro</h1>
+          <h1 className="sr-only">Página de registro</h1>
 
-          {/* Sección Izquierda con Imagen */}
-          <ImageSection
-            src="/aragoge.svg"  // Asegúrate de que esta imagen esté en la carpeta public
-            alt="Register illustration"
-          />
+          {/* Sección izquierda con imagen */}
+          <ImageSection src="/aragoge.svg" alt="Ilustración de registro" />
 
-          {/* Sección Derecha con Formulario de Registro */}
+          {/* Sección derecha con formulario de registro */}
           <MotionBox
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             flex={1}
             p={8}
-            height={700}
+            height={800}
             textAlign="center"
+            className="flex-1 p-8 h-[700px] text-center mx-auto"
           >
             <RegisterForm
-              title="Únete a Nosotros"
+              title="Únete a nosotros"
               subtitle="¡Crea tu cuenta para comenzar!"
             />
           </MotionBox>

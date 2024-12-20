@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlanning } from '@/redux/plannings/planningsThunks';
-import { selectPlanningDetail, selectLoading, selectError } from '@/redux/plannings/planningsSelectors';
-import { ArrowLeft } from 'lucide-react';
-import Loader from '@/components/Loader';
-import { PlanningHero } from './PlanningHero';
-import { PlanningDescription } from './PlanningDescription';
-import ConnectionError from '@/components/ui/ConnectionError';
+import { useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPlanning } from "@/redux/plannings/PlanningsThunks";
+import { selectPlanningDetail, selectLoading, selectError } from "@/redux/plannings/PlanningsSelectors";
+import { ArrowLeft } from "lucide-react";
+import Loader from "@/components/Loader";
+import { PlanningHero } from "./PlanningHero";
+import { PlanningDescription } from "./PlanningDescription";
+import ConnectionError from "@/components/ui/ConnectionError";
 
 export const PlanningDetailPage = () => {
   const { id } = useParams();
@@ -24,7 +24,6 @@ export const PlanningDetailPage = () => {
     return <Loader />;
   }
 
-
   if (error) {
     return <ConnectionError />;
   }
@@ -32,7 +31,9 @@ export const PlanningDetailPage = () => {
   if (!planning) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
-        <p className="text-gray-500 text-h4">No se encontró la planificación.</p>
+        <p className="text-gray-500 text-h4">
+          No se encontró la planificación.
+        </p>
       </div>
     );
   }
@@ -43,10 +44,10 @@ export const PlanningDetailPage = () => {
         <Link
           to="/marketplace"
           className="text-primary hover:text-primary-hover underline flex items-center mb-6"
-          aria-label="Volver al Marketplace"
+          aria-label="Volver a la tienda"
         >
           <ArrowLeft className="h-5 w-5 mr-2" />
-          Volver al Marketplace
+          Volver a la tienda
         </Link>
 
         <PlanningHero planning={planning} />

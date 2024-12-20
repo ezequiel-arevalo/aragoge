@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion';
-import PlanningCard from '@/components/ui/PlanningCard';
-import Loader from '@/components/Loader';
-import ConnectionError from '@/components/ui/ConnectionError';
+import { motion } from "framer-motion";
+import PlanningCard from "@/components/ui/PlanningCard";
+import Loader from "@/components/Loader";
+import ConnectionError from "@/components/ui/ConnectionError";
 
 export const PlanningList = ({ plannings, loading, error }) => {
   if (loading) {
@@ -15,7 +15,7 @@ export const PlanningList = ({ plannings, loading, error }) => {
   const cardVariants = {
     hidden: (index) => ({
       opacity: 0,
-      x: index % 2 === 0 ? -50 : 50, // Alterna entre izquierda y derecha
+      x: index % 2 === 0 ? -50 : 50, // Alterna entre movimiento desde la izquierda y derecha
       y: -30, // Movimiento inicial hacia arriba
     }),
     visible: {
@@ -23,7 +23,7 @@ export const PlanningList = ({ plannings, loading, error }) => {
       x: 0,
       y: 0,
       transition: {
-        type: 'spring',
+        type: "spring",
         stiffness: 100,
         damping: 10,
       },
@@ -41,7 +41,7 @@ export const PlanningList = ({ plannings, loading, error }) => {
           <motion.div
             key={planning.id}
             className="relative"
-            custom={index} // Pasar el índice al variante
+            custom={index} // Pasar el índice al variante para la animación
             variants={cardVariants}
             initial="hidden"
             animate="visible"

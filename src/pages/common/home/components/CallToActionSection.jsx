@@ -5,7 +5,7 @@ export const CallToActionSection = () => {
     <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-h2 font-title font-bold mb-4">
-          ¿Listo para Elevar tu Carrera Fitness?
+          ¿Listo para elevar tu carrera fitness?
         </h2>
         <p className="text-xl mb-8">
           Únete a nuestra comunidad de profesionales y conecta con atletas de

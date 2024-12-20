@@ -3,6 +3,7 @@
   src: url('../fonts/roboto/Roboto-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -10,6 +11,7 @@
   src: url('../fonts/cardo/Cardo-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @tailwind base;
@@ -33,7 +35,11 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Cardo', serif;
+}
+
+.logo-titulado{
+  font-family: 'Cardo', sans-serif;
 }
 
 p,
@@ -44,7 +50,7 @@ option,
 th,
 td,
 button {
-  font-family: 'Cardo', serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 #chatSystem {

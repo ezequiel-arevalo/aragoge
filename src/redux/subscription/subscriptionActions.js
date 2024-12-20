@@ -1,12 +1,12 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { 
-  fetchSubscriptions, 
-  fetchSubscriptionById, 
-  fetchSubscriptionsByUserId, 
-  subscribeToPlanning, 
-  renewSubscription, 
-  unsubscribeFromPlanning 
-} from '@/services/subscriptionService';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  fetchSubscriptions,
+  fetchSubscriptionById,
+  fetchSubscriptionsByUserId,
+  subscribeToPlanning,
+  renewSubscription,
+  unsubscribeFromPlanning,
+} from "@/services/SubscriptionService";
 
 /**
  * Fetches all subscriptions for the given token.
@@ -16,14 +16,14 @@ import {
  * @throws Will return a rejected value with an error message if the operation fails.
  */
 export const getAllSubscriptions = createAsyncThunk(
-  'subscription/getAllSubscriptions',
+  "subscription/getAllSubscriptions",
   async (token, { rejectWithValue }) => {
     try {
       const response = await fetchSubscriptions(token);
-      console.log('Fetched Subscriptions:', response); // Log de la respuesta del API
+      console.log("Fetched Subscriptions:", response); // Log de la respuesta del API
       return response;
     } catch (error) {
-      console.error('Error fetching subscriptions:', error); // Log del error
+      console.error("Error fetching subscriptions:", error); // Log del error
       return rejectWithValue(error.message);
     }
   }
@@ -36,7 +36,7 @@ export const getAllSubscriptions = createAsyncThunk(
  * @throws Will return a rejected value with an error message if the operation fails.
  */
 export const getSubscriptionsByUserId = createAsyncThunk(
-  'subscription/getSubscriptionsByUserId',
+  "subscription/getSubscriptionsByUserId",
   async (userId, { rejectWithValue }) => {
     try {
       const response = await fetchSubscriptionsByUserId(userId);
@@ -56,14 +56,14 @@ export const getSubscriptionsByUserId = createAsyncThunk(
  * @throws Will return a rejected value with an error message if the operation fails.
  */
 export const getSubscriptionById = createAsyncThunk(
-  'subscription/getSubscriptionById',
+  "subscription/getSubscriptionById",
   async ({ subscriptionId, token }, { rejectWithValue }) => {
     try {
       const response = await fetchSubscriptionById(subscriptionId, token);
-      console.log("Fetched Subscription Detail:", response);
+      // console.log("Fetched Subscription Detail:", response);
       return response.data;
     } catch (error) {
-      console.error("Error fetching subscription detail:", error);
+      // console.error("Error fetching subscription detail:", error);
       return rejectWithValue(error.message);
     }
   }
@@ -79,7 +79,7 @@ export const getSubscriptionById = createAsyncThunk(
  * @throws Will return a rejected value with an error message if the operation fails.
  */
 export const createSubscription = createAsyncThunk(
-  'subscription/createSubscription',
+  "subscription/createSubscription",
   async ({ planningId, token }, { rejectWithValue }) => {
     try {
       const response = await subscribeToPlanning(planningId, token);
@@ -104,15 +104,17 @@ export const renewSubscriptionThunk = createAsyncThunk(
   async ({ planningId, token }, { rejectWithValue }) => {
     try {
       const response = await renewSubscription(planningId, token);
-      console.log("Respuesta de la API al renovar:", response); // Depuración
+      // console.log("Respuesta de la API al renovar:", response); // Depuración
       return response; // La API debe devolver los detalles actualizados
     } catch (error) {
-      console.error("Error al renovar la suscripción:", error.response || error);
+      // console.error(
+      //   "Error al renovar la suscripción:",
+      //   error.response || error
+      // );
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
-
 
 /**
  * Cancels an existing subscription for a given planning ID.
@@ -124,7 +126,7 @@ export const renewSubscriptionThunk = createAsyncThunk(
  * @throws Will return a rejected value with an error message if the operation fails.
  */
 export const cancelSubscription = createAsyncThunk(
-  'subscription/cancelSubscription',
+  "subscription/cancelSubscription",
   async ({ planningId, token }, { rejectWithValue }) => {
     try {
       const response = await unsubscribeFromPlanning(planningId, token);

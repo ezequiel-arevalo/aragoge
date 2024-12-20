@@ -73,6 +73,7 @@ export const ChatInput = ({ onSendMessage, isLoading }) => {
                    transform transition-all duration-200 hover:scale-105
                    focus:outline-none focus:ring-2 focus:ring-red-500"
           disabled={!message.trim() || isLoading || isSubmitting} // Deshabilita si el mensaje está vacío o está cargando
+          aria-label="Enviar mensaje"
         >
           <Send size={20} /> {/* Ícono de enviar (avioncito) */}
         </button>

@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Camera } from "lucide-react";
+import { Camera, User } from "lucide-react";
 const URL = import.meta.env.VITE_API_KEY;
 
 export const ProfileHeader = ({ userData, onCoverChange }) => {
   const [imageHover, setImageHover] = useState(false);
-  const [coverPreview, setCoverPreview] = useState(`${URL}/users/${userData.id}/cover` || "https://placehold.co/150x150");
+  const [coverPreview, setCoverPreview] = useState(
+    `${URL}/users/${userData.id}/cover` || "https://placehold.co/150x150"
+  );
 
   const handleCoverImageChange = (event) => {
     const file = event.target.files[0];
@@ -32,11 +34,17 @@ export const ProfileHeader = ({ userData, onCoverChange }) => {
           onMouseLeave={() => setImageHover(false)}
           onClick={triggerFileInput}
         >
-          <img
-            src={coverPreview}
-            alt="Profile"
-            className="w-[150px] h-[150px] rounded-full border-4 border-bg-secondary object-cover"
-          />
+          <div className="w-[150px] h-[150px] rounded-full bg-gray-100 flex items-center justify-center mx-auto">
+            {userData.image_id ? (
+              <img
+                src={`${URL}/users/${userData.id}/cover`}
+                alt={`${userData.first_name} ${userData.last_name}`}
+                className="w-full h-full object-cover rounded-full"
+              />
+            ) : (
+              <User size={64} className="text-gray-400" />
+            )}
+          </div>
           <AnimatePresence>
             {imageHover && (
               <motion.div
@@ -45,7 +53,7 @@ export const ProfileHeader = ({ userData, onCoverChange }) => {
                 exit={{ opacity: 0 }}
                 className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full"
               >
-                <Camera className="w-6 h-6 text-white" />
+                <Camera size={64} className="text-white" />
               </motion.div>
             )}
           </AnimatePresence>

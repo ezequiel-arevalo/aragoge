@@ -6,21 +6,16 @@ import { useHeaderLogic } from "./components/useHeaderLogic";
 import { NavLink } from "react-router-dom";
 
 export const Header = () => {
-  const {
-    user,
-    accessToken,
-    isMenuOpen,
-    toggleMenu,
-    closeMenu,
-    handleLogout,
-    availableLinks,
-  } = useHeaderLogic();
+  const { user, accessToken, isMenuOpen, toggleMenu, closeMenu, handleLogout, availableLinks } = useHeaderLogic();
 
   return (
     <header className="sticky top-0 z-10 bg-white shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
         {/* Logo */}
-        <NavLink to="/" className="text-2xl font-bold text-[#da1641] uppercase">
+        <NavLink
+          to="/"
+          className="text-2xl font-bold text-primary hover:text-primary uppercase logo-titulado"
+        >
           Aragoge
         </NavLink>
 

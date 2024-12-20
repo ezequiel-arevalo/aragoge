@@ -1,5 +1,5 @@
-import { Mail, Calendar, Shield, Save } from 'lucide-react';
-import formatDate from '@/utilities/FormatDate';
+import { Mail, Calendar, Shield, Save } from "lucide-react";
+import formatDate from "@/utilities/FormatDate";
 
 const GeneralTab = ({ formData, handleInputChange, handleSave, userData, roles }) => {
   return (
@@ -11,8 +11,7 @@ const GeneralTab = ({ formData, handleInputChange, handleSave, userData, roles }
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Campo: Nombre */}
         <div>
-          <h6 className="text-h6 font-title mb-2">Nombre</h6>
-          <label htmlFor="first_name" className="sr-only">Nombre</label>
+          <label htmlFor="first_name">Nombre</label>
           <input
             id="first_name"
             type="text"
@@ -25,8 +24,7 @@ const GeneralTab = ({ formData, handleInputChange, handleSave, userData, roles }
 
         {/* Campo: Apellido */}
         <div>
-          <h6 className="text-h6 font-title mb-2">Apellido</h6>
-          <label htmlFor="last_name" className="sr-only">Apellido</label>
+          <label htmlFor="last_name">Apellido</label>
           <input
             id="last_name"
             type="text"
@@ -39,11 +37,10 @@ const GeneralTab = ({ formData, handleInputChange, handleSave, userData, roles }
 
         {/* Campo: Email */}
         <div>
-          <h6 className="text-h6 font-title mb-2">
+          <label htmlFor="email">
             <Mail className="w-4 h-4 inline mr-2" />
             Email
-          </h6>
-          <label htmlFor="email" className="sr-only">Email</label>
+          </label>
           <input
             id="email"
             type="email"
@@ -57,11 +54,10 @@ const GeneralTab = ({ formData, handleInputChange, handleSave, userData, roles }
 
         {/* Campo: Rol */}
         <div>
-          <h6 className="text-h6 font-title mb-2">
+          <label htmlFor="rol_id">
             <Shield className="w-4 h-4 inline mr-2" />
             Rol
-          </h6>
-          <label htmlFor="rol_id" className="sr-only">Rol</label>
+          </label>
           <select
             id="rol_id"
             name="rol_id"
@@ -80,11 +76,10 @@ const GeneralTab = ({ formData, handleInputChange, handleSave, userData, roles }
 
       {/* Campo: Fecha de creación */}
       <div>
-        <h6 className="text-h6 font-title mb-2">
+        <label htmlFor="created_at">
           <Calendar className="w-4 h-4 inline mr-2" />
           Fecha de creación
-        </h6>
-        <label htmlFor="created_at" className="sr-only">Fecha de creación</label>
+        </label>
         <input
           id="created_at"
           type="text"

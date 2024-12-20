@@ -32,14 +32,16 @@ export const ProfilePage = () => {
     synopsis: "",
     rol_id: "",
   });
-  const [profileImage, setProfileImage] = useState(null); // Estado para la imagen
-  const [coverImage, setCoverImage] = useState(null);  // Estado para la portada
-  const [coverAlt, setCoverAlt] = useState(user?.first_name || "");  // Estado para el alt de la imagen
+  const [profileImage, setProfileImage] = useState(null); // Estado para la imagen de perfil
+  const [coverImage, setCoverImage] = useState(null); // Estado para la imagen de portada
+  const [coverAlt, setCoverAlt] = useState(user?.first_name || ""); // Estado para el texto alternativo de la portada
 
+  // Obtener roles disponibles al montar el componente
   useEffect(() => {
     dispatch(fetchRolesAction());
   }, [dispatch]);
 
+  // Actualizar los datos del formulario y las imágenes cuando los datos del usuario cambien
   useEffect(() => {
     if (userData) {
       setFormData({
@@ -50,28 +52,29 @@ export const ProfilePage = () => {
         synopsis: userData.synopsis || "",
         rol_id: userData.rol_id || "",
       });
-      setCoverImage(userData.cover || null);  // Inicializar con la portada actual
-      setCoverAlt(userData.cover_alt || userData.first_name);  // Inicializar con el alt de la portada
+      setCoverImage(userData.cover || null);
+      setCoverAlt(userData.cover_alt || userData.first_name);
     }
   }, [userData]);
 
+  // Manejar cambios en los campos del formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Guardar los cambios realizados en el perfil
   const handleSave = async () => {
     try {
       const updatedData = { ...formData };
 
-      // Agregar la imagen de portada y alt si existen
       if (coverImage) {
         updatedData.cover = coverImage;
         updatedData.cover_alt = coverAlt;
       }
 
       if (profileImage) {
-        updatedData.profilePicture = profileImage;  // Imagen de perfil
+        updatedData.profilePicture = profileImage;
       }
 
       await dispatch(updateUserAction(updatedData)).unwrap();
@@ -89,7 +92,8 @@ export const ProfilePage = () => {
         await dispatch(logoutUserAction()).unwrap();
         toast({
           title: "Perfil actualizado",
-          description: "Por favor, inicia sesión nuevamente para convertirte en un profesional.",
+          description:
+            "Por favor, inicia sesión nuevamente para convertirte en un profesional.",
           status: "info",
           duration: 5000,
           isClosable: true,
@@ -100,7 +104,8 @@ export const ProfilePage = () => {
     } catch (error) {
       toast({
         title: "Error al actualizar el perfil",
-        description: "No se pudo actualizar el perfil. Por favor, intenta de nuevo.",
+        description:
+          "No se pudo actualizar el perfil. Por favor, intenta de nuevo.",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -109,6 +114,7 @@ export const ProfilePage = () => {
     }
   };
 
+  // Manejar la eliminación de la cuenta del usuario
   const handleDelete = async () => {
     try {
       await dispatch(deleteUserAction()).unwrap();
@@ -124,7 +130,8 @@ export const ProfilePage = () => {
     } catch (error) {
       toast({
         title: "Error al eliminar la cuenta",
-        description: "No se pudo eliminar la cuenta. Por favor, intenta de nuevo.",
+        description:
+          "No se pudo eliminar la cuenta. Por favor, intenta de nuevo.",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -144,11 +151,12 @@ export const ProfilePage = () => {
   return (
     <div className="min-h-screen bg-bg-primary p-4 md:p-8">
       <div className="max-w-4xl mx-auto bg-bg-secondary rounded-2xl shadow-lg">
+        <h1 className="sr-only">Perfil del usuario</h1>
         <ProfileHeader
           userData={userData}
           onImageChange={setProfileImage}
-          onCoverChange={setCoverImage}  // Pasa la función correctamente
-          onCoverAltChange={setCoverAlt} // Pasa la función correctamente
+          onCoverChange={setCoverImage}
+          onCoverAltChange={setCoverAlt}
         />
         <NavigationTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="p-8">
@@ -169,7 +177,9 @@ export const ProfilePage = () => {
                   roles={roles}
                 />
               )}
-              {activeTab === "security" && <SecurityTab handleDelete={handleDelete} />}
+              {activeTab === "security" && (
+                <SecurityTab handleDelete={handleDelete} />
+              )}
               {activeTab === "information" && (
                 <InformationTab
                   formData={formData}
@@ -177,7 +187,9 @@ export const ProfilePage = () => {
                   handleSave={handleSave}
                 />
               )}
-              {activeTab === "public" && <PublicProfileTab userId={userData.id} />}
+              {activeTab === "public" && (
+                <PublicProfileTab userId={userData.id} />
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -185,5 +197,3 @@ export const ProfilePage = () => {
     </div>
   );
 };
-
-export default ProfilePage;

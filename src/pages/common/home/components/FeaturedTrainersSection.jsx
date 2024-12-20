@@ -1,17 +1,22 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTopSubscribedProfessionalsAction } from "@/redux/professional/professionalActions";
-import { selectProfessionals, selectProfessionalLoading } from "@/redux/professional/professionalSelectors";
+import { fetchTopSubscribedProfessionalsAction } from "@/redux/professional/ProfessionalActions";
+import { selectProfessionals, selectProfessionalLoading } from "@/redux/professional/ProfessionalSelectors";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import Loader from "@/components/Loader";
+import { User } from "lucide-react";
+
+// Constante para la URL base
 const URL = import.meta.env.VITE_API_KEY;
 
 export const FeaturedTrainersSection = () => {
-  const dispatch = useDispatch();
-  const professionals = useSelector(selectProfessionals);
-  const loading = useSelector(selectProfessionalLoading);
+  const dispatch = useDispatch(); // Hook para despachar acciones de Redux
+  const professionals = useSelector(selectProfessionals); // Selecciona los profesionales del estado global
+  const loading = useSelector(selectProfessionalLoading); // Selecciona el estado de carga
 
   useEffect(() => {
+    // Despacha una acción para obtener los profesionales más suscritos
     dispatch(fetchTopSubscribedProfessionalsAction(4));
   }, [dispatch]);
 
@@ -19,10 +24,10 @@ export const FeaturedTrainersSection = () => {
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-h2 font-title font-bold mb-8 text-center">
-          Profesionales Destacados
+          Profesionales destacados
         </h2>
         {loading ? (
-          <p className="text-center">Cargando...</p>
+          <Loader />
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -36,15 +41,16 @@ export const FeaturedTrainersSection = () => {
                 >
                   <div className="flex justify-center mt-4">
                     {/* Imagen redonda */}
-                    <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg">
-                      <img
-                        src={
-                          `${URL}/users/${professional.id}/cover` ||
-                          "https://placehold.co/150x150"
-                        }
-                        alt={`${professional.first_name} ${professional.last_name}`}
-                        className="w-full h-full object-cover"
-                      />
+                    <div className="w-[150px] h-[150px] rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                      {professional.image_id ? (
+                        <img
+                          src={`${URL}/users/${professional.id}/cover`}
+                          alt={`${professional.first_name} ${professional.last_name}`}
+                          className="w-full h-full object-cover rounded-full"
+                        />
+                      ) : (
+                        <User size={64} className="text-gray-400" />
+                      )}
                     </div>
                   </div>
                   <div className="p-6">

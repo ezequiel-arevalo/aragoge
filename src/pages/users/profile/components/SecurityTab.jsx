@@ -11,14 +11,14 @@ const SecurityTab = ({ handleDelete }) => {
         <strong className="text-destructive">Advertencia:</strong> Esta acción es irreversible. Todos tus datos serán eliminados permanentemente.
       </p>
 
-      {/* Enlace a las subscripciones */}
+      {/* Botón para eliminar cuenta */}
       <Link
         onClick={handleDelete}
         to="/subscriptions"
         className="inline-block px-6 py-3 bg-primary text-white hover:text-white rounded-lg hover:bg-secondary transition-colors"
         aria-label="Eliminar permanentemente la cuenta"
       >
-        Eliminar cuenta
+        Eliminar Cuenta
       </Link>
     </section>
   );

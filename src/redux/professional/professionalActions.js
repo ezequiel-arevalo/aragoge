@@ -3,12 +3,12 @@ import {
   createProfessionalProfile,
   updateProfessionalProfile,
   getAllProfesionals,
-  getTopSubscribedProfessionals
+  getTopSubscribedProfessionals,
 } from "@/services/professionalService";
 
 /**
  * Acción asíncrona para crear un perfil de profesional.
- * 
+ *
  * @param {Object} profileData - Los datos del perfil del profesional a crear.
  * @param {Function} getState - Función para obtener el estado actual de Redux.
  * @param {Function} rejectWithValue - Función para rechazar la promesa con un valor.
@@ -31,7 +31,7 @@ export const createProfessionalProfileAction = createAsyncThunk(
 
 /**
  * Acción asíncrona para actualizar el perfil de un profesional existente.
- * 
+ *
  * @param {Object} profileData - Los datos del perfil del profesional a actualizar.
  * @param {Function} getState - Función para obtener el estado actual de Redux.
  * @param {Function} rejectWithValue - Función para rechazar la promesa con un valor.
@@ -39,11 +39,22 @@ export const createProfessionalProfileAction = createAsyncThunk(
  */
 export const updateProfessionalProfileAction = createAsyncThunk(
   "professional/updateProfessionalProfile",
-  async (profileData, { getState, rejectWithValue }) => {
+  async (profileData, { getState, dispatch, rejectWithValue }) => {
     const token = getState().user.accessToken;
     try {
       const response = await updateProfessionalProfile(profileData, token);
-      return response.data;
+
+      // Encontrar el profesional actualizado en el array
+      const updatedProfile = response.data;
+      const professionals = getState().professional.professionals;
+
+      // Actualizar el perfil en el array de profesionales
+      const updatedProfessionals = professionals.map((prof) =>
+        prof.id === updatedProfile.id ? updatedProfile : prof
+      );
+
+      // Devuelve el perfil actualizado y la lista modificada
+      return { updatedProfile, updatedProfessionals };
     } catch (err) {
       return rejectWithValue(
         err.response?.data?.message ||
@@ -55,7 +66,7 @@ export const updateProfessionalProfileAction = createAsyncThunk(
 
 /**
  * Acción asíncrona para obtener todos los profesionales.
- * 
+ *
  * @param {Function} getState - Función para obtener el estado actual de Redux.
  * @param {Function} rejectWithValue - Función para rechazar la promesa con un valor.
  * @returns {Promise<Object[]>} - La lista de profesionales.
@@ -75,7 +86,7 @@ export const fetchProfessionalsAction = createAsyncThunk(
 
 /**
  * Acción asíncrona para obtener a los profesionales más suscritos.
- * 
+ *
  * @param {number} limit - Límite de profesionales a obtener.
  * @returns {Promise<Object[]>} - La lista de profesionales destacados.
  */
@@ -86,7 +97,9 @@ export const fetchTopSubscribedProfessionalsAction = createAsyncThunk(
       const response = await getTopSubscribedProfessionals(limit);
       return response.data;
     } catch (err) {
-      return rejectWithValue(err.message || "Error al obtener profesionales destacados");
+      return rejectWithValue(
+        err.message || "Error al obtener profesionales destacados"
+      );
     }
   }
 );

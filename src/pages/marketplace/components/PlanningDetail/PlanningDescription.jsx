@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion } from "framer-motion";
 
 export const PlanningDescription = ({ description }) => {
   return (
@@ -8,8 +8,10 @@ export const PlanningDescription = ({ description }) => {
       transition={{ duration: 0.5, delay: 0.2 }}
       className="mt-12 mx-auto max-w-[600px]"
     >
-      <h2 className="text-h2 font-title font-bold text-gray-900 mb-4">Descripción Detallada</h2>
+      <h2 className="text-h2 font-title font-bold text-gray-900 mb-4">
+        Descripción detallada
+      </h2>
       <p className="text-gray-700 leading-relaxed">{description}</p>
     </motion.section>
-  )
-}
+  );
+};

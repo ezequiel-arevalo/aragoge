@@ -1,18 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSubscriptionsByUserId } from "@/redux/subscription/subscriptionActions";
-import {
-  selectAllSubscriptions,
-  selectSubscriptionLoading,
-} from "@/redux/subscription/subscriptionSelectors";
+import { selectAllSubscriptions, selectSubscriptionLoading } from "@/redux/subscription/subscriptionSelectors";
 import { Link } from "react-router-dom";
-import {
-  Calendar,
-  DollarSign,
-  CheckCircle,
-  XCircle,
-  ArrowLeft,
-} from "lucide-react";
+import { Calendar, DollarSign, CheckCircle, XCircle, ArrowLeft } from "lucide-react";
 import { HeroSection } from "@/components/ui/HeroSection";
 import Loader from "@/components/Loader";
 
@@ -39,20 +30,19 @@ export const SubscriptionListPage = () => {
     <>
       <HeroSection
         title="Lista de Suscripciones"
-        description="Consulta y gestiona tus suscripciones activas e históricas"
+        description="Consulta y gestiona tus suscripciones activas e históricas."
         showInput={false}
       />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex justify-between items-center mb-8">
-          <Link
-            to="/profile"
-            className="bg-[#da1641] text-white no-global-styles no-styles-global px-6 py-2 rounded-full hover:text-white hover:bg-[#c30d35] transition duration-300 flex items-center"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Volver al perfil
-          </Link>
-        </div>
+        <Link
+          to="/profile"
+          className="text-secondary hover:text-secondary underline flex items-center mb-6"
+          aria-label="Volver al perfil"
+        >
+          <ArrowLeft className="h-5 w-5 mr-2" />
+          Volver al perfil
+        </Link>
 
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
@@ -60,7 +50,7 @@ export const SubscriptionListPage = () => {
               Mis Suscripciones
             </h1>
             <p className="text-sm text-gray-600 mt-1">
-              Gestiona tus suscripciones activas e históricas
+              Gestiona tus suscripciones activas e históricas.
             </p>
           </div>
           <div className="p-6">
@@ -94,7 +84,6 @@ export const SubscriptionListPage = () => {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {subscriptions.length > 0 ? (
                     subscriptions.map((sub, index) => (
-                      // Uso de `sub.id` como clave única
                       <tr key={sub.id || `subscription-${index}`}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {sub.id}

@@ -23,8 +23,7 @@ export const registerNewUser = createAsyncThunk(
   "user/registerNewUser",
   async (userData, { rejectWithValue }) => {
     try {
-      const userDataWithRole = { ...userData, rol_id: 2 };
-      const response = await registerUser(userDataWithRole);
+      const response = await registerUser(userData);
       return response;
     } catch (err) {
       return rejectWithValue(err.message || "Error en el registro");

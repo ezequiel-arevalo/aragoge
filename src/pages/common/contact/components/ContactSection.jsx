@@ -15,7 +15,7 @@ export const ContactSection = () => {
     if (!userData) {
       toast({
         title: "Error",
-        description: "Debes iniciar sesión para enviar mensajes.",
+        description: "¡Debes iniciar sesión para enviar mensajes!",
         status: "error",
         duration: 5000,
         isClosable: true,

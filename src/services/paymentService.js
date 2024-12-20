@@ -15,5 +15,4 @@ export const fetchPayments = (token) => call("payments", "GET", null, token);
  * @param {string} token - El token de autenticación del usuario.
  * @returns {Promise} - Una promesa que se resuelve con los detalles del pago.
  */
-export const fetchPaymentById = (paymentId, token) =>
-  call(`payments/${paymentId}`, "GET", null, token);
+export const fetchPaymentById = (paymentId, token) => call(`payments/${paymentId}`, "GET", null, token);

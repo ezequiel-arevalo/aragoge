@@ -31,7 +31,7 @@ export const useContactChat = () => {
 
       return { success: true };
     } catch (error) {
-      console.error("Error handling contact message:", error);
+      // console.error("Error handling contact message:", error);
       return { success: false, error };
     }
   };

@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProfessionalPlannings } from '@/redux/plannings/planningsThunks';
-import {
-  selectProfessionalItems,
-  selectLoading,
-  selectError
-} from '@/redux/plannings/planningsSelectors';
+import { selectProfessionalItems, selectLoading, selectError } from '@/redux/plannings/planningsSelectors';
 import { Plus } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import PlanningCard from '@/components/ui/PlanningCard';
@@ -18,7 +14,7 @@ export const HomeProPage = () => {
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
 
-  // Estado local para asegurar que plannings sea siempre un array
+  // Estado local para gestionar las planificaciones
   const [localPlannings, setLocalPlannings] = useState([]);
 
   useEffect(() => {
@@ -26,7 +22,6 @@ export const HomeProPage = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    // Validar que plannings sea un array antes de actualizar el estado local
     if (Array.isArray(plannings)) {
       setLocalPlannings(plannings);
     } else {
@@ -42,7 +37,7 @@ export const HomeProPage = () => {
     <>
       <div className="bg-primary text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-h1 font-title font-bold mb-4">Panel de Profesional</h1>
+          <h1 className="text-h1 font-title font-bold mb-4">Panel de profesional</h1>
           <h2 className="text-h2 font-title mb-2">Gestiona tus planificaciones y potencia tu carrera fitness</h2>
           <p className="text-xl">Controla y organiza todas tus actividades desde un solo lugar.</p>
         </div>
@@ -87,5 +82,3 @@ export const HomeProPage = () => {
     </>
   );
 };
-
-export default HomeProPage;

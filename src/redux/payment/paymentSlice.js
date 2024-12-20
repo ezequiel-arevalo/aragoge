@@ -61,7 +61,7 @@ const paymentSlice = createSlice({
        */
       .addCase(getAllPayments.fulfilled, (state, action) => {
         state.loading = false;
-        state.payments = action.payload; // action.payload contiene response.data
+        state.payments = action.payload;
       })
 
       /**

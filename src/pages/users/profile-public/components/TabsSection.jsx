@@ -1,8 +1,7 @@
 import { useSelector } from "react-redux";
-import TabButton from './TabButton';
+import TabButton from "./TabButton";
 
 const TabsSection = ({ activeTab, setActiveTab, isProfessional, user }) => {
-
   // Obtener el usuario logueado desde el estado de Redux
   const loggedUser = useSelector((state) => state.user.user);
 
@@ -11,14 +10,29 @@ const TabsSection = ({ activeTab, setActiveTab, isProfessional, user }) => {
 
   return (
     <div className="flex justify-center space-x-4 py-4">
-      <TabButton title="Información" isActive={activeTab === 'info'} onClick={() => setActiveTab('info')} />
+      {/* Botón para la pestaña de Información */}
+      <TabButton
+        title="Información"
+        isActive={activeTab === "info"}
+        onClick={() => setActiveTab("info")}
+      />
 
+      {/* Mostrar la pestaña de Perfil solo si el usuario es profesional y dueño del perfil */}
       {isProfessional && isOwner && (
-        <TabButton title="Perfil" isActive={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
+        <TabButton
+          title="Perfil"
+          isActive={activeTab === "profile"}
+          onClick={() => setActiveTab("profile")}
+        />
       )}
 
+      {/* Mostrar la pestaña de Planificaciones si el usuario es profesional */}
       {isProfessional && (
-        <TabButton title="Planificaciones" isActive={activeTab === 'schedules'} onClick={() => setActiveTab('schedules')} />
+        <TabButton
+          title="Planificaciones"
+          isActive={activeTab === "schedules"}
+          onClick={() => setActiveTab("schedules")}
+        />
       )}
     </div>
   );
