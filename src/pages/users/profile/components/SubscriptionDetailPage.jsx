@@ -11,6 +11,7 @@ import {
   selectSubscriptionLoading,
   selectSubscriptionError,
 } from "@/redux/subscription/subscriptionSelectors";
+import { ButtonMP } from "@/components/mp/ButtonMP";
 import {
   Calendar,
   Tag,
@@ -264,7 +265,6 @@ export const SubscriptionDetailPage = () => {
               </div>
             </div>
 
-            {/* Información de Pago */}
             <div className="border-t border-gray-100 pt-6">
               <h2 className="text-lg font-semibold text-gray-800 mb-4">
                 Información de Pago
@@ -278,14 +278,27 @@ export const SubscriptionDetailPage = () => {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="text-gray-700">
                         <p className="text-sm font-medium">Monto</p>
-                        <p className="text-sm">${payment.amount}</p>
+                        <p className="text-sm">${payment.total_price}</p>
                       </div>
                       <div className="text-gray-700">
                         <p className="text-sm font-medium">Fecha</p>
                         <p className="text-sm">
-                          {new Date(payment.payment_date).toLocaleDateString()}
+                          {new Date(payment.created_at).toLocaleDateString()}
                         </p>
                       </div>
+                      <div className="text-gray-700 mt-2">
+                        <p className="text-sm font-medium">Estado</p>
+                        <p className="text-sm">{payment.payment_status}</p>
+                      </div>
+                      {payment.payment_status === "pendiente" && (
+                        <div className="text-gray-700 mt-2">
+                          <p className="text-sm font-medium">Pago</p>
+                          <ButtonMP
+                            planningId={subscription.planning_id}
+                            paymentId={payment.id}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))
