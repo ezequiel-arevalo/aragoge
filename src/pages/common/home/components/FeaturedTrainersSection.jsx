@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTopSubscribedProfessionalsAction } from "@/redux/professional/ProfessionalActions";
-import { selectProfessionals, selectProfessionalLoading } from "@/redux/professional/ProfessionalSelectors";
+import {
+  selectProfessionals,
+  selectProfessionalLoading,
+} from "@/redux/professional/ProfessionalSelectors";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Loader from "@/components/Loader";

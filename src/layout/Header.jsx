@@ -4,9 +4,18 @@ import { AuthButtons } from "./components/AuthButtons";
 import { MobileMenuButton } from "./components/MobileMenuButton";
 import { useHeaderLogic } from "./components/useHeaderLogic";
 import { NavLink } from "react-router-dom";
+import aragoge from "/aragoge-black.svg";
 
 export const Header = () => {
-  const { user, accessToken, isMenuOpen, toggleMenu, closeMenu, handleLogout, availableLinks } = useHeaderLogic();
+  const {
+    user,
+    accessToken,
+    isMenuOpen,
+    toggleMenu,
+    closeMenu,
+    handleLogout,
+    availableLinks,
+  } = useHeaderLogic();
 
   return (
     <header className="sticky top-0 z-10 bg-white shadow-sm">
@@ -14,9 +23,16 @@ export const Header = () => {
         {/* Logo */}
         <NavLink
           to="/"
-          className="text-2xl font-bold text-primary hover:text-primary uppercase logo-titulado"
+          className="inline-flex items-center text-2xl font-bold text-primary hover:text-primary uppercase logo-titulado"
         >
-          Aragoge
+          <img
+            src={aragoge}
+            alt="Logotipo de Aragoge"
+            width="10"
+            height="10"
+            className="w-10 h-auto mb-[5px] mr-[-4px]"
+          />
+          <span className="logo-titulado">ragoge</span>
         </NavLink>
 
         {/* Navegación principal */}
